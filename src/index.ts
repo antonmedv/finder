@@ -21,7 +21,7 @@ const defaults = {
 
 let config: Config
 
-export default function s(input: Element, options: Partial<Config>) {
+export default function (input: Element, options: Partial<Config>) {
   if (input.nodeType !== Node.ELEMENT_NODE) {
     throw new Error(`Can't generate CSS selector for non-element node type.`)
   }
