@@ -8,26 +8,33 @@ type Node = {
 
 type Path = Node[]
 
-type Config = typeof defaults
-
-const defaults = {
-  root: document.body,
-  className: (name: string) => true,
-  tagName: (name: string) => true,
-  minLength: 1,
-  optimizedMinLength: 1,
-  nthThreshold: 1000,
+type Options = {
+  root: Element
+  className: (name: string) => boolean
+  tagName: (name: string) => boolean
+  minLength: number
+  optimizedMinLength: number
+  nthThreshold: number
 }
 
-let config: Config
+let config: Options
 
-export default function (input: Element, options: Partial<Config>) {
+export default function (input: Element, options: Partial<Options>) {
   if (input.nodeType !== Node.ELEMENT_NODE) {
     throw new Error(`Can't generate CSS selector for non-element node type.`)
   }
 
   if ('html' === input.tagName.toLowerCase()) {
     return input.tagName.toLowerCase()
+  }
+
+  const defaults: Options = {
+    root: document.body,
+    className: (name: string) => true,
+    tagName: (name: string) => true,
+    minLength: 1,
+    optimizedMinLength: 1,
+    nthThreshold: 1000,
   }
 
   config = {...defaults, ...options}
