@@ -1,0 +1,42 @@
+{
+  "name": "@medv/finder",
+  "version": "1.0.0",
+  "description": "CSS Selector Generator",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "tsc -w",
+    "test": "tsc && ava",
+    "prepublish": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonmedv/finder.git"
+  },
+  "keywords": [
+    "css",
+    "selector",
+    "generator"
+  ],
+  "author": "Anton Medvedev <anton@medv.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antonmedv/finder/issues"
+  },
+  "homepage": "https://github.com/antonmedv/finder#readme",
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "browser-env": "^3.2.5",
+    "typescript": "^2.7.2"
+  },
+  "ava": {
+    "require": [
+      "./test/helpers/setup-browser-env.js"
+    ]
+  },
+  "dependencies": {
+    "cssesc": "^1.0.0"
+  }
+}
