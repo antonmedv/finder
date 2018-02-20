@@ -42,7 +42,7 @@ export default function s(input: Element, options: Partial<Config>) {
 
     const nth = index(current)
     if (nth) {
-      level = level.concat(level.map(node => nthChild(node, nth)))
+      level = level.concat(level.filter(dispensableNth).map(node => nthChild(node, nth)))
     }
 
     for (let node of level) {
@@ -102,7 +102,7 @@ function fallback(input: Element): Path | null {
     let [node] = maybe(id(current)) || maybe(...classNames(current)) || maybe(tagName(current)) || [any()]
 
     const nth = index(current)
-    if (nth) {
+    if (nth && dispensableNth(node)) {
       node = nthChild(node, nth)
     }
 
@@ -224,6 +224,10 @@ function nthChild(node: Node, i: number): Node {
     name: node.name + `:nth-child(${i})`,
     penalty: node.penalty + 1
   }
+}
+
+function dispensableNth(node: Node) {
+  return node.name !== 'html' && !node.name.startsWith('#')
 }
 
 function maybe(...level: (Node | null)[]): Node[] | null {

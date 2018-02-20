@@ -7,7 +7,7 @@ export default function check(t, file) {
   const list = []
 
   // Bug in jsdom: svg can't be queried.
-  for(let node of document.querySelectorAll('*:not(svg):not(path):not(circle)')) {
+  for(let node of document.querySelectorAll('*:not(svg):not(path):not(circle):not(title):not(g):not(rect)')) {
 
     const css = selector(node)
 
