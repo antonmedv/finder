@@ -39,7 +39,7 @@ document.addEventListener('click', event => {
 ### Comparison with [optimal-select](https://github.com/Autarc/optimal-select)
 
 `optimal-select` fails to generate selectors some times, and some times generates not unique selectors.
-`finder` generates more shortest selectors than optimal-select. Also optimal-select now does not have tests and we have :)
+`finder` generates shorter selectors than optimal-select. Also optimal-select now does not have tests and we have :)
  
 For example, on github.com page:
 
