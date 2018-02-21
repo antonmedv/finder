@@ -11,6 +11,7 @@
 * Generates **shortest** selectors
 * **Unique** selectors per page
 * Stable and **robust** selectors
+* **2.9 kB** gzip and minify size
 
 ## Install
 
@@ -47,6 +48,7 @@ For example, on github.com page:
 | fails    | 0      | 42             |
 | shortest | 404    | 38             | 
 | longest  | `.story:nth-child(3) .d-lg-flex:nth-child(2) > .width-full:nth-child(1)` | `[class="circle d-flex flex-column flex-justify-center text-center p-4 mx-auto mt-6 mb-3 m-md-3 bg-orange box-shadow-extra-large"] [class="d-block f0-light text-white lh-condensed-ultra mb-2"]` |
+| size     | 2.9 kB | 4.58 kB        |
 
 ## License
 
