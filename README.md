@@ -4,7 +4,36 @@
 
 [![Build Status](https://travis-ci.org/antonmedv/finder.svg?branch=master)](https://travis-ci.org/antonmedv/finder)
 
-CSS Selector Generator
+> CSS Selector Generator
+
+## Features
+
+* Generates **shortest** selectors
+* **Unique** selectors per page
+* Stable and **robust** selectors
+
+## Install
+
+```bash
+npm install @medv/finder
+```
+
+## Usage 
+
+```js
+import finder from '@medv/finder'
+
+document.addEventListener('click', event => {
+  const selector = finder(event.target)
+  console.log(selector)  
+})
+```
+
+## Example
+
+```css
+.blog > article:nth-child(3) .add-comment
+```
 
 ### Comparison with [optimal-select](https://github.com/Autarc/optimal-select)
 
