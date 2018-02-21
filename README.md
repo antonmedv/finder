@@ -1,4 +1,4 @@
-![finder](https://user-images.githubusercontent.com/141232/36463666-fb1acbde-16fd-11e8-84cd-c844456ff874.png)
+![finder](https://user-images.githubusercontent.com/141232/36463709-381f8c36-16fe-11e8-8fdc-fcbdd4f2a36c.png)
 
 # finder
 
