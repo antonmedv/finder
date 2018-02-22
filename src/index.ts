@@ -39,7 +39,7 @@ export default function (input: Element, options: Partial<Options>) {
     className: (name: string) => true,
     tagName: (name: string) => true,
     seedMinLength: 1,
-    optimizedMinLength: 1,
+    optimizedMinLength: 2,
     threshold: 1000,
   }
 
@@ -267,7 +267,7 @@ function sort(paths: Iterable<Path>): Path[] {
 }
 
 function* optimize(path: Path, input: Element) {
-  if (path.length >= 3 && path.length > config.optimizedMinLength) {
+  if (path.length > 2 && path.length > config.optimizedMinLength) {
     for (let i = 1; i < path.length - 1; i++) {
       const newPath = [...path]
       newPath.splice(i, 1)
