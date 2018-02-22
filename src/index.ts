@@ -8,13 +8,19 @@ type Node = {
 
 type Path = Node[]
 
+enum Limit {
+  All,
+  Two,
+  One,
+}
+
 type Options = {
   root: Element
   className: (name: string) => boolean
   tagName: (name: string) => boolean
-  minLength: number
+  seedMinLength: number
   optimizedMinLength: number
-  nthThreshold: number
+  threshold: number
 }
 
 let config: Options
@@ -32,60 +38,17 @@ export default function (input: Element, options: Partial<Options>) {
     root: document.body,
     className: (name: string) => true,
     tagName: (name: string) => true,
-    minLength: 1,
+    seedMinLength: 1,
     optimizedMinLength: 1,
-    nthThreshold: 1000,
+    threshold: 1000,
   }
 
   config = {...defaults, ...options}
 
-  let path: Path | null = null
-  let stack: Node[][] = []
-  let current: Element | null = input
-  let i = 0
-
-  outer: while (current && current !== config.root.parentElement) {
-    let level: Node[] = maybe(id(current)) || maybe(...classNames(current)) || maybe(tagName(current)) || [any()]
-
-    const nth = index(current)
-    if (nth) {
-      level = level.concat(level.filter(dispensableNth).map(node => nthChild(node, nth)))
-    }
-
-    for (let node of level) {
-      node.level = i
-    }
-
-    stack.push(level)
-
-    if (stack.length >= config.minLength) {
-      const paths = sort(combinations(stack))
-
-      if (paths.length > config.nthThreshold) {
-        path = fallback(input)
-        break
-      }
-
-      for (let candidate of paths) {
-        if (isUnique(candidate)) {
-          path = candidate
-          break outer
-        }
-      }
-    }
-
-    current = current.parentElement
-    i++
-  }
-
-  if (!path) {
-    for (let candidate of sort(combinations(stack))) {
-      if (isUnique(candidate)) {
-        path = candidate
-        break
-      }
-    }
-  }
+  let path =
+    bottomUpSearch(input, Limit.All, () =>
+      bottomUpSearch(input, Limit.Two, () =>
+        bottomUpSearch(input, Limit.One)))
 
   if (path) {
     const optimized = sort(optimize(path, input))
@@ -100,30 +63,70 @@ export default function (input: Element, options: Partial<Options>) {
   }
 }
 
-function fallback(input: Element): Path | null {
-  let path: Path = []
+function bottomUpSearch(input: Element, limit: Limit, fallback?: () => Path | null): Path | null {
+  let path: Path | null = null
+  let stack: Node[][] = []
   let current: Element | null = input
   let i = 0
 
   while (current && current !== config.root.parentElement) {
-    let [node] = maybe(id(current)) || maybe(...classNames(current)) || maybe(tagName(current)) || [any()]
+    let level: Node[] = maybe(id(current)) || maybe(...classNames(current)) || maybe(tagName(current)) || [any()]
 
     const nth = index(current)
-    if (nth && dispensableNth(node)) {
-      node = nthChild(node, nth)
+
+    if (limit === Limit.All) {
+      if (nth) {
+        level = level.concat(level.filter(dispensableNth).map(node => nthChild(node, nth)))
+      }
+    } else if (limit === Limit.Two) {
+      level = level.slice(0, 1)
+
+      if (nth) {
+        level = level.concat(level.filter(dispensableNth).map(node => nthChild(node, nth)))
+      }
+    } else if (limit === Limit.One) {
+      const [node] = level = level.slice(0, 1)
+
+      if (nth && dispensableNth(node)) {
+        level = [nthChild(node, nth)]
+      }
     }
 
-    node.level = i
-    path.push(node)
+    for (let node of level) {
+      node.level = i
+    }
 
-    if (path.length >= config.minLength) {
-      if (isUnique(path)) {
-        return path
+    stack.push(level)
+
+    if (stack.length >= config.seedMinLength) {
+      path = findUniquePath(stack, fallback)
+      if (path) {
+        break
       }
     }
 
     current = current.parentElement
     i++
+  }
+
+  if (!path) {
+    path = findUniquePath(stack, fallback)
+  }
+
+  return path
+}
+
+function findUniquePath(stack: Node[][], fallback?: () => Path | null): Path | null {
+  const paths = sort(combinations(stack))
+
+  if (paths.length > config.threshold) {
+    return fallback ? fallback() : null
+  }
+
+  for (let candidate of paths) {
+    if (unique(candidate)) {
+      return candidate
+    }
   }
 
   return null
@@ -150,7 +153,7 @@ function penalty(path: Path): number {
   return path.map(node => node.penalty).reduce((acc, i) => acc + i, 0)
 }
 
-function isUnique(path: Path) {
+function unique(path: Path) {
   switch (document.querySelectorAll(selector(path)).length) {
     case 0:
       throw new Error(`Can't select any node with this selector: ${selector(path)}`)
@@ -269,7 +272,7 @@ function* optimize(path: Path, input: Element) {
       const newPath = [...path]
       newPath.splice(i, 1)
 
-      if (isUnique(newPath) && same(newPath, input)) {
+      if (unique(newPath) && same(newPath, input)) {
         yield newPath
         yield* optimize(newPath, input)
       }
