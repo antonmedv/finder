@@ -40,7 +40,7 @@ Example of generated selector:
 
 ## Configuration
 
-`finder` takes configuration object as second parameters. Here is example of all params with there defaults:
+`finder` takes configuration object as second parameters. Here is example of all params with default values:
 
 ```js
 const selector = finder(event.target, {
@@ -73,13 +73,13 @@ Check if tag name can be used, same as `className`.
 
 #### `seedMinLength: number`
 
-Min length of levels in fining selector. Starts from `1`. 
+Minimum length of levels in fining selector. Starts from `1`. 
 For more robust selectors give this param value around 4-5 depending on depth of you DOM tree. 
 If `finder` hits `root` this param is ignored.
 
 #### `optimizedMinLength: number`
 
-Min length for optimising selector. Starts from `2`. 
+Minimum length for optimising selector. Starts from `2`. 
 For example selector `body > div > div > p` can be optimized to `body p`.
 
 #### `threshold: number`
@@ -88,7 +88,6 @@ Max number of selectors to check before falling into `nth-child` usage.
 Checking for uniqueness of selector is very costs operation, if you have DOM tree depth of 5, with 5 classes on each level, 
 that gives you more than 3k selectors to check. 
 `finder` uses two step approach so it's reaching this threshold in some cases twice.
-
 Default `1000` is good enough in most cases.  
 
 ### Comparison with [optimal-select](https://github.com/Autarc/optimal-select)
