@@ -38,3 +38,12 @@ test('config:threshold', t => {
   `
   check(t, html, {threshold: 1})
 })
+
+test('config:fun', t => {
+  const html = `
+  <div>
+    <div></div>
+  </div>
+  `
+  check(t, html, {tagName: tag => tag !== 'div'})
+})
