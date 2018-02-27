@@ -106,7 +106,7 @@ For example, on github.com page:
 
 ### Google Chrome Extension
 
-![](extension_icon_32.png) 
+![Chrome Extension](https://user-images.githubusercontent.com/141232/36737287-4a999d84-1c0d-11e8-8a14-43bcf9baf7ca.png)
 
 Generate the unique selectors in your browser by using [Chrome Extension](https://chrome.google.com/webstore/detail/get-unique-css-selector/lkfaghhbdebclkklgjhhonadomejckai)
 
