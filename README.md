@@ -104,6 +104,12 @@ For example, on github.com page:
 | longest  | `.story:nth-child(3) .d-lg-flex:nth-child(2) > .width-full:nth-child(1)` | `[class="circle d-flex flex-column flex-justify-center text-center p-4 mx-auto mt-6 mb-3 m-md-3 bg-orange box-shadow-extra-large"] [class="d-block f0-light text-white lh-condensed-ultra mb-2"]` |
 | size     | 2.9 kB | 4.58 kB        |
 
+### Google Chrome Extension
+
+![Chrome Extension](https://user-images.githubusercontent.com/141232/36737287-4a999d84-1c0d-11e8-8a14-43bcf9baf7ca.png)
+
+Generate the unique selectors in your browser by using [Chrome Extension](https://chrome.google.com/webstore/detail/get-unique-css-selector/lkfaghhbdebclkklgjhhonadomejckai)
+
 ## License
 
 MIT
