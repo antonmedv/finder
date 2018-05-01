@@ -14,7 +14,7 @@ enum Limit {
   One,
 }
 
-type Options = {
+export type Options = {
   root: Element
   className: (name: string) => boolean
   tagName: (name: string) => boolean
