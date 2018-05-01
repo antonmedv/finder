@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "CSS Selector Generator",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
