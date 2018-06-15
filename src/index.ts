@@ -165,9 +165,10 @@ function unique(path: Path) {
 }
 
 function id(input: Element): Node | null {
-  if (input.id !== '') {
+  const elementId = input.getAttribute('id');
+  if (elementId) {
     return {
-      name: '#' + cssesc(input.id, {isIdentifier: true}),
+      name: '#' + cssesc(elementId, {isIdentifier: true}),
       penalty: 0,
     }
   }
