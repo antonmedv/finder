@@ -1,6 +1,6 @@
 {
   "name": "@medv/finder",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CSS Selector Generator",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
