@@ -47,3 +47,11 @@ test('config:fun', t => {
   `
   check(t, html, {tagName: tag => tag !== 'div'})
 })
+test('config:id', t => {
+  const html = `
+  <div id="test">
+    <div></div>
+  </div>
+  `
+  check(t, html, {idName: id => id !== 'test'})
+})
