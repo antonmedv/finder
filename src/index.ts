@@ -16,6 +16,7 @@ enum Limit {
 
 export type Options = {
   root: Element
+  document: Document,
   className: (name: string) => boolean
   tagName: (name: string) => boolean
   seedMinLength: number
@@ -36,6 +37,7 @@ export default function (input: Element, options?: Partial<Options>) {
 
   const defaults: Options = {
     root: document.body,
+    document: document,
     className: (name: string) => true,
     tagName: (name: string) => true,
     seedMinLength: 1,
@@ -154,7 +156,7 @@ function penalty(path: Path): number {
 }
 
 function unique(path: Path) {
-  switch (document.querySelectorAll(selector(path)).length) {
+  switch (config.document.querySelectorAll(selector(path)).length) {
     case 0:
       throw new Error(`Can't select any node with this selector: ${selector(path)}`)
     case 1:
@@ -282,5 +284,5 @@ function* optimize(path: Path, input: Element) {
 }
 
 function same(path: Path, input: Element) {
-  return document.querySelector(selector(path)) === input
+  return config.document.querySelector(selector(path)) === input
 }
