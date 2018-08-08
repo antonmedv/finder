@@ -24,6 +24,7 @@ export type Options = {
 }
 
 let config: Options
+let rootDocument: Document
 
 export default function (input: Element, options?: Partial<Options>) {
   if (input.nodeType !== Node.ELEMENT_NODE) {
@@ -45,6 +46,8 @@ export default function (input: Element, options?: Partial<Options>) {
 
   config = {...defaults, ...options}
 
+  rootDocument = findRootDocument(config.root)
+
   let path =
     bottomUpSearch(input, Limit.All, () =>
       bottomUpSearch(input, Limit.Two, () =>
@@ -61,6 +64,10 @@ export default function (input: Element, options?: Partial<Options>) {
   } else {
     throw new Error(`Selector was not found.`)
   }
+}
+
+function findRootDocument(rootNode: Element | Document) {
+  return (rootNode.nodeType === Node.DOCUMENT_NODE) ? rootNode as Document : rootNode.ownerDocument;
 }
 
 function bottomUpSearch(input: Element, limit: Limit, fallback?: () => Path | null): Path | null {
@@ -154,7 +161,7 @@ function penalty(path: Path): number {
 }
 
 function unique(path: Path) {
-  switch (document.querySelectorAll(selector(path)).length) {
+  switch (rootDocument.querySelectorAll(selector(path)).length) {
     case 0:
       throw new Error(`Can't select any node with this selector: ${selector(path)}`)
     case 1:
@@ -282,5 +289,5 @@ function* optimize(path: Path, input: Element) {
 }
 
 function same(path: Path, input: Element) {
-  return document.querySelector(selector(path)) === input
+  return rootDocument.querySelector(selector(path)) === input
 }
