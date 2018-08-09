@@ -57,6 +57,16 @@ const selector = finder(event.target, {
 
 Root of search, defaults to `document.body`.
 
+#### `idName: (name: string) => boolean`
+
+Check if this ID can be used. For example you can restrict using framework specific IDs:
+
+```js
+const selector = finder(event.target, {
+  idName: name => !name.startsWith('ember')
+})
+```
+
 #### `className: (name: string) => boolean`
 
 Check if this class name can be used. For example you can restrict using _is-*_ class names:
