@@ -16,6 +16,7 @@ enum Limit {
 
 export type Options = {
   root: Element
+  idName: (name: string) => boolean
   className: (name: string) => boolean
   tagName: (name: string) => boolean
   seedMinLength: number
@@ -37,6 +38,7 @@ export default function (input: Element, options?: Partial<Options>) {
 
   const defaults: Options = {
     root: document.body,
+    idName: (name: string) => true,
     className: (name: string) => true,
     tagName: (name: string) => true,
     seedMinLength: 1,
@@ -173,7 +175,7 @@ function unique(path: Path) {
 
 function id(input: Element): Node | null {
   const elementId = input.getAttribute('id');
-  if (elementId) {
+  if (elementId && config.idName(elementId)) {
     return {
       name: '#' + cssesc(elementId, {isIdentifier: true}),
       penalty: 0,
