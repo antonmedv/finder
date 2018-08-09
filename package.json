@@ -31,8 +31,8 @@
   "devDependencies": {
     "ava": "^0.25.0",
     "browser-env": "^3.2.5",
-    "release-it": "^7.0.2",
-    "typescript": "^2.7.2"
+    "release-it": "^7.5.0",
+    "typescript": "^3.0.1"
   },
   "ava": {
     "require": [
@@ -40,6 +40,6 @@
     ]
   },
   "dependencies": {
-    "cssesc": "^1.0.0"
+    "cssesc": "^2.0.0"
   }
 }
