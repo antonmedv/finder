@@ -24,8 +24,8 @@ export type Options = {
   threshold: number
 }
 
-let config: Options
-let rootDocument: Document
+let config: Options;
+let rootDocument: Document;
 
 export default function (input: Element, options?: Partial<Options>) {
   if (input.nodeType !== Node.ELEMENT_NODE) {
@@ -48,7 +48,7 @@ export default function (input: Element, options?: Partial<Options>) {
 
   config = {...defaults, ...options}
 
-  rootDocument = findRootDocument(config.root)
+  rootDocument = findRootDocument(config.root);
 
   let path =
     bottomUpSearch(input, Limit.All, () =>
@@ -233,7 +233,7 @@ function index(input: Element): number | null {
       break
     }
 
-    child = child.nextSibling
+    child = child.nextSibling as ChildNode;
   }
 
   return i
