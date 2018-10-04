@@ -16,7 +16,6 @@ enum Limit {
 
 export type Options = {
   root: Element
-  rootDocument: Element | Document
   idName: (name: string) => boolean
   className: (name: string) => boolean
   tagName: (name: string) => boolean
@@ -39,7 +38,6 @@ export default function (input: Element, options?: Partial<Options>) {
 
   const defaults: Options = {
     root: document.body,
-    rootDocument: undefined,
     idName: (name: string) => true,
     className: (name: string) => true,
     tagName: (name: string) => true,
@@ -50,7 +48,7 @@ export default function (input: Element, options?: Partial<Options>) {
 
   config = {...defaults, ...options}
 
-  rootDocument  = config.rootDocument !== undefined ? config.rootDocument as Element : findRootDocument(config.root)
+  rootDocument = findRootDocument(config.root, defaults)
 
   let path =
     bottomUpSearch(input, Limit.All, () =>
@@ -70,8 +68,17 @@ export default function (input: Element, options?: Partial<Options>) {
   }
 }
 
-function findRootDocument(rootNode: Element | Document) {
-  return (rootNode.nodeType === Node.DOCUMENT_NODE) ? rootNode as Document : rootNode.ownerDocument;
+function findRootDocument(rootNode: Element | Document, defaults : Options) {
+
+  if (rootNode.nodeType === Node.DOCUMENT_NODE) {
+    return rootNode
+  }
+
+  if (rootNode === defaults.root) {
+      return rootNode.ownerDocument as Document
+  }
+
+  return rootNode;
 }
 
 function bottomUpSearch(input: Element, limit: Limit, fallback?: () => Path | null): Path | null {
