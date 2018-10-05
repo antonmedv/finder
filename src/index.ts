@@ -75,10 +75,10 @@ function findRootDocument(rootNode: Element | Document, defaults : Options) {
   }
 
   if (rootNode === defaults.root) {
-      return rootNode.ownerDocument as Document
+    return rootNode.ownerDocument as Document
   }
 
-  return rootNode;
+  return rootNode
 }
 
 function bottomUpSearch(input: Element, limit: Limit, fallback?: () => Path | null): Path | null {
