@@ -25,7 +25,7 @@ export type Options = {
 }
 
 let config: Options
-let rootDocument: Document
+let rootDocument: Document | Element
 
 export default function (input: Element, options?: Partial<Options>) {
   if (input.nodeType !== Node.ELEMENT_NODE) {
@@ -48,7 +48,7 @@ export default function (input: Element, options?: Partial<Options>) {
 
   config = {...defaults, ...options}
 
-  rootDocument = findRootDocument(config.root)
+  rootDocument = findRootDocument(config.root, defaults)
 
   let path =
     bottomUpSearch(input, Limit.All, () =>
@@ -68,8 +68,17 @@ export default function (input: Element, options?: Partial<Options>) {
   }
 }
 
-function findRootDocument(rootNode: Element | Document) {
-  return (rootNode.nodeType === Node.DOCUMENT_NODE) ? rootNode as Document : rootNode.ownerDocument;
+function findRootDocument(rootNode: Element | Document, defaults : Options) {
+
+  if (rootNode.nodeType === Node.DOCUMENT_NODE) {
+    return rootNode
+  }
+
+  if (rootNode === defaults.root) {
+    return rootNode.ownerDocument as Document
+  }
+
+  return rootNode
 }
 
 function bottomUpSearch(input: Element, limit: Limit, fallback?: () => Path | null): Path | null {
@@ -233,7 +242,7 @@ function index(input: Element): number | null {
       break
     }
 
-    child = child.nextSibling
+    child = child.nextSibling as ChildNode;
   }
 
   return i
