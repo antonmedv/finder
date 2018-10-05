@@ -10,7 +10,7 @@
   "scripts": {
     "start": "tsc -w",
     "test": "tsc && ava",
-    "prepublish": "tsc",
+    "prepare": "tsc",
     "release": "release-it --access public"
   },
   "repository": {
@@ -31,7 +31,7 @@
   "devDependencies": {
     "ava": "^0.25.0",
     "browser-env": "^3.2.5",
-    "release-it": "^7.5.0",
+    "release-it": "^7.6.1",
     "typescript": "^3.0.1"
   },
   "ava": {

@@ -68,16 +68,13 @@ export default function (input: Element, options?: Partial<Options>) {
   }
 }
 
-function findRootDocument(rootNode: Element | Document, defaults : Options) {
-
+function findRootDocument(rootNode: Element | Document, defaults: Options) {
   if (rootNode.nodeType === Node.DOCUMENT_NODE) {
     return rootNode
   }
-
   if (rootNode === defaults.root) {
     return rootNode.ownerDocument as Document
   }
-
   return rootNode
 }
 
@@ -183,7 +180,7 @@ function unique(path: Path) {
 }
 
 function id(input: Element): Node | null {
-  const elementId = input.getAttribute('id');
+  const elementId = input.getAttribute('id')
   if (elementId && config.idName(elementId)) {
     return {
       name: '#' + cssesc(elementId, {isIdentifier: true}),
@@ -233,16 +230,16 @@ function index(input: Element): number | null {
   }
 
   let i = 0
-  while (true) {
+  while (child) {
     if (child.nodeType === Node.ELEMENT_NODE) {
       i++
     }
 
-    if (child === input || !child.nextSibling) {
+    if (child === input) {
       break
     }
 
-    child = child.nextSibling as ChildNode;
+    child = child.nextSibling
   }
 
   return i
