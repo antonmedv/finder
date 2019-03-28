@@ -1,4 +1,4 @@
-import * as cssesc from 'cssesc'
+import cssesc from 'cssesc'
 
 type Node = {
   name: string
@@ -239,6 +239,7 @@ function index(input: Element): number | null {
       break
     }
 
+    //@ts-ignore
     child = child.nextSibling
   }
 

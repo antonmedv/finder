@@ -3,14 +3,16 @@
   "version": "1.1.1",
   "description": "CSS Selector Generator",
   "main": "dist/index.js",
+  "browser": "dist/index.umd.js",
+  "module": "dist/index.module.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "start": "tsc -w",
-    "test": "tsc && ava",
-    "prepare": "tsc",
+    "test": "rollup -c && ava",
+    "prepare": "rollup -c",
     "release": "release-it --access public"
   },
   "repository": {
@@ -29,10 +31,14 @@
   },
   "homepage": "https://github.com/antonmedv/finder#readme",
   "devDependencies": {
-    "ava": "^0.25.0",
-    "browser-env": "^3.2.5",
-    "release-it": "^7.6.1",
-    "typescript": "3.0.1"
+    "ava": "^1.4.1",
+    "browser-env": "^3.2.6",
+    "release-it": "^10.3.1",
+    "rollup": "^1.7.4",
+    "rollup-plugin-typescript2": "^0.20.1",
+    "rollup-plugin-commonjs": "^9.2.2",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "typescript": "^3.3.4000"
   },
   "ava": {
     "require": [
@@ -40,6 +46,6 @@
     ]
   },
   "dependencies": {
-    "cssesc": "^2.0.0"
+    "cssesc": "^3.0.0"
   }
 }
