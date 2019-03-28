@@ -3,7 +3,7 @@
     "rootDir": "src",
     "baseUrl": "src",
     "outDir": "dist",
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es5",
     "lib": ["es2017", "dom"],
     "sourceMap": true,
@@ -13,9 +13,13 @@
     "noImplicitAny": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
     "noUnusedLocals": false,
     "declaration": true
   },
+  "include": [
+      "src/**/*"
+  ],
   "exclude": [
     "node_modules",
     "dist"
