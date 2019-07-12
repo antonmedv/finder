@@ -19,6 +19,7 @@ export type Options = {
   idName: (name: string) => boolean
   className: (name: string) => boolean
   tagName: (name: string) => boolean
+  attr: (name: string, value: any) => boolean
   seedMinLength: number
   optimizedMinLength: number
   threshold: number
@@ -41,6 +42,7 @@ export default function (input: Element, options?: Partial<Options>) {
     idName: (name: string) => true,
     className: (name: string) => true,
     tagName: (name: string) => true,
+    attr: (name: string, value: any) => false,
     seedMinLength: 1,
     optimizedMinLength: 2,
     threshold: 1000,
@@ -85,7 +87,7 @@ function bottomUpSearch(input: Element, limit: Limit, fallback?: () => Path | nu
   let i = 0
 
   while (current && current !== config.root.parentElement) {
-    let level: Node[] = maybe(id(current)) || maybe(...classNames(current)) || maybe(tagName(current)) || [any()]
+    let level: Node[] = maybe(id(current)) || maybe(...attr(current)) || maybe(...classNames(current)) || maybe(tagName(current))  || [any()]
 
     const nth = index(current)
 
@@ -188,6 +190,15 @@ function id(input: Element): Node | null {
     }
   }
   return null
+}
+
+function attr(input: Element): Node[] {
+  const attrs = Array.from(input.attributes).filter((attr) => config.attr(attr.name, attr.value))
+
+  return attrs.map((attr): Node => ({
+    name: '[' + cssesc(attr.name, {isIdentifier: true}) + '="' + cssesc(attr.value) + '"]',
+    penalty: 1
+  }))
 }
 
 function classNames(input: Element): Node[] {
