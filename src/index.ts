@@ -33,7 +33,7 @@ export default function (input: Element, options?: Partial<Options>) {
   }
 
   if ('html' === input.tagName.toLowerCase()) {
-    return input.tagName.toLowerCase()
+    return 'html'
   }
 
   const defaults: Options = {
