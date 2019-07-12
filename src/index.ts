@@ -94,7 +94,7 @@ function bottomUpSearch(input: Element, limit: Limit, fallback?: () => Path | nu
         level = level.concat(level.filter(dispensableNth).map(node => nthChild(node, nth)))
       }
     } else if (limit === Limit.Two) {
-      level = level.slice(0, 1)
+      level = level.slice(0, 2)
 
       if (nth) {
         level = level.concat(level.filter(dispensableNth).map(node => nthChild(node, nth)))
