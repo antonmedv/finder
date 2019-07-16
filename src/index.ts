@@ -197,7 +197,7 @@ function attr(input: Element): Node[] {
 
   return attrs.map((attr): Node => ({
     name: '[' + cssesc(attr.name, {isIdentifier: true}) + '="' + cssesc(attr.value) + '"]',
-    penalty: 1
+    penalty: 0.5
   }))
 }
 
