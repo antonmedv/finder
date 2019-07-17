@@ -55,3 +55,15 @@ test('config:id', t => {
   `
   check(t, html, {idName: id => id !== 'test'})
 })
+
+test('config:attr', t => {
+  const html = `
+  <div data-test="1">
+    <div data-qa="2"></div>
+    <div data-qa="3"></div>
+  </div>
+  `
+  check(t, html, {attr: (name, value) => {
+    return name !== 'data-test' && name === 'data-qa' && value % 2 === 0
+  }})
+})
