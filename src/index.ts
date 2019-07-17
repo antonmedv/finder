@@ -20,6 +20,7 @@ export type Options = {
   className: (name: string) => boolean
   tagName: (name: string) => boolean
   attr: (name: string, value: string) => boolean
+  attrPenalty: number
   seedMinLength: number
   optimizedMinLength: number
   threshold: number
@@ -43,6 +44,7 @@ export default function (input: Element, options?: Partial<Options>) {
     className: (name: string) => true,
     tagName: (name: string) => true,
     attr: (name: string, value: string) => false,
+    attrPenalty: 0.5,
     seedMinLength: 1,
     optimizedMinLength: 2,
     threshold: 1000,
@@ -197,7 +199,7 @@ function attr(input: Element): Node[] {
 
   return attrs.map((attr): Node => ({
     name: '[' + cssesc(attr.name, {isIdentifier: true}) + '="' + cssesc(attr.value) + '"]',
-    penalty: 0.5
+    penalty: config.attrPenalty
   }))
 }
 
