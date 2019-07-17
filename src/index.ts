@@ -19,7 +19,7 @@ export type Options = {
   idName: (name: string) => boolean
   className: (name: string) => boolean
   tagName: (name: string) => boolean
-  attr: (name: string, value: any) => boolean
+  attr: (name: string, value: string) => boolean
   seedMinLength: number
   optimizedMinLength: number
   threshold: number
@@ -42,7 +42,7 @@ export default function (input: Element, options?: Partial<Options>) {
     idName: (name: string) => true,
     className: (name: string) => true,
     tagName: (name: string) => true,
-    attr: (name: string, value: any) => false,
+    attr: (name: string, value: string) => false,
     seedMinLength: 1,
     optimizedMinLength: 2,
     threshold: 1000,
