@@ -20,7 +20,13 @@ export type Options = {
   className: (name: string) => boolean
   tagName: (name: string) => boolean
   attr: (name: string, value: string) => boolean
-  attrPenalty: number
+  penalties: {
+    idName: number
+    className: number
+    tagName: number
+    any: number
+    attr: number
+  }
   seedMinLength: number
   optimizedMinLength: number
   threshold: number
@@ -44,7 +50,13 @@ export default function (input: Element, options?: Partial<Options>) {
     className: (name: string) => true,
     tagName: (name: string) => true,
     attr: (name: string, value: string) => false,
-    attrPenalty: 0.5,
+    penalties: {
+      idName: 0,
+      className: 1,
+      tagName: 2,
+      any: 3,
+      attr: 0.5
+    },
     seedMinLength: 1,
     optimizedMinLength: 2,
     threshold: 1000,
@@ -188,7 +200,7 @@ function id(input: Element): Node | null {
   if (elementId && config.idName(elementId)) {
     return {
       name: '#' + cssesc(elementId, {isIdentifier: true}),
-      penalty: 0,
+      penalty: config.penalties.idName,
     }
   }
   return null
@@ -199,7 +211,7 @@ function attr(input: Element): Node[] {
 
   return attrs.map((attr): Node => ({
     name: '[' + cssesc(attr.name, {isIdentifier: true}) + '="' + cssesc(attr.value) + '"]',
-    penalty: config.attrPenalty
+    penalty: config.penalties.attr
   }))
 }
 
@@ -209,7 +221,7 @@ function classNames(input: Element): Node[] {
 
   return names.map((name): Node => ({
     name: '.' + cssesc(name, {isIdentifier: true}),
-    penalty: 1
+    penalty: config.penalties.className
   }))
 }
 
@@ -218,7 +230,7 @@ function tagName(input: Element): Node | null {
   if (config.tagName(name)) {
     return {
       name,
-      penalty: 2
+      penalty: config.penalties.tagName
     }
   }
   return null
@@ -227,7 +239,7 @@ function tagName(input: Element): Node | null {
 function any(): Node {
   return {
     name: '*',
-    penalty: 3
+    penalty: config.penalties.any
   }
 }
 
