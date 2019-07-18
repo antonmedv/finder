@@ -51,6 +51,7 @@ const selector = finder(event.target, {
   root: document.body,
   className: (name) => true,
   tagName: (name) => true,
+  attr: (name, value) => false,
   seedMinLength: 1,
   optimizedMinLength: 2,
   threshold: 1000
@@ -84,6 +85,10 @@ const selector = finder(event.target, {
 #### `tagName: (name: string) => boolean`
 
 Check if tag name can be used, same as `className`.
+
+#### `attr: (name: string, value: string) => boolean`
+
+Check if attr name can be used.
 
 #### `seedMinLength: number`
 
