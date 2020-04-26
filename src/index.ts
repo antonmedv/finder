@@ -23,6 +23,11 @@ export type Options = {
   seedMinLength: number
   optimizedMinLength: number
   threshold: number
+  maxNumberOfTries: number
+}
+
+type OptimizeScopeType = {
+  counter: number
 }
 
 let config: Options
@@ -46,6 +51,7 @@ export default function (input: Element, options?: Partial<Options>) {
     seedMinLength: 1,
     optimizedMinLength: 2,
     threshold: 1000,
+    maxNumberOfTries: 10000,
   }
 
   config = {...defaults, ...options}
@@ -293,15 +299,19 @@ function sort(paths: Iterable<Path>): Path[] {
   return Array.from(paths).sort((a, b) => penalty(a) - penalty(b))
 }
 
-function* optimize(path: Path, input: Element) {
+// TODO: there's some overlap cases in this algorithm
+function* optimize(path: Path, input: Element, scope: OptimizeScopeType = { counter: 0 }) {
   if (path.length > 2 && path.length > config.optimizedMinLength) {
     for (let i = 1; i < path.length - 1; i++) {
+      // Okay At least I tried!
+      if(scope.counter > config.maxNumberOfTries) return
+      scope.counter += 1
       const newPath = [...path]
       newPath.splice(i, 1)
 
       if (unique(newPath) && same(newPath, input)) {
         yield newPath
-        yield* optimize(newPath, input)
+        yield* optimize(newPath, input, scope)
       }
     }
   }
