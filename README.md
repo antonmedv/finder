@@ -109,6 +109,10 @@ that gives you more than 3k selectors to check.
 `finder` uses two step approach so it's reaching this threshold in some cases twice.
 Default `1000` is good enough in most cases.  
 
+#### `maxNumberOfTries: number`
+Max number of tries when we do the optimization. It is a trade-off between optimization and efficiency.
+Default `10000` is good enough in most cases.  
+
 ### Google Chrome Extension
 
 ![Chrome Extension](https://user-images.githubusercontent.com/141232/36737287-4a999d84-1c0d-11e8-8a14-43bcf9baf7ca.png)
