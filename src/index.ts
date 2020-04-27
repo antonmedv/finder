@@ -28,6 +28,7 @@ export type Options = {
 
 type OptimizeScopeType = {
   counter: number
+  visited: Map<string, boolean>
 }
 
 let config: Options
@@ -300,7 +301,7 @@ function sort(paths: Iterable<Path>): Path[] {
 }
 
 // TODO: there's some overlap cases in this algorithm
-function* optimize(path: Path, input: Element, scope: OptimizeScopeType = { counter: 0 }) {
+function* optimize(path: Path, input: Element, scope: OptimizeScopeType = { counter: 0, visited: new Map<string, boolean>() }) {
   if (path.length > 2 && path.length > config.optimizedMinLength) {
     for (let i = 1; i < path.length - 1; i++) {
       // Okay At least I tried!
@@ -308,9 +309,11 @@ function* optimize(path: Path, input: Element, scope: OptimizeScopeType = { coun
       scope.counter += 1
       const newPath = [...path]
       newPath.splice(i, 1)
-
+      const newPathKey = selector(newPath)
+      if(scope.visited.has(newPathKey)) return
       if (unique(newPath) && same(newPath, input)) {
         yield newPath
+        scope.visited.set(newPathKey, true)
         yield* optimize(newPath, input, scope)
       }
     }
