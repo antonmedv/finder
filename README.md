@@ -19,10 +19,6 @@
 npm install @medv/finder
 ```
 
-<a href="https://www.patreon.com/antonmedv">
-	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
-
 ## Usage 
 
 ```js
@@ -54,7 +50,8 @@ const selector = finder(event.target, {
   attr: (name, value) => false,
   seedMinLength: 1,
   optimizedMinLength: 2,
-  threshold: 1000
+  threshold: 1000,
+  maxNumberOfTries: 10_000,
 })
 ```
 
@@ -111,7 +108,7 @@ Default `1000` is good enough in most cases.
 
 #### `maxNumberOfTries: number`
 Max number of tries when we do the optimization. It is a trade-off between optimization and efficiency.
-Default `10000` is good enough in most cases.  
+Default `10_000` is good enough in most cases.  
 
 ### Google Chrome Extension
 

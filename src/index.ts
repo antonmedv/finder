@@ -26,14 +26,9 @@ export type Options = {
   maxNumberOfTries: number
 }
 
-type OptimizeScopeType = {
-  counter: number
-  visited: Map<string, boolean>
-}
-
 let config: Options
-let rootDocument: Document | Element
 
+let rootDocument: Document | Element
 export default function (input: Element, options?: Partial<Options>) {
   if (input.nodeType !== Node.ELEMENT_NODE) {
     throw new Error(`Can't generate CSS selector for non-element node type.`)
@@ -300,17 +295,24 @@ function sort(paths: Iterable<Path>): Path[] {
   return Array.from(paths).sort((a, b) => penalty(a) - penalty(b))
 }
 
-// TODO: there's some overlap cases in this algorithm
-function* optimize(path: Path, input: Element, scope: OptimizeScopeType = { counter: 0, visited: new Map<string, boolean>() }) {
+type Scope = {
+  counter: number
+  visited: Map<string, boolean>
+}
+
+function* optimize(path: Path, input: Element, scope: Scope = { counter: 0, visited: new Map<string, boolean>() }) {
   if (path.length > 2 && path.length > config.optimizedMinLength) {
     for (let i = 1; i < path.length - 1; i++) {
-      // Okay At least I tried!
-      if(scope.counter > config.maxNumberOfTries) return
+      if(scope.counter > config.maxNumberOfTries) {
+        return // Okay At least I tried!
+      }
       scope.counter += 1
       const newPath = [...path]
       newPath.splice(i, 1)
       const newPathKey = selector(newPath)
-      if(scope.visited.has(newPathKey)) return
+      if(scope.visited.has(newPathKey)) {
+        return
+      }
       if (unique(newPath) && same(newPath, input)) {
         yield newPath
         scope.visited.set(newPathKey, true)
