@@ -110,6 +110,9 @@ Default `1000` is good enough in most cases.
 Max number of tries when we do the optimization. It is a trade-off between optimization and efficiency.
 Default `10_000` is good enough in most cases.  
 
+#### `warnOnError: boolean`
+In case of an error, output a `console.warn` instead of throwing.
+
 ### Google Chrome Extension
 
 ![Chrome Extension](https://user-images.githubusercontent.com/141232/36737287-4a999d84-1c0d-11e8-8a14-43bcf9baf7ca.png)
