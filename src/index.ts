@@ -24,7 +24,6 @@ export type Options = {
   optimizedMinLength: number
   threshold: number
   maxNumberOfTries: number
-  warnOnError: boolean
 }
 
 let config: Options
@@ -32,12 +31,7 @@ let config: Options
 let rootDocument: Document | Element
 export default function (input: Element, options?: Partial<Options>) {
   if (input.nodeType !== Node.ELEMENT_NODE) {
-    if(config.warnOnError) {
-      console.warn(`Can't generate CSS selector for non-element node type.`)
-      return
-    } else {
-      throw new Error(`Can't generate CSS selector for non-element node type.`)
-    }
+    throw new Error(`Can't generate CSS selector for non-element node type.`)
   }
 
   if ('html' === input.tagName.toLowerCase()) {
@@ -54,7 +48,6 @@ export default function (input: Element, options?: Partial<Options>) {
     optimizedMinLength: 2,
     threshold: 1000,
     maxNumberOfTries: 10000,
-    warnOnError: false,
   }
 
   config = {...defaults, ...options}
@@ -75,12 +68,7 @@ export default function (input: Element, options?: Partial<Options>) {
 
     return selector(path)
   } else {
-    if(config.warnOnError){
-      console.warn(`Selector was not found.`)
-      return
-    } else {
-      throw new Error(`Selector was not found.`)
-    }
+    throw new Error(`Selector was not found.`)
   }
 }
 
@@ -187,11 +175,7 @@ function penalty(path: Path): number {
 function unique(path: Path) {
   switch (rootDocument.querySelectorAll(selector(path)).length) {
     case 0:
-      if(config.warnOnError){
-        return
-      } else {
-        throw new Error(`Can't select any node with this selector: ${selector(path)}`)
-      }
+      throw new Error(`Can't select any node with this selector: ${selector(path)}`)
     case 1:
       return true
     default:
