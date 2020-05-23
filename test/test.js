@@ -1,6 +1,6 @@
-import test from 'ava'
-import {readFileSync} from 'fs'
-import check from './helpers/check'
+const test = require('ava')
+const {readFileSync} = require('fs')
+const check = require('./helpers/check')
 
 test('github', t => {
   check(t, readFileSync(__dirname + '/pages/github.com.html', 'utf8'))

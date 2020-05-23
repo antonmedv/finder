@@ -1,5 +1,3 @@
-import * as cssesc from 'cssesc'
-
 type Node = {
   name: string
   penalty: number
@@ -29,13 +27,13 @@ export type Options = {
 let config: Options
 
 let rootDocument: Document | Element
-export default function (input: Element, options?: Partial<Options>) {
+export function finder(input: Element, options?: Partial<Options>) {
   if (input.nodeType !== Node.ELEMENT_NODE) {
     throw new Error(`Can't generate CSS selector for non-element node type.`)
   }
 
-  if ('html' === input.tagName.toLowerCase()) {
-    return 'html'
+  if ("html" === input.tagName.toLowerCase()) {
+    return "html"
   }
 
   const defaults: Options = {
@@ -89,7 +87,7 @@ function bottomUpSearch(input: Element, limit: Limit, fallback?: () => Path | nu
   let i = 0
 
   while (current && current !== config.root.parentElement) {
-    let level: Node[] = maybe(id(current)) || maybe(...attr(current)) || maybe(...classNames(current)) || maybe(tagName(current))  || [any()]
+    let level: Node[] = maybe(id(current)) || maybe(...attr(current)) || maybe(...classNames(current)) || maybe(tagName(current)) || [any()]
 
     const nth = index(current)
 
@@ -184,10 +182,10 @@ function unique(path: Path) {
 }
 
 function id(input: Element): Node | null {
-  const elementId = input.getAttribute('id')
+  const elementId = input.getAttribute("id")
   if (elementId && config.idName(elementId)) {
     return {
-      name: '#' + cssesc(elementId, {isIdentifier: true}),
+      name: "#" + cssesc(elementId, {isIdentifier: true}),
       penalty: 0,
     }
   }
@@ -198,7 +196,7 @@ function attr(input: Element): Node[] {
   const attrs = Array.from(input.attributes).filter((attr) => config.attr(attr.name, attr.value))
 
   return attrs.map((attr): Node => ({
-    name: '[' + cssesc(attr.name, {isIdentifier: true}) + '="' + cssesc(attr.value) + '"]',
+    name: "[" + cssesc(attr.name, {isIdentifier: true}) + "=\"" + cssesc(attr.value) + "\"]",
     penalty: 0.5
   }))
 }
@@ -208,7 +206,7 @@ function classNames(input: Element): Node[] {
     .filter(config.className)
 
   return names.map((name): Node => ({
-    name: '.' + cssesc(name, {isIdentifier: true}),
+    name: "." + cssesc(name, {isIdentifier: true}),
     penalty: 1
   }))
 }
@@ -226,7 +224,7 @@ function tagName(input: Element): Node | null {
 
 function any(): Node {
   return {
-    name: '*',
+    name: "*",
     penalty: 3
   }
 }
@@ -266,7 +264,7 @@ function nthChild(node: Node, i: number): Node {
 }
 
 function dispensableNth(node: Node) {
-  return node.name !== 'html' && !node.name.startsWith('#')
+  return node.name !== "html" && !node.name.startsWith("#")
 }
 
 function maybe(...level: (Node | null)[]): Node[] | null {
@@ -281,7 +279,7 @@ function notEmpty<T>(value: T | null | undefined): value is T {
   return value !== null && value !== undefined
 }
 
-function* combinations(stack: Node[][], path: Node[] = []) {
+function* combinations(stack: Node[][], path: Node[] = []): Generator<Node[]> {
   if (stack.length > 0) {
     for (let node of stack[0]) {
       yield* combinations(stack.slice(1, stack.length), path.concat(node))
@@ -300,17 +298,20 @@ type Scope = {
   visited: Map<string, boolean>
 }
 
-function* optimize(path: Path, input: Element, scope: Scope = { counter: 0, visited: new Map<string, boolean>() }) {
+function* optimize(path: Path, input: Element, scope: Scope = {
+  counter: 0,
+  visited: new Map<string, boolean>()
+}): Generator<Node[]> {
   if (path.length > 2 && path.length > config.optimizedMinLength) {
     for (let i = 1; i < path.length - 1; i++) {
-      if(scope.counter > config.maxNumberOfTries) {
+      if (scope.counter > config.maxNumberOfTries) {
         return // Okay At least I tried!
       }
       scope.counter += 1
       const newPath = [...path]
       newPath.splice(i, 1)
       const newPathKey = selector(newPath)
-      if(scope.visited.has(newPathKey)) {
+      if (scope.visited.has(newPathKey)) {
         return
       }
       if (unique(newPath) && same(newPath, input)) {
@@ -324,4 +325,90 @@ function* optimize(path: Path, input: Element, scope: Scope = { counter: 0, visi
 
 function same(path: Path, input: Element) {
   return rootDocument.querySelector(selector(path)) === input
+}
+
+const regexAnySingleEscape = /[ -,\.\/:-@\[-\^`\{-~]/
+const regexSingleEscape = /[ -,\.\/:-@\[\]\^`\{-~]/
+const regexExcessiveSpaces = /(^|\\+)?(\\[A-F0-9]{1,6})\x20(?![a-fA-F0-9\x20])/g
+
+const defaultOptions = {
+  "escapeEverything": false,
+  "isIdentifier": false,
+  "quotes": "single",
+  "wrap": false
+}
+
+function cssesc(string: string, opt: Partial<typeof defaultOptions> = {}) {
+  const options = {...defaultOptions, ...opt}
+  if (options.quotes != "single" && options.quotes != "double") {
+    options.quotes = "single"
+  }
+  const quote = options.quotes == "double" ? "\"" : "'"
+  const isIdentifier = options.isIdentifier
+
+  const firstChar = string.charAt(0)
+  let output = ""
+  let counter = 0
+  const length = string.length
+  while (counter < length) {
+    const character = string.charAt(counter++)
+    let codePoint = character.charCodeAt(0)
+    let value: string | undefined = void 0
+    // If it’s not a printable ASCII character…
+    if (codePoint < 0x20 || codePoint > 0x7E) {
+      if (codePoint >= 0xD800 && codePoint <= 0xDBFF && counter < length) {
+        // It’s a high surrogate, and there is a next character.
+        const extra = string.charCodeAt(counter++)
+        if ((extra & 0xFC00) == 0xDC00) {
+          // next character is low surrogate
+          codePoint = ((codePoint & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000
+        } else {
+          // It’s an unmatched surrogate; only append this code unit, in case
+          // the next code unit is the high surrogate of a surrogate pair.
+          counter--
+        }
+      }
+      value = "\\" + codePoint.toString(16).toUpperCase() + " "
+    } else {
+      if (options.escapeEverything) {
+        if (regexAnySingleEscape.test(character)) {
+          value = "\\" + character
+        } else {
+          value = "\\" + codePoint.toString(16).toUpperCase() + " "
+        }
+      } else if (/[\t\n\f\r\x0B]/.test(character)) {
+        value = "\\" + codePoint.toString(16).toUpperCase() + " "
+      } else if (character == "\\" || !isIdentifier && (character == "\"" && quote == character || character == "'" && quote == character) || isIdentifier && regexSingleEscape.test(character)) {
+        value = "\\" + character
+      } else {
+        value = character
+      }
+    }
+    output += value
+  }
+
+  if (isIdentifier) {
+    if (/^-[-\d]/.test(output)) {
+      output = "\\-" + output.slice(1)
+    } else if (/\d/.test(firstChar)) {
+      output = "\\3" + firstChar + " " + output.slice(1)
+    }
+  }
+
+  // Remove spaces after `\HEX` escapes that are not followed by a hex digit,
+  // since they’re redundant. Note that this is only possible if the escape
+  // sequence isn’t preceded by an odd number of backslashes.
+  output = output.replace(regexExcessiveSpaces, function ($0, $1, $2) {
+    if ($1 && $1.length % 2) {
+      // It’s not safe to remove the space, so don’t.
+      return $0
+    }
+    // Strip the space.
+    return ($1 || "") + $2
+  })
+
+  if (!isIdentifier && options.wrap) {
+    return quote + output + quote
+  }
+  return output
 }

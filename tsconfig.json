@@ -1,23 +1,13 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
-    "baseUrl": "src",
-    "outDir": "dist",
-    "module": "commonjs",
-    "target": "es5",
-    "lib": ["es2017", "dom"],
-    "sourceMap": true,
-    "moduleResolution": "node",
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": false,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": false,
-    "declaration": true
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+    "module": "esnext",
+    "target": "es2017",
+    "lib": [
+      "es2020",
+      "dom"
+    ],
+    "strict": true,
+    "declaration": true,
+    "noUnusedLocals": true
+  }
 }

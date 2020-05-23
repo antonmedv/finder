@@ -1,8 +1,10 @@
-![finder](https://user-images.githubusercontent.com/141232/36463709-381f8c36-16fe-11e8-8fdc-fcbdd4f2a36c.png)
+![finder](https://medv.io/assets/finder.png)
 
 # finder
 
-[![Build Status](https://travis-ci.org/antonmedv/finder.svg?branch=master)](https://travis-ci.org/antonmedv/finder)
+[![npm](https://img.shields.io/npm/v/@medv/finder?color=grightgreen)](https://www.npmjs.com/package/@medv/finder)
+[![Build status](https://img.shields.io/travis/antonmedv/finder)](https://travis-ci.org/antonmedv/finder)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/@medv/finder?label=size)](https://bundlephobia.com/result?p=@medv/finder)
 
 > CSS Selector Generator
 
@@ -11,7 +13,7 @@
 * Generates **shortest** selectors
 * **Unique** selectors per page
 * Stable and **robust** selectors
-* **2.9 kB** gzip and minify size
+* **2.1 kB** gzip and minify size
 
 ## Install
 
@@ -19,10 +21,18 @@
 npm install @medv/finder
 ```
 
+Finder can be used via modules:
+
+```html
+<script type="module">
+  import {finder} from 'https://medv.io/finder/finder.js'
+</script>
+```
+
 ## Usage 
 
 ```js
-import finder from '@medv/finder'
+import {finder} from '@medv/finder'
 
 document.addEventListener('click', event => {
   const selector = finder(event.target)
@@ -107,6 +117,7 @@ that gives you more than 3k selectors to check.
 Default `1000` is good enough in most cases.  
 
 #### `maxNumberOfTries: number`
+
 Max number of tries when we do the optimization. It is a trade-off between optimization and efficiency.
 Default `10_000` is good enough in most cases.  
 
@@ -118,4 +129,4 @@ Generate the unique selectors in your browser by using [Chrome Extension](https:
 
 ## License
 
-MIT
+[MIT](LICENSE)

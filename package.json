@@ -1,45 +1,42 @@
 {
   "name": "@medv/finder",
-  "version": "1.1.3",
+  "version": "2.0.0",
   "description": "CSS Selector Generator",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "start": "tsc -w",
-    "test": "tsc && ava",
-    "prepare": "tsc",
-    "release": "release-it --access public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/antonmedv/finder.git"
-  },
+  "repository": "antonmedv/finder",
+  "homepage": "https://github.com/antonmedv/finder",
+  "author": "Anton Medvedev <anton@medv.io>",
+  "license": "MIT",
   "keywords": [
     "css",
     "selector",
     "generator"
   ],
-  "author": "Anton Medvedev <anton@medv.io>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/antonmedv/finder/issues"
+  "main": "finder.js",
+  "types": "finder.d.ts",
+  "files": [
+    "*.ts",
+    "*.js"
+  ],
+  "scripts": {
+    "start": "tsc -w",
+    "test": "tsc && ava",
+    "prepare": "tsc",
+    "release": "release-it --access public",
+    "size": "minify finder.js --sourceType module | gzip-size"
   },
-  "homepage": "https://github.com/antonmedv/finder#readme",
   "devDependencies": {
-    "ava": "^0.25.0",
-    "browser-env": "^3.2.5",
-    "release-it": "^7.6.1",
-    "typescript": "3.0.1"
+    "ava": "^3.8.2",
+    "browser-env": "^3.3.0",
+    "esm": "^3.2.25",
+    "gzip-size-cli": "*",
+    "babel-minify": "*",
+    "release-it": "^13.6.1",
+    "typescript": "3.9.3"
   },
   "ava": {
     "require": [
+      "esm",
       "./test/helpers/setup-browser-env.js"
     ]
-  },
-  "dependencies": {
-    "cssesc": "^2.0.0"
   }
 }
