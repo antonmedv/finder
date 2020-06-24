@@ -54,7 +54,7 @@ Example of generated selector:
 
 ```js
 const selector = finder(event.target, {
-  root: document.body,
+  root: input.ownerDocument,
   className: (name) => true,
   tagName: (name) => true,
   attr: (name, value) => false,
@@ -67,7 +67,7 @@ const selector = finder(event.target, {
 
 #### `root: Element`
 
-Root of search, defaults to `document.body`.
+Root of search, defaults to `input.ownerDocument`.
 
 #### `idName: (name: string) => boolean`
 

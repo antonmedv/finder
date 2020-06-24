@@ -37,7 +37,7 @@ export function finder(input: Element, options?: Partial<Options>) {
   }
 
   const defaults: Options = {
-    root: document.body,
+    root: input.ownerDocument,
     idName: (name: string) => true,
     className: (name: string) => true,
     tagName: (name: string) => true,
