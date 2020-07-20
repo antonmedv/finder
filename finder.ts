@@ -22,6 +22,7 @@ export type Options = {
   optimizedMinLength: number
   threshold: number
   maxNumberOfTries: number
+  maxRecursionDepth: number
 }
 
 let config: Options
@@ -46,6 +47,7 @@ export function finder(input: Element, options?: Partial<Options>) {
     optimizedMinLength: 2,
     threshold: 1000,
     maxNumberOfTries: 10000,
+    maxRecursionDepth: 10,
   }
 
   config = {...defaults, ...options}
@@ -279,10 +281,10 @@ function notEmpty<T>(value: T | null | undefined): value is T {
   return value !== null && value !== undefined
 }
 
-function* combinations(stack: Node[][], path: Node[] = []): Generator<Node[]> {
-  if (stack.length > 0) {
+function* combinations(stack: Node[][], path: Node[] = [], depth: number = 0): Generator<Node[]> {
+  if (stack.length > 0 && depth < config.maxRecursionDepth) {
     for (let node of stack[0]) {
-      yield* combinations(stack.slice(1, stack.length), path.concat(node))
+      yield* combinations(stack.slice(1, stack.length), path.concat(node), depth + 1)
     }
   } else {
     yield path

@@ -62,6 +62,7 @@ const selector = finder(event.target, {
   optimizedMinLength: 2,
   threshold: 1000,
   maxNumberOfTries: 10_000,
+  maxRecursionDepth: 10,
 })
 ```
 
@@ -120,6 +121,12 @@ Default `1000` is good enough in most cases.
 
 Max number of tries when we do the optimization. It is a trade-off between optimization and efficiency.
 Default `10_000` is good enough in most cases.  
+
+#### `maxRecursionDepth: number`
+
+Max recursion depth when generating selector combinations during search. Defaults to `10`.
+For more complex DOM trees, generating these combinations can be very costly and can max out the CPU.
+Reducing this option will help in these cases because `finder` will throw an error instead when this depth has been exceeded.
 
 ### Google Chrome Extension
 
