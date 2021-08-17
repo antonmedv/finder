@@ -2,6 +2,7 @@
   "name": "@medv/finder",
   "version": "2.0.0",
   "description": "CSS Selector Generator",
+  "type": "module",
   "repository": "antonmedv/finder",
   "homepage": "https://github.com/antonmedv/finder",
   "author": "Anton Medvedev <anton@medv.io>",
