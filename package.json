@@ -1,5 +1,6 @@
 {
   "name": "@medv/finder",
+  "type": "module",
   "version": "2.0.0",
   "description": "CSS Selector Generator",
   "repository": "antonmedv/finder",
@@ -25,18 +26,28 @@
     "size": "minify finder.js --sourceType module | gzip-size"
   },
   "devDependencies": {
-    "ava": "^3.8.2",
+    "ava": "^3.15.0",
+    "babel-minify": "*",
     "browser-env": "^3.3.0",
     "esm": "^3.2.25",
     "gzip-size-cli": "*",
-    "babel-minify": "*",
     "release-it": "^13.6.1",
+    "ts-node": "^10.2.1",
     "typescript": "3.9.3"
   },
   "ava": {
     "require": [
-      "esm",
       "./test/helpers/setup-browser-env.js"
+    ],
+    "extensions": {
+      "ts": "module",
+      "js": true
+    },
+    "nonSemVerExperiments": {
+      "configurableModuleFormat": true
+    },
+    "nodeArguments": [
+      "--loader=ts-node/esm"
     ]
   }
 }

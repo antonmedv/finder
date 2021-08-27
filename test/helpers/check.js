@@ -1,21 +1,28 @@
-const {finder} = require('../..')
+import { finder } from "../../finder.js";
 
-module.exports = function check(t, html, config = void 0) {
-  document.write(html)
+export default function check(t, html, config = void 0) {
+  document.write(html);
 
-  const list = []
+  const list = [];
 
-  for (let node of document.querySelectorAll('*')) {
+  for (let node of document.querySelectorAll("*")) {
+    const css = finder(node, config);
 
-    const css = finder(node, config)
+    t.is(
+      document.querySelectorAll(css).length,
+      1,
+      `Selector "${css}" selects more then one node.`
+    );
+    t.is(
+      document.querySelector(css),
+      node,
+      `Selector "${css}" selects another node.`
+    );
 
-    t.is(document.querySelectorAll(css).length, 1, `Selector "${css}" selects more then one node.`)
-    t.is(document.querySelector(css), node, `Selector "${css}" selects another node.`)
-
-    list.push(css)
+    list.push(css);
   }
 
-  t.snapshot(list.join('\n'))
+  t.snapshot(list.join("\n"));
 
-  document.clear()
+  document.clear();
 }
