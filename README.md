@@ -55,6 +55,7 @@ Example of generated selector:
 ```js
 const selector = finder(event.target, {
   root: document.body,
+  idName: (name) => true,
   className: (name) => true,
   tagName: (name) => true,
   attr: (name, value) => false,
