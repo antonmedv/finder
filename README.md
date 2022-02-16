@@ -31,6 +31,8 @@ Finder can be used via modules:
 
 ## Usage 
 
+### Node:
+
 ```js
 import {finder} from '@medv/finder'
 
@@ -39,6 +41,17 @@ document.addEventListener('click', event => {
   console.log(selector)  
 })
 ```
+
+### Browser webtools:
+```js
+import('https://medv.io/finder/finder.js').then(m => finder = m.finder)
+
+document.addEventListener('click', event => {
+  const selector = finder(event.target)
+  console.log(selector)  
+})
+```
+
 
 ## Example
 
