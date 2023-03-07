@@ -314,7 +314,7 @@ function* combinations(stack: Node[][], path: Node[] = []): Generator<Node[]> {
 }
 
 function sort(paths: Iterable<Path>): Path[] {
-  return Array.from(paths).sort((a, b) => penalty(a) - penalty(b))
+  return [...paths].sort((a, b) => penalty(a) - penalty(b))
 }
 
 type Scope = {
