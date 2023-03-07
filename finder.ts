@@ -7,16 +7,16 @@ type Node = {
 type Path = Node[]
 
 export type Options = {
-  root: Element;
-  idName: (name: string) => boolean;
-  className: (name: string) => boolean;
-  tagName: (name: string) => boolean;
-  attr: (name: string, value: string) => boolean;
-  seedMinLength: number;
-  optimizedMinLength: number;
-  threshold: number;
-  maxNumberOfTries: number;
-};
+  root: Element
+  idName: (name: string) => boolean
+  className: (name: string) => boolean
+  tagName: (name: string) => boolean
+  attr: (name: string, value: string) => boolean
+  seedMinLength: number
+  optimizedMinLength: number
+  threshold: number
+  maxNumberOfTries: number
+}
 
 let config: Options
 let rootDocument: Document | Element
@@ -53,11 +53,9 @@ export function finder(input: Element, options?: Partial<Options>) {
 
   if (path) {
     const optimized = sort(optimize(path, input))
-
     if (optimized.length > 0) {
       path = optimized[0]
     }
-
     return selector(path)
   } else {
     throw new Error(`Selector was not found.`)
