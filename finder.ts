@@ -20,7 +20,6 @@ export type Options = {
 
 let config: Options
 let rootDocument: Document | Element
-let uniqueCache: Map<string, boolean>
 
 export function finder(input: Element, options?: Partial<Options>) {
   if (input.nodeType !== Node.ELEMENT_NODE) {
@@ -43,7 +42,6 @@ export function finder(input: Element, options?: Partial<Options>) {
 
   config = {...defaults, ...options}
   rootDocument = findRootDocument(config.root, defaults)
-  uniqueCache = new Map()
 
   let path =
     bottomUpSearch(input, 'all',
@@ -170,19 +168,14 @@ function penalty(path: Path): number {
 
 function unique(path: Path) {
   const css = selector(path)
-  if (uniqueCache.has(css)) {
-    return uniqueCache.get(css)
-  }
   switch (rootDocument.querySelectorAll(css).length) {
     case 0:
       throw new Error(
         `Can't select any node with this selector: ${css}`
       )
     case 1:
-      uniqueCache.set(css, true)
       return true
     default:
-      uniqueCache.set(css, false)
       return false
   }
 }
