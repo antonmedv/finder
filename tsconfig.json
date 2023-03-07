@@ -5,7 +5,7 @@
     "moduleResolution": "NodeNext",
     "lib": [
       "ES2021",
-      "dom"
+      "DOM"
     ],
     "strict": true,
     "declaration": true,

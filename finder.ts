@@ -1,10 +1,10 @@
-type Node = {
-  name: string;
-  penalty: number;
-  level?: number;
-};
+type Knot = {
+  name: string
+  penalty: number
+  level?: number
+}
 
-type Path = Node[]
+type Path = Knot[]
 
 export type Options = {
   root: Element
@@ -78,11 +78,11 @@ function bottomUpSearch(
   fallback?: () => Path | null
 ): Path | null {
   let path: Path | null = null
-  let stack: Node[][] = []
+  let stack: Knot[][] = []
   let current: Element | null = input
   let i = 0
   while (current) {
-    let level: Node[] = maybe(id(current)) ||
+    let level: Knot[] = maybe(id(current)) ||
       maybe(...attr(current)) ||
       maybe(...classNames(current)) ||
       maybe(tagName(current)) || [any()]
@@ -134,7 +134,7 @@ function bottomUpSearch(
 }
 
 function findUniquePath(
-  stack: Node[][],
+  stack: Knot[][],
   fallback?: () => Path | null
 ): Path | null {
   const paths = sort(combinations(stack))
@@ -187,7 +187,7 @@ function unique(path: Path) {
   }
 }
 
-function id(input: Element): Node | null {
+function id(input: Element): Knot | null {
   const elementId = input.getAttribute('id')
   if (elementId && config.idName(elementId)) {
     return {
@@ -198,12 +198,12 @@ function id(input: Element): Node | null {
   return null
 }
 
-function attr(input: Element): Node[] {
+function attr(input: Element): Knot[] {
   const attrs = Array.from(input.attributes).filter((attr) =>
     config.attr(attr.name, attr.value)
   )
   return attrs.map(
-    (attr): Node => ({
+    (attr): Knot => ({
       name:
         '[' +
         cssesc(attr.name, {isIdentifier: true}) +
@@ -215,17 +215,17 @@ function attr(input: Element): Node[] {
   )
 }
 
-function classNames(input: Element): Node[] {
+function classNames(input: Element): Knot[] {
   const names = Array.from(input.classList).filter(config.className)
   return names.map(
-    (name): Node => ({
+    (name): Knot => ({
       name: '.' + cssesc(name, {isIdentifier: true}),
       penalty: 1,
     })
   )
 }
 
-function tagName(input: Element): Node | null {
+function tagName(input: Element): Knot | null {
   const name = input.tagName.toLowerCase()
   if (config.tagName(name)) {
     return {
@@ -236,7 +236,7 @@ function tagName(input: Element): Node | null {
   return null
 }
 
-function any(): Node {
+function any(): Knot {
   return {
     name: '*',
     penalty: 3,
@@ -265,18 +265,18 @@ function index(input: Element): number | null {
   return i
 }
 
-function nthChild(node: Node, i: number): Node {
+function nthChild(node: Knot, i: number): Knot {
   return {
     name: node.name + `:nth-child(${i})`,
     penalty: node.penalty + 1,
   }
 }
 
-function dispensableNth(node: Node) {
+function dispensableNth(node: Knot) {
   return node.name !== 'html' && !node.name.startsWith('#')
 }
 
-function maybe(...level: (Node | null)[]): Node[] | null {
+function maybe(...level: (Knot | null)[]): Knot[] | null {
   const list = level.filter(notEmpty)
   if (list.length > 0) {
     return list
@@ -288,7 +288,7 @@ function notEmpty<T>(value: T | null | undefined): value is T {
   return value !== null && value !== undefined
 }
 
-function* combinations(stack: Node[][], path: Node[] = []): Generator<Node[]> {
+function* combinations(stack: Knot[][], path: Knot[] = []): Generator<Knot[]> {
   if (stack.length > 0) {
     for (let node of stack[0]) {
       yield* combinations(stack.slice(1, stack.length), path.concat(node))
@@ -303,9 +303,9 @@ function sort(paths: Iterable<Path>): Path[] {
 }
 
 type Scope = {
-  counter: number;
-  visited: Map<string, boolean>;
-};
+  counter: number
+  visited: Map<string, boolean>
+}
 
 function* optimize(
   path: Path,
@@ -314,7 +314,7 @@ function* optimize(
     counter: 0,
     visited: new Map<string, boolean>(),
   }
-): Generator<Node[]> {
+): Generator<Knot[]> {
   if (path.length > 2 && path.length > config.optimizedMinLength) {
     for (let i = 1; i < path.length - 1; i++) {
       if (scope.counter > config.maxNumberOfTries) {
