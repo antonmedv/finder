@@ -2,7 +2,6 @@
 
 # finder
 
-[![Version](https://img.shields.io/npm/v/@medv/finder?color=grightgreen)](https://www.npmjs.com/package/@medv/finder)
 [![Test](https://github.com/antonmedv/finder/actions/workflows/test.yml/badge.svg)](https://github.com/antonmedv/finder/actions/workflows/test.yml)
 
 **The CSS Selector Generator**
