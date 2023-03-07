@@ -1,17 +1,8 @@
 {
   "name": "@medv/finder",
-  "type": "module",
   "version": "2.1.0",
   "description": "CSS Selector Generator",
-  "repository": "antonmedv/finder",
-  "homepage": "https://github.com/antonmedv/finder",
-  "author": "Anton Medvedev <anton@medv.io>",
-  "license": "MIT",
-  "keywords": [
-    "css",
-    "selector",
-    "generator"
-  ],
+  "type": "module",
   "main": "finder.js",
   "types": "finder.d.ts",
   "files": [
@@ -19,35 +10,23 @@
     "*.js"
   ],
   "scripts": {
-    "start": "tsc -w",
-    "test": "tsc && ava",
-    "prepare": "tsc",
-    "release": "release-it --access public",
-    "size": "minify finder.js --sourceType module | gzip-size"
+    "build": "tsc",
+    "test": "tsc && uvu",
+    "release": "release-it --access public"
   },
   "devDependencies": {
-    "ava": "^3.15.0",
-    "babel-minify": "*",
-    "browser-env": "^3.3.0",
-    "esm": "^3.2.25",
-    "gzip-size-cli": "*",
-    "release-it": "^13.6.1",
-    "ts-node": "^10.2.1",
-    "typescript": "3.9.3"
+    "jsdom": "^21.1.0",
+    "release-it": "^15.7.0",
+    "typescript": "4.9.5",
+    "uvu": "^0.5.6"
   },
-  "ava": {
-    "require": [
-      "./test/helpers/setup-browser-env.js"
-    ],
-    "extensions": {
-      "ts": "module",
-      "js": true
-    },
-    "nonSemVerExperiments": {
-      "configurableModuleFormat": true
-    },
-    "nodeArguments": [
-      "--loader=ts-node/esm"
-    ]
-  }
+  "author": "Anton Medvedev <anton@medv.io>",
+  "license": "MIT",
+  "homepage": "https://github.com/antonmedv/finder",
+  "repository": "antonmedv/finder",
+  "keywords": [
+    "css",
+    "selector",
+    "generator"
+  ]
 }
