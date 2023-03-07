@@ -1,3 +1,7 @@
+// License: MIT
+// Author: Anton Medvedev <anton@medv.io>
+// Source: https://github.com/antonmedv/finder
+
 type Knot = {
   name: string
   penalty: number
