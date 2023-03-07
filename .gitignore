@@ -1,4 +1,4 @@
 /node_modules/
-*.js
-*.d.ts
+/finder.js
+/finder.d.ts
 package-lock.json
