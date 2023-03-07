@@ -314,8 +314,20 @@ function* combinations(stack: Node[][], path: Node[] = []): Generator<Node[]> {
   }
 }
 
+// For some pages, Array.from over paths fails & returns [].
+// Below polyfill to be used to transform iterator to array
+function transformToArray <a>(a: Iterator<a>) {
+  let result: a[] = [];
+  let current = a.next();
+  while(current.done == false) {
+    result.push(current.value);
+    current = a.next();
+  }
+  return result;
+}
+
 function sort(paths: Iterable<Path>): Path[] {
-  return Array.from(paths).sort((a, b) => penalty(a) - penalty(b));
+  return transformToArray(paths).sort((a, b) => penalty(a) - penalty(b));
 }
 
 type Scope = {
