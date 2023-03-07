@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "module": "ES2020",
-		"moduleResolution": "node",
-    "target": "es2017",
+    "target": "ES2021",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "lib": [
-      "es2020",
+      "ES2021",
       "dom"
     ],
     "strict": true,
