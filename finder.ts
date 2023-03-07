@@ -4,13 +4,7 @@ type Node = {
   level?: number;
 };
 
-type Path = Node[];
-
-enum Limit {
-  All,
-  Two,
-  One,
-}
+type Path = Node[]
 
 export type Options = {
   root: Element;
@@ -26,16 +20,15 @@ export type Options = {
 
 let config: Options
 let rootDocument: Document | Element
+let uniqueCache: Map<string, boolean>
 
 export function finder(input: Element, options?: Partial<Options>) {
   if (input.nodeType !== Node.ELEMENT_NODE) {
     throw new Error(`Can't generate CSS selector for non-element node type.`)
   }
-
   if ('html' === input.tagName.toLowerCase()) {
     return 'html'
   }
-
   const defaults: Options = {
     root: document.body,
     idName: (name: string) => true,
@@ -50,10 +43,13 @@ export function finder(input: Element, options?: Partial<Options>) {
 
   config = {...defaults, ...options}
   rootDocument = findRootDocument(config.root, defaults)
+  uniqueCache = new Map()
 
-  let path = bottomUpSearch(input, Limit.All, () =>
-    bottomUpSearch(input, Limit.Two, () => bottomUpSearch(input, Limit.One))
-  )
+  let path =
+    bottomUpSearch(input, 'all',
+      () => bottomUpSearch(input, 'two',
+        () => bottomUpSearch(input, 'one',
+          () => bottomUpSearch(input, 'none'))))
 
   if (path) {
     const optimized = sort(optimize(path, input))
@@ -80,65 +76,62 @@ function findRootDocument(rootNode: Element | Document, defaults: Options) {
 
 function bottomUpSearch(
   input: Element,
-  limit: Limit,
+  limit: 'all' | 'two' | 'one' | 'none',
   fallback?: () => Path | null
 ): Path | null {
   let path: Path | null = null
   let stack: Node[][] = []
   let current: Element | null = input
   let i = 0
-
-  while (current && current !== config.root.parentElement) {
+  while (current) {
     let level: Node[] = maybe(id(current)) ||
       maybe(...attr(current)) ||
       maybe(...classNames(current)) ||
       maybe(tagName(current)) || [any()]
-
     const nth = index(current)
-
-    if (limit === Limit.All) {
+    if (limit == 'all') {
       if (nth) {
         level = level.concat(
           level.filter(dispensableNth).map((node) => nthChild(node, nth))
         )
       }
-    } else if (limit === Limit.Two) {
+    } else if (limit == 'two') {
       level = level.slice(0, 1)
-
       if (nth) {
         level = level.concat(
           level.filter(dispensableNth).map((node) => nthChild(node, nth))
         )
       }
-    } else if (limit === Limit.One) {
+    } else if (limit == 'one') {
       const [node] = (level = level.slice(0, 1))
-
       if (nth && dispensableNth(node)) {
         level = [nthChild(node, nth)]
       }
+    } else if (limit == 'none') {
+      level = [any()]
+      if (nth) {
+        level = [nthChild(level[0], nth)]
+      }
     }
-
     for (let node of level) {
       node.level = i
     }
-
     stack.push(level)
-
     if (stack.length >= config.seedMinLength) {
       path = findUniquePath(stack, fallback)
       if (path) {
         break
       }
     }
-
     current = current.parentElement
     i++
   }
-
   if (!path) {
     path = findUniquePath(stack, fallback)
   }
-
+  if (!path && fallback) {
+    return fallback()
+  }
   return path
 }
 
@@ -147,17 +140,14 @@ function findUniquePath(
   fallback?: () => Path | null
 ): Path | null {
   const paths = sort(combinations(stack))
-
   if (paths.length > config.threshold) {
     return fallback ? fallback() : null
   }
-
   for (let candidate of paths) {
     if (unique(candidate)) {
       return candidate
     }
   }
-
   return null
 }
 
@@ -166,13 +156,11 @@ function selector(path: Path): string {
   let query = node.name
   for (let i = 1; i < path.length; i++) {
     const level = path[i].level || 0
-
     if (node.level === level - 1) {
       query = `${path[i].name} > ${query}`
     } else {
       query = `${path[i].name} ${query}`
     }
-
     node = path[i]
   }
   return query
@@ -183,14 +171,20 @@ function penalty(path: Path): number {
 }
 
 function unique(path: Path) {
-  switch (rootDocument.querySelectorAll(selector(path)).length) {
+  const css = selector(path)
+  if (uniqueCache.has(css)) {
+    return uniqueCache.get(css)
+  }
+  switch (rootDocument.querySelectorAll(css).length) {
     case 0:
       throw new Error(
-        `Can't select any node with this selector: ${selector(path)}`
+        `Can't select any node with this selector: ${css}`
       )
     case 1:
+      uniqueCache.set(css, true)
       return true
     default:
+      uniqueCache.set(css, false)
       return false
   }
 }
@@ -210,7 +204,6 @@ function attr(input: Element): Node[] {
   const attrs = Array.from(input.attributes).filter((attr) =>
     config.attr(attr.name, attr.value)
   )
-
   return attrs.map(
     (attr): Node => ({
       name:
@@ -226,7 +219,6 @@ function attr(input: Element): Node[] {
 
 function classNames(input: Element): Node[] {
   const names = Array.from(input.classList).filter(config.className)
-
   return names.map(
     (name): Node => ({
       name: '.' + cssesc(name, {isIdentifier: true}),
@@ -258,25 +250,20 @@ function index(input: Element): number | null {
   if (!parent) {
     return null
   }
-
   let child = parent.firstChild
   if (!child) {
     return null
   }
-
   let i = 0
   while (child) {
     if (child.nodeType === Node.ELEMENT_NODE) {
       i++
     }
-
     if (child === input) {
       break
     }
-
     child = child.nextSibling
   }
-
   return i
 }
 
@@ -374,7 +361,6 @@ function cssesc(string: string, opt: Partial<typeof defaultOptions> = {}) {
   }
   const quote = options.quotes == 'double' ? '"' : '\''
   const isIdentifier = options.isIdentifier
-
   const firstChar = string.charAt(0)
   let output = ''
   let counter = 0
@@ -421,7 +407,6 @@ function cssesc(string: string, opt: Partial<typeof defaultOptions> = {}) {
     }
     output += value
   }
-
   if (isIdentifier) {
     if (/^-[-\d]/.test(output)) {
       output = '\\-' + output.slice(1)
@@ -429,7 +414,6 @@ function cssesc(string: string, opt: Partial<typeof defaultOptions> = {}) {
       output = '\\3' + firstChar + ' ' + output.slice(1)
     }
   }
-
   // Remove spaces after `\HEX` escapes that are not followed by a hex digit,
   // since they’re redundant. Note that this is only possible if the escape
   // sequence isn’t preceded by an odd number of backslashes.
@@ -441,7 +425,6 @@ function cssesc(string: string, opt: Partial<typeof defaultOptions> = {}) {
     // Strip the space.
     return ($1 || '') + $2
   })
-
   if (!isIdentifier && options.wrap) {
     return quote + output + quote
   }
