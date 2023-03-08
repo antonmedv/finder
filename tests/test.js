@@ -13,6 +13,7 @@ function check(html, config = {}) {
   const dom = new JSDOM(html)
   globalThis.document = dom.window.document
   globalThis.Node = dom.window.Node
+  const selectors = []
   for (let node of document.querySelectorAll('*')) {
     let css
     try {
@@ -24,20 +25,24 @@ function check(html, config = {}) {
       `Selector "${css}" selects more then one node.`)
     assert.is(document.querySelector(css), node,
       `Selector "${css}" selects another node.`)
+    selectors.push(css)
   }
+  return selectors
 }
 
 test('github', () => {
-  assert.ok(1)
-  check(readFileSync(__dirname + '/pages/github.com.html', 'utf8'))
+  const selectors = check(readFileSync(__dirname + '/pages/github.com.html', 'utf8'))
+  assert.fixture(selectors.join('\n') + '\n', readFileSync(__dirname + '/pages/github.com.txt', 'utf8'))
 })
 
 test('stripe', () => {
-  check(readFileSync(__dirname + '/pages/stripe.com.html', 'utf8'))
+  const selectors = check(readFileSync(__dirname + '/pages/stripe.com.html', 'utf8'))
+  assert.fixture(selectors.join('\n') + '\n', readFileSync(__dirname + '/pages/stripe.com.txt', 'utf8'))
 })
 
 test('deployer', () => {
-  check(readFileSync(__dirname + '/pages/deployer.org.html', 'utf8'))
+  const selectors = check(readFileSync(__dirname + '/pages/deployer.org.html', 'utf8'))
+  assert.fixture(selectors.join('\n') + '\n', readFileSync(__dirname + '/pages/deployer.org.txt', 'utf8'))
 })
 
 test('config:seed', () => {
