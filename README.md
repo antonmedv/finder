@@ -58,7 +58,7 @@ const selector = finder(event.target, {
 
 Minimum length of levels in fining selector. Starts from `1`. 
 For more robust selectors give this param value around 4-5 depending on depth of
-you DOM tree. If `finder` hits `root` this param is ignored.
+you DOM tree. If finder hits the `root`, this param is ignored.
 
 ### optimizedMinLength
 
@@ -68,14 +68,13 @@ For example selector `body > div > div > p` can be optimised to `body p`.
 ### threshold
 
 Max number of selectors to check before falling into `nth-child` usage. 
-Checking for uniqueness of selector is very costs operation, if you have DOM 
+Checking for uniqueness of selector is very costly operation, if you have DOM 
 tree depth of 5, with 5 classes on each level, that gives you more than 3k 
-selectors to check. Finder uses two-step approach,Ï so it's reaching this 
-threshold in some cases twice. Default `1000` is good enough in most cases.  
+selectors to check. Default `1000` is good enough in most cases.  
 
 ### maxNumberOfTries
 
-Max number of tries when we do the optimization. It is a trade-off between
+Max number of tries for the optimization. This is a trade-off between
 optimization and efficiency. Default `10_000` is good enough in most cases.
 
 ## License
