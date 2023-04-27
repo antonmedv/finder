@@ -188,7 +188,7 @@ function id(input: Element): Knot | null {
   const elementId = input.getAttribute('id')
   if (elementId && config.idName(elementId)) {
     return {
-      name: '#' + cssesc(elementId, {isIdentifier: true}),
+      name: cssesc(elementId, {isIdentifier: true, isId: true}),
       penalty: 0,
     }
   }
@@ -270,7 +270,7 @@ function nthChild(node: Knot, i: number): Knot {
 }
 
 function dispensableNth(node: Knot) {
-  return node.name !== 'html' && !node.name.startsWith('#')
+  return node.name !== 'html' && !node.name.startsWith('#') && !node.name.startsWith('[id=')
 }
 
 function maybe(...level: (Knot | null)[]): Knot[] | null {
@@ -345,6 +345,7 @@ const regexExcessiveSpaces =
 const defaultOptions = {
   escapeEverything: false,
   isIdentifier: false,
+  isId: false,
   quotes: 'single',
   wrap: false,
 }
@@ -356,6 +357,7 @@ function cssesc(string: string, opt: Partial<typeof defaultOptions> = {}) {
   }
   const quote = options.quotes == 'double' ? '"' : '\''
   const isIdentifier = options.isIdentifier
+  const isId = options.isId
   const firstChar = string.charAt(0)
   let output = ''
   let counter = 0
@@ -405,8 +407,15 @@ function cssesc(string: string, opt: Partial<typeof defaultOptions> = {}) {
   if (isIdentifier) {
     if (/^-[-\d]/.test(output)) {
       output = '\\-' + output.slice(1)
-    } else if (/\d/.test(firstChar)) {
-      output = '\\3' + firstChar + ' ' + output.slice(1)
+    }
+    if (/\d/.test(firstChar)) {
+      if (isId) {
+	output = '[id=' + quote + output + quote + ']'
+      } else {
+	output = '\\3' + firstChar + ' ' + output.slice(1)	
+      }
+    } else if (isId) {
+      output = '#' + output;
     }
   }
   // Remove spaces after `\HEX` escapes that are not followed by a hex digit,
