@@ -77,6 +77,10 @@ selectors to check. Default `1000` is good enough in most cases.
 Max number of tries for the optimization. This is a trade-off between
 optimization and efficiency. Default `10_000` is good enough in most cases.
 
+## Become a sponsor
+
+Every line of code in my repositories 📖 signifies my unwavering commitment to open source 💡. Your support 🤝 ensures these projects keep thriving, innovating, and benefiting all 💼. If my work has ever resonated 🎵 or helped you, kindly consider showing love ❤️ by sponsoring. [**🚀 Sponsor Me Today! 🚀**](https://github.com/sponsors/antonmedv)
+
 ## License
 
 [MIT](LICENSE)
