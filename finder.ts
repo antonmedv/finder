@@ -12,10 +12,10 @@ type Path = Knot[]
 
 export type Options = {
   root: Element
-  idName: (name: string) => boolean
-  className: (name: string) => boolean
+  idName: (name: string, tagName: string) => boolean
+  className: (name: string, tagName: string) => boolean
   tagName: (name: string) => boolean
-  attr: (name: string, value: string) => boolean
+  attr: (name: string, value: string, tagName: string) => boolean
   seedMinLength: number
   optimizedMinLength: number
   threshold: number
@@ -186,7 +186,7 @@ function unique(path: Path) {
 
 function id(input: Element): Knot | null {
   const elementId = input.getAttribute('id')
-  if (elementId && config.idName(elementId)) {
+  if (elementId && config.idName(elementId, input.tagName.toLowerCase())) {
     return {
       name: '#' + CSS.escape(elementId),
       penalty: 0,
@@ -197,7 +197,7 @@ function id(input: Element): Knot | null {
 
 function attr(input: Element): Knot[] {
   const attrs = Array.from(input.attributes).filter((attr) =>
-    config.attr(attr.name, attr.value)
+    config.attr(attr.name, attr.value, input.tagName.toLowerCase())
   )
   return attrs.map(
     (attr): Knot => ({
@@ -208,7 +208,9 @@ function attr(input: Element): Knot[] {
 }
 
 function classNames(input: Element): Knot[] {
-  const names = Array.from(input.classList).filter(config.className)
+  const names = Array.from(input.classList).filter((className) =>
+    config.className(className, input.tagName.toLowerCase())
+  )
   return names.map(
     (name): Knot => ({
       name: '.' + CSS.escape(name),
