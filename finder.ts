@@ -20,7 +20,7 @@ export type Options = {
   optimizedMinLength: number
   threshold: number
   maxNumberOfTries: number
-  timeout: number
+  timeoutMs: number
   start: Date
 }
 
@@ -44,7 +44,7 @@ export function finder(input: Element, options?: Partial<Options>) {
     optimizedMinLength: 2,
     threshold: 1000,
     maxNumberOfTries: 10000,
-    timeout: -1,
+    timeoutMs: -1,
     start: new Date(),
   }
 
@@ -89,7 +89,7 @@ function bottomUpSearch(
   let i = 0
   while (current) {
     const elapsedTime = new Date().getTime() - config.start.getTime();
-    if (config.timeout !== -1 && elapsedTime > config.timeout) {
+    if (config.timeoutMs !== -1 && elapsedTime > config.timeoutMs) {
       throw new Error(`Timeout: Can't find a unique selector after ${elapsedTime}ms`)
     }
     let level: Knot[] = maybe(id(current)) ||
