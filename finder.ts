@@ -20,12 +20,15 @@ export type Options = {
   optimizedMinLength: number
   threshold: number
   maxNumberOfTries: number
+  timeoutMs: number | undefined
 }
 
 let config: Options
 let rootDocument: Document | Element
+let start: Date
 
 export function finder(input: Element, options?: Partial<Options>) {
+  start = new Date()
   if (input.nodeType !== Node.ELEMENT_NODE) {
     throw new Error(`Can't generate CSS selector for non-element node type.`)
   }
@@ -42,6 +45,7 @@ export function finder(input: Element, options?: Partial<Options>) {
     optimizedMinLength: 2,
     threshold: 1000,
     maxNumberOfTries: 10000,
+    timeoutMs: undefined,
   }
 
   config = {...defaults, ...options}
@@ -84,6 +88,10 @@ function bottomUpSearch(
   let current: Element | null = input
   let i = 0
   while (current) {
+    const elapsedTime = new Date().getTime() - start.getTime();
+    if (config.timeoutMs !== undefined && elapsedTime > config.timeoutMs) {
+      throw new Error(`Timeout: Can't find a unique selector after ${elapsedTime}ms`)
+    }
     let level: Knot[] = maybe(id(current)) ||
       maybe(...attr(current)) ||
       maybe(...classNames(current)) ||

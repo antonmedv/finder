@@ -51,6 +51,7 @@ const selector = finder(event.target, {
   optimizedMinLength: 2,
   threshold: 1000,
   maxNumberOfTries: 10_000,
+  timeoutMs: undefined,
 })
 ```
 
@@ -76,6 +77,10 @@ selectors to check. Default `1000` is good enough in most cases.
 
 Max number of tries for the optimization. This is a trade-off between
 optimization and efficiency. Default `10_000` is good enough in most cases.
+
+### timeoutMs
+
+Optional timeout in milliseconds. `undefined` (no timeout) by default. If `timeoutMs: 500` is provided, an error will be thrown if selector generation takes more than 500ms.
 
 ## Become a sponsor
 
