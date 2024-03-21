@@ -1,0 +1,5 @@
+{
+  "name": "@medv/finder",
+  "version": "3.2.0",
+  "exports": "./finder.ts"
+}

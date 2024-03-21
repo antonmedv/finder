@@ -27,7 +27,7 @@ let config: Options
 let rootDocument: Document | Element
 let start: Date
 
-export function finder(input: Element, options?: Partial<Options>) {
+export function finder(input: Element, options?: Partial<Options>): string {
   start = new Date()
   if (input.nodeType !== Node.ELEMENT_NODE) {
     throw new Error(`Can't generate CSS selector for non-element node type.`)
