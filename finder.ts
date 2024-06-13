@@ -160,17 +160,13 @@ function findUniquePath(
 }
 
 function selector(path: Path): string {
-  let node = path[0]
-  let query = node.name
-  for (let i = 1; i < path.length; i++) {
-    const level = path[i].level || 0
-    if (node.level === level - 1) {
-      query = `${path[i].name} > ${query}`
-    } else {
-      query = `${path[i].name} ${query}`
-    }
-    node = path[i]
-  }
+  let query = path[0].name
+  path.reduce((prev, cur) => {
+    query = prev.level === (cur.level || 0) - 1 
+      ? `${cur.name} > ${query}`
+      : `${cur.name} ${query}`
+    return cur
+  })
   return query
 }
 
@@ -248,19 +244,10 @@ function index(input: Element): number | null {
   if (!parent) {
     return null
   }
-  let child = parent.firstChild
-  if (!child) {
-    return null
-  }
-  let i = 0
-  while (child) {
-    if (child.nodeType === Node.ELEMENT_NODE) {
-      i++
-    }
-    if (child === input) {
-      break
-    }
-    child = child.nextSibling
+  let current: Element | null = input
+  let i = 1
+  while (current = current.previousElementSibling) {
+    i++
   }
   return i
 }
@@ -285,13 +272,13 @@ function maybe(...level: (Knot | null)[]): Knot[] | null {
 }
 
 function notEmpty<T>(value: T | null | undefined): value is T {
-  return value !== null && value !== undefined
+  return !!value
 }
 
 function* combinations(stack: Knot[][], path: Knot[] = []): Generator<Knot[]> {
   if (stack.length > 0) {
     for (let node of stack[0]) {
-      yield* combinations(stack.slice(1, stack.length), path.concat(node))
+      yield* combinations(stack.slice(1), path.concat(node))
     }
   } else {
     yield path
@@ -315,7 +302,7 @@ function* optimize(
     visited: new Map<string, boolean>(),
   }
 ): Generator<Knot[]> {
-  if (path.length > 2 && path.length > config.optimizedMinLength) {
+  if (path.length > Math.max(2, config.optimizedMinLength)) {
     for (let i = 1; i < path.length - 1; i++) {
       if (scope.counter > config.maxNumberOfTries) {
         return // Okay At least I tried!
@@ -327,7 +314,7 @@ function* optimize(
       if (scope.visited.has(newPathKey)) {
         return
       }
-      if (unique(newPath) && same(newPath, input)) {
+      if (unique(newPath) && same(newPathKey, input)) {
         yield newPath
         scope.visited.set(newPathKey, true)
         yield* optimize(newPath, input, scope)
@@ -336,6 +323,6 @@ function* optimize(
   }
 }
 
-function same(path: Path, input: Element) {
-  return rootDocument.querySelector(selector(path)) === input
+function same(pathKey: string, input: Element) {
+  return rootDocument.querySelector(pathKey) === input
 }
