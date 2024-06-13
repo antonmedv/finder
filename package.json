@@ -6,7 +6,7 @@
   "main": "finder.js",
   "types": "finder.d.ts",
   "files": [
-    "*.ts",
+    "*.d.ts",
     "*.js"
   ],
   "scripts": {
