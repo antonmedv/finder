@@ -97,28 +97,30 @@ function bottomUpSearch(
       maybe(...classNames(current)) ||
       maybe(tagName(current)) || [any()]
     const nth = index(current)
+    const nthType = index(current, true)
+
     if (limit == 'all') {
-      if (nth) {
+      if (nth && nthType) {
         level = level.concat(
-          level.filter(dispensableNth).map((node) => nthChild(node, nth))
+          level.filter(dispensableNth).map((node) => nthChild(node, nth, nthType))
         )
       }
     } else if (limit == 'two') {
       level = level.slice(0, 1)
-      if (nth) {
+      if (nth && nthType) {
         level = level.concat(
-          level.filter(dispensableNth).map((node) => nthChild(node, nth))
+          level.filter(dispensableNth).map((node) => nthChild(node, nth, nthType))
         )
       }
     } else if (limit == 'one') {
       const [node] = (level = level.slice(0, 1))
-      if (nth && dispensableNth(node)) {
-        level = [nthChild(node, nth)]
+      if (nth && nthType && dispensableNth(node)) {
+        level = [nthChild(node, nth, nthType)]
       }
     } else if (limit == 'none') {
       level = [any()]
-      if (nth) {
-        level = [nthChild(level[0], nth)]
+      if (nth && nthType) {
+        level = [nthChild(level[0], nth, nthType)]
       }
     }
     for (let node of level) {
@@ -243,7 +245,7 @@ function any(): Knot {
   }
 }
 
-function index(input: Element): number | null {
+function index(input: Element, sameType: Boolean = false): number | null {
   const parent = input.parentNode
   if (!parent) {
     return null
@@ -255,7 +257,9 @@ function index(input: Element): number | null {
   let i = 0
   while (child) {
     if (child.nodeType === Node.ELEMENT_NODE) {
-      i++
+      if (!sameType || input.tagName === (child as Element).tagName) {
+	i++
+      }
     }
     if (child === input) {
       break
@@ -265,10 +269,18 @@ function index(input: Element): number | null {
   return i
 }
 
-function nthChild(node: Knot, i: number): Knot {
-  return {
-    name: node.name + `:nth-child(${i})`,
-    penalty: node.penalty + 1,
+function nthChild(node: Knot, i: number, i_of_type: number): Knot {
+  if (node.name.match(/^[a-z]+$/)) {
+    // a plain tag name
+    return {
+      name: `${node.name}:nth-of-type(${i_of_type})`,
+      penalty: node.penalty + 1,
+    }
+  } else {
+    return {
+      name: `${node.name}:nth-child(${i})`,
+      penalty: node.penalty + 1,
+    }
   }
 }
 
