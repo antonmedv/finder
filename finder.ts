@@ -266,8 +266,9 @@ function index(input: Element): number | null {
 }
 
 function nthChild(node: Knot, i: number): Knot {
+  const notTagName = node.name.match(/^[a-z]/) ? '' : node.name
   return {
-    name: node.name + `:nth-child(${i})`,
+    name: `${notTagName}:nth-child(${i})`,
     penalty: node.penalty + 1,
   }
 }
