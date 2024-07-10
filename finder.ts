@@ -4,6 +4,7 @@
 
 type Knot = {
   name: string
+  nameAsChild?: string
   penalty: number
   level?: number
 }
@@ -162,11 +163,15 @@ function findUniquePath(
 function selector(path: Path): string {
   let node = path[0]
   let query = node.name
+  let queryAsChild = node.nameAsChild || node.name
   for (let i = 1; i < path.length; i++) {
     const level = path[i].level || 0
+    let nameAsChild = path[i].nameAsChild || path[i].name
     if (node.level === level - 1) {
-      query = `${path[i].name} > ${query}`
+      query = `${path[i].name} > ${queryAsChild}`
+      queryAsChild = `${nameAsChild} > ${queryAsChild}`
     } else {
+      queryAsChild = `${nameAsChild} ${query}`
       query = `${path[i].name} ${query}`
     }
     node = path[i]
@@ -268,6 +273,7 @@ function index(input: Element): number | null {
 function nthChild(node: Knot, i: number): Knot {
   return {
     name: node.name + `:nth-child(${i})`,
+    nameAsChild: `:nth-child(${i})`,
     penalty: node.penalty + 1,
   }
 }
