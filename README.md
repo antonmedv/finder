@@ -22,12 +22,12 @@ npm install @medv/finder
 ## Usage 
 
 ```js
-import {finder} from '@medv/finder'
+import { finder } from '@medv/finder';
 
-document.addEventListener('click', event => {
-  const selector = finder(event.target)
-  console.log(selector)  
-})
+document.addEventListener('click', (event) => {
+  const selector = finder(event.target);
+  console.log(selector);
+});
 ```
 
 ## Example
@@ -52,19 +52,19 @@ const selector = finder(event.target, {
   threshold: 1000,
   maxNumberOfTries: 10_000,
   timeoutMs: undefined,
-})
+});
 ```
 
 ### seedMinLength
 
-Minimum length of levels in fining selector. Starts from `1`. 
+Minimum length of levels in finding selector. Starts from `1`. 
 For more robust selectors give this param value around 4-5 depending on depth of
 you DOM tree. If finder hits the `root`, this param is ignored.
 
 ### optimizedMinLength
 
-Minimum length for optimising selector. Starts from `2`. 
-For example selector `body > div > div > p` can be optimised to `body p`.
+Minimum length for optimizing selector. Starts from `2`. 
+For example selector `body > div > div > p` can be optimized to `body p`.
 
 ### threshold
 
