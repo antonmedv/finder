@@ -53,10 +53,7 @@ function bottomUpSearch(input, limit, fallback) {
     let current = input;
     let i = 0;
     while (current) {
-        const elapsedTime = new Date().getTime() - start.getTime();
-        if (config.timeoutMs !== undefined && elapsedTime > config.timeoutMs) {
-            throw new Error(`Timeout: Can't find a unique selector after ${elapsedTime}ms`);
-        }
+        checkTimeout();
         let level = maybe(id(current)) ||
             maybe(...attr(current)) ||
             maybe(...classNames(current)) ||
@@ -107,10 +104,11 @@ function bottomUpSearch(input, limit, fallback) {
     return path;
 }
 function findUniquePath(stack, fallback) {
-    const paths = sort(combinations(stack));
-    if (paths.length > config.threshold) {
+    const numberOfCombinations = stack.reduce((acc, level) => acc * level.length, 1);
+    if (numberOfCombinations > config.threshold) {
         return fallback ? fallback() : null;
     }
+    const paths = sort(combinations(stack));
     for (let candidate of paths) {
         if (unique(candidate)) {
             return candidate;
@@ -266,4 +264,10 @@ function* optimize(path, input, scope = {
 }
 function same(path, input) {
     return rootDocument.querySelector(selector(path)) === input;
+}
+function checkTimeout() {
+    const elapsedTime = new Date().getTime() - start.getTime();
+    if (config.timeoutMs !== undefined && elapsedTime > config.timeoutMs) {
+        throw new Error(`Timeout: Can't find a unique selector after ${elapsedTime}ms`);
+    }
 }

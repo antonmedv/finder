@@ -81,33 +81,33 @@ function findRootDocument(rootNode: Element | Document, defaults: Options) {
 function bottomUpSearch(
   input: Element,
   limit: 'all' | 'two' | 'one' | 'none',
-  fallback?: () => Path | null
+  fallback?: () => Path | null,
 ): Path | null {
   let path: Path | null = null
   let stack: Knot[][] = []
   let current: Element | null = input
   let i = 0
   while (current) {
-    const elapsedTime = new Date().getTime() - start.getTime();
-    if (config.timeoutMs !== undefined && elapsedTime > config.timeoutMs) {
-      throw new Error(`Timeout: Can't find a unique selector after ${elapsedTime}ms`)
-    }
-    let level: Knot[] = maybe(id(current)) ||
+    checkTimeout()
+
+    let level: Knot[] =
+      maybe(id(current)) ||
       maybe(...attr(current)) ||
       maybe(...classNames(current)) ||
       maybe(tagName(current)) || [any()]
+
     const nth = index(current)
     if (limit == 'all') {
       if (nth) {
         level = level.concat(
-          level.filter(dispensableNth).map((node) => nthChild(node, nth))
+          level.filter(dispensableNth).map((node) => nthChild(node, nth)),
         )
       }
     } else if (limit == 'two') {
       level = level.slice(0, 1)
       if (nth) {
         level = level.concat(
-          level.filter(dispensableNth).map((node) => nthChild(node, nth))
+          level.filter(dispensableNth).map((node) => nthChild(node, nth)),
         )
       }
     } else if (limit == 'one') {
@@ -145,12 +145,13 @@ function bottomUpSearch(
 
 function findUniquePath(
   stack: Knot[][],
-  fallback?: () => Path | null
+  fallback?: () => Path | null,
 ): Path | null {
-  const paths = sort(combinations(stack))
-  if (paths.length > config.threshold) {
+  const numberOfCombinations = stack.reduce((acc, level) => acc * level.length, 1)
+  if (numberOfCombinations > config.threshold) {
     return fallback ? fallback() : null
   }
+  const paths = sort(combinations(stack))
   for (let candidate of paths) {
     if (unique(candidate)) {
       return candidate
@@ -183,7 +184,7 @@ function unique(path: Path) {
   switch (rootDocument.querySelectorAll(css).length) {
     case 0:
       throw new Error(
-        `Can't select any node with this selector: ${css}`
+        `Can't select any node with this selector: ${css}`,
       )
     case 1:
       return true
@@ -205,13 +206,13 @@ function id(input: Element): Knot | null {
 
 function attr(input: Element): Knot[] {
   const attrs = Array.from(input.attributes).filter((attr) =>
-    config.attr(attr.name, attr.value)
+    config.attr(attr.name, attr.value),
   )
   return attrs.map(
     (attr): Knot => ({
       name: `[${CSS.escape(attr.name)}="${CSS.escape(attr.value)}"]`,
       penalty: 0.5,
-    })
+    }),
   )
 }
 
@@ -221,7 +222,7 @@ function classNames(input: Element): Knot[] {
     (name): Knot => ({
       name: '.' + CSS.escape(name),
       penalty: 1,
-    })
+    }),
   )
 }
 
@@ -313,7 +314,7 @@ function* optimize(
   scope: Scope = {
     counter: 0,
     visited: new Map<string, boolean>(),
-  }
+  },
 ): Generator<Knot[]> {
   if (path.length > 2 && path.length > config.optimizedMinLength) {
     for (let i = 1; i < path.length - 1; i++) {
@@ -338,4 +339,11 @@ function* optimize(
 
 function same(path: Path, input: Element) {
   return rootDocument.querySelector(selector(path)) === input
+}
+
+function checkTimeout() {
+  const elapsedTime = new Date().getTime() - start.getTime()
+  if (config.timeoutMs !== undefined && elapsedTime > config.timeoutMs) {
+    throw new Error(`Timeout: Can't find a unique selector after ${elapsedTime}ms`)
+  }
 }
