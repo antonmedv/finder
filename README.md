@@ -82,10 +82,6 @@ optimization and efficiency. Default `10_000` is good enough in most cases.
 
 Optional timeout in milliseconds. `undefined` (no timeout) by default. If `timeoutMs: 500` is provided, an error will be thrown if selector generation takes more than 500ms.
 
-## Become a sponsor
-
-Every line of code in my repositories 📖 signifies my unwavering commitment to open source 💡. Your support 🤝 ensures these projects keep thriving, innovating, and benefiting all 💼. If my work has ever resonated 🎵 or helped you, kindly consider showing love ❤️ by sponsoring. [**🚀 Sponsor Me Today! 🚀**](https://github.com/sponsors/antonmedv)
-
 ## License
 
 [MIT](LICENSE)
