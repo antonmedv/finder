@@ -47,6 +47,11 @@ test('deployer', () => {
   assert.fixture(selectors.join('\n') + '\n', readFileSync(__dirname + '/pages/deployer.org.txt', 'utf8'))
 })
 
+test('tailwindcss', () => {
+  const selectors = check(readFileSync(__dirname + '/pages/tailwindcss.html', 'utf8'))
+  assert.fixture(selectors.join('\n') + '\n', readFileSync(__dirname + '/pages/tailwindcss.txt', 'utf8'))
+})
+
 test('config:seed', () => {
   const html = `
   <div>
@@ -100,7 +105,7 @@ test('config:attr', () => {
   check(html, {
     attr: (name, value) => {
       return name !== 'data-test' && name === 'data-qa' && value % 2 === 0
-    }
+    },
   })
 })
 

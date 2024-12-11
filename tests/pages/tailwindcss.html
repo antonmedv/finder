@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<body class="bg-zinc-50 font-sans dark:bg-zinc-950">
+<div class="overflow-hidden">
+    <div class="px-4 pb-5 pt-7 ring-1 ring-zinc-950/5 dark:ring-white/5">
+        <div class="mx-auto flex items-center justify-between px-2 sm:px-4 lg:max-w-7xl">
+            <div class="flex items-center gap-2 sm:gap-4"><a aria-label="Home" href="/">
+                <svg class="h-6 text-zinc-950 sm:hidden dark:text-white forced-colors:text-[CanvasText]"
+                     fill="currentColor" viewBox="0 0 34 28">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M9.3311 0.166016L8.90235 0.408763L0.902352 13.7418L0.902344 14.2563L8.90234 27.5903L8.97771 27.6867L8.97871 27.6877L9.3321 27.834H25.3321L25.6857 26.9805L22.3527 23.6465L21.9991 23.5H12.2742L6.25596 14L12.2733 4.49902H21.9981L22.3517 4.35257L25.6847 1.01957L25.3311 0.166016H9.3311Z"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M27.836 5.07617L24.6 8.31317L24.5312 8.93422L27.7398 13.9997L24.5312 19.0651L24.6001 19.6862L27.8361 22.9222L28.6184 22.8259L33.7604 14.2569L33.7604 13.7424L28.6184 5.17242L27.836 5.07617Z"></path>
+                </svg>
+                <svg class="hidden h-6 text-zinc-950 sm:block dark:text-white forced-colors:text-[CanvasText]"
+                     fill="currentColor" viewBox="0 0 113 22">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M6.99906 0.5L6.57031 0.742752L0.570312 10.7428V11.2572L6.57031 21.2572L6.99906 21.5H18.9991L19.3526 20.6464L16.8526 18.1464L16.4991 18H9.27424L4.8409 11L9.27424 4H16.4991L16.8526 3.85355L19.3526 1.35355L18.9991 0.5H6.99906Z"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                          d="M20.7927 4.21875L18.3657 6.64575L18.2969 7.2668L20.6605 10.9993L18.2969 14.7318L18.3657 15.3529L20.7927 17.7799L21.5751 17.6835L25.4311 11.2565V10.7421L21.5751 4.31507L20.7927 4.21875Z"></path>
+                    <path
+                        d="M41.0629 18.2529C40.0969 18.2529 39.1729 18.0779 38.2909 17.7279C37.4249 17.3884 36.6385 16.8736 35.9809 16.2159C35.3229 15.5579 34.7909 14.7529 34.3849 13.8009C33.9929 12.8349 33.7969 11.7569 33.7969 10.5669C33.7969 9.39086 33.9999 8.33386 34.4059 7.39586C34.8119 6.44386 35.3509 5.64586 36.0229 5.00186C36.6826 4.3518 37.4688 3.8443 38.3329 3.51086C39.2011 3.16351 40.1277 2.98531 41.0629 2.98586C41.8968 2.98056 42.7262 3.10816 43.5199 3.36386C44.2899 3.60186 44.9619 3.95186 45.5359 4.41386C46.1217 4.85944 46.6141 5.41603 46.9849 6.05186C47.3769 6.68186 47.6289 7.38186 47.7409 8.15186H44.8639C44.6556 7.37614 44.1795 6.69917 43.5199 6.24086C42.8479 5.75086 42.0289 5.50586 41.0629 5.50586C40.4749 5.50586 39.9219 5.62486 39.4039 5.86286C38.8808 6.1047 38.4154 6.45554 38.0389 6.89186C37.6609 7.32586 37.3599 7.85786 37.1359 8.48786C36.9259 9.10386 36.8209 9.79686 36.8209 10.5669C36.8209 11.3369 36.9329 12.0439 37.1569 12.6879C37.3809 13.3319 37.6819 13.8779 38.0599 14.3259C38.4379 14.7739 38.8859 15.1239 39.4039 15.3759C39.9205 15.6275 40.4882 15.7569 41.0629 15.7539C42.0289 15.7539 42.8409 15.5159 43.4989 15.0399C44.1569 14.5639 44.6189 13.9129 44.8849 13.0869H47.7619C47.6318 13.8444 47.3611 14.5709 46.9639 15.2289C46.5931 15.8647 46.1007 16.4213 45.5149 16.8669C44.9013 17.314 44.2209 17.6613 43.4989 17.8959C42.7099 18.1388 41.8884 18.2592 41.0629 18.2529ZM57.0079 18.0009V16.4259C56.6978 16.988 56.2308 17.4477 55.6639 17.7489C55.0759 18.0709 54.3839 18.2319 53.5849 18.2319C52.9173 18.2353 52.255 18.1142 51.6319 17.8749C51.0354 17.6267 50.4985 17.2544 50.0569 16.7829C49.6089 16.2929 49.2519 15.6909 48.9869 14.9769C48.7339 14.2489 48.6079 13.4159 48.6079 12.4779C48.6079 11.5819 48.7409 10.7839 49.0079 10.0839C49.2879 9.38386 49.6509 8.79586 50.0989 8.31986C50.5479 7.85254 51.0922 7.48728 51.6949 7.24886C52.3009 6.99881 52.9503 6.87038 53.6059 6.87086C54.3899 6.87086 55.0619 7.02486 55.6219 7.33286C56.1959 7.62686 56.6369 8.02586 56.9449 8.52986V7.12286H59.6549V18.0009H57.0079ZM54.1939 16.0059C54.9639 16.0059 55.6219 15.6979 56.1679 15.0819C56.7279 14.4519 57.0079 13.5839 57.0079 12.4779C57.0079 11.4279 56.7349 10.6019 56.1889 9.99986C55.6569 9.39786 54.9919 9.09686 54.1939 9.09686C53.3819 9.09686 52.7099 9.39786 52.1779 9.99986C51.6459 10.6019 51.3799 11.4279 51.3799 12.4779C51.3799 13.5839 51.6459 14.4519 52.1779 15.0819C52.4227 15.3777 52.7311 15.6145 53.0802 15.7745C53.4292 15.9345 53.81 16.0136 54.1939 16.0059ZM62.4869 4.45586H65.1539V7.12286H67.6739V9.18086H65.1539V13.6119L62.4869 15.9429V9.18086H60.6599V7.12286H62.4869V4.45586ZM67.6739 18.0009H62.4869V15.9429H67.6739V18.0009ZM76.5019 18.0009V16.4259C76.1918 16.988 75.7248 17.4477 75.1579 17.7489C74.5699 18.0709 73.8779 18.2319 73.0789 18.2319C72.4113 18.2353 71.749 18.1142 71.1259 17.8749C70.5294 17.6267 69.9925 17.2544 69.5509 16.7829C69.1029 16.2929 68.7459 15.6909 68.4809 14.9769C68.2279 14.2489 68.1019 13.4159 68.1019 12.4779C68.1019 11.5819 68.2349 10.7839 68.5019 10.0839C68.7819 9.38386 69.1449 8.79586 69.5929 8.31986C70.0419 7.85254 70.5862 7.48728 71.1889 7.24886C71.7949 6.99881 72.4443 6.87038 73.0999 6.87086C73.8839 6.87086 74.5559 7.02486 75.1159 7.33286C75.6899 7.62686 76.1309 8.02586 76.4389 8.52986V7.12286H79.1489V18.0009H76.5019ZM73.6879 16.0059C74.4579 16.0059 75.1159 15.6979 75.6619 15.0819C76.2219 14.4519 76.5019 13.5839 76.5019 12.4779C76.5019 11.4279 76.2289 10.6019 75.6829 9.99986C75.1509 9.39786 74.4859 9.09686 73.6879 9.09686C72.8759 9.09686 72.2039 9.39786 71.6719 9.99986C71.1399 10.6019 70.8739 11.4279 70.8739 12.4779C70.8739 13.5839 71.1399 14.4519 71.6719 15.0819C71.9166 15.3777 72.2251 15.6145 72.5742 15.7745C72.9232 15.9345 73.304 16.0136 73.6879 16.0059ZM81.3299 18.0009V2.88086H84.0179V18.0009H81.3299ZM92.9789 7.12286H95.7509L89.8709 21.9909H87.0989L92.9789 7.12286ZM84.7469 7.12286H87.6239L90.3119 13.8429H87.6019L84.7469 7.12286ZM100.656 18.2529C100.039 18.2564 99.4251 18.1787 98.8289 18.0219C98.2886 17.8906 97.7764 17.663 97.3169 17.3499C96.8843 17.0429 96.5199 16.6496 96.2469 16.1949C95.9669 15.7329 95.7909 15.1869 95.7209 14.5569H98.2619C98.3599 15.1309 98.6329 15.5579 99.0819 15.8379C99.5289 16.1039 100.068 16.2369 100.698 16.2369C101.216 16.2369 101.678 16.1389 102.084 15.9429C102.504 15.7329 102.714 15.4109 102.714 14.9769C102.714 14.5849 102.525 14.2909 102.147 14.0949C101.783 13.8989 101.244 13.7379 100.53 13.6119L99.4379 13.4229C98.3459 13.2409 97.4849 12.8909 96.8549 12.3729C96.2389 11.8549 95.9309 11.1759 95.9309 10.3359C95.9309 9.78986 96.0429 9.29986 96.2669 8.86586C96.5049 8.43186 96.8269 8.06786 97.2329 7.77386C97.6594 7.46999 98.1355 7.24261 98.6399 7.10186C99.205 6.93106 99.7925 6.84611 100.383 6.84986C100.971 6.84986 101.531 6.92686 102.063 7.08086C102.609 7.22086 103.085 7.43786 103.491 7.73186C103.897 8.02586 104.233 8.38286 104.499 8.80286C104.779 9.22286 104.954 9.70586 105.024 10.2519H102.525C102.399 9.78986 102.14 9.44686 101.748 9.22286C101.37 8.98486 100.894 8.86586 100.32 8.86586C99.8019 8.86586 99.3609 8.97786 98.9969 9.20186C98.6469 9.42586 98.4719 9.71986 98.4719 10.0839C98.4719 10.4339 98.6259 10.6929 98.9339 10.8609C99.2419 11.0289 99.7039 11.1619 100.32 11.2599L101.412 11.4489C102.602 11.6589 103.547 12.0229 104.247 12.5409C104.947 13.0449 105.297 13.7659 105.297 14.7039C105.297 15.2779 105.164 15.7889 104.898 16.2369C104.643 16.674 104.3 17.0531 103.89 17.3499C103.436 17.6593 102.931 17.8867 102.399 18.0219C101.831 18.1769 101.245 18.2546 100.656 18.2529ZM107.387 4.45586H110.054V7.12286H112.574V9.18086H110.054V13.6119L107.387 15.9429V9.18086H105.56V7.12286H107.387V4.45586ZM112.574 18.0009H107.387V15.9429H112.574V18.0009Z"></path>
+                </svg>
+            </a></div>
+            <div class="flex items-center gap-4 sm:gap-8"><a
+                class="text-sm/6 font-medium text-zinc-700 outline-blue-500 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white"
+                href="https://catalyst-demo.tailwindui.com">Demo</a><a
+                class="text-sm/6 font-medium text-zinc-700 outline-blue-500 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white"
+                href="/docs">Docs</a><a
+                class="text-sm/6 font-medium text-zinc-700 outline-blue-500 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white"
+                href="https://tailwindui.com/templates/catalyst">Buy UI Kit <span aria-hidden="true">→</span></a>
+                <button type="button"
+                        class="inline-flex text-zinc-300 outline-blue-500 hover:text-zinc-400 dark:text-zinc-500 dark:hover:text-zinc-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                         data-slot="icon" class="size-5 dark:hidden">
+                        <path fill-rule="evenodd"
+                              d="M7.455 2.004a.75.75 0 0 1 .26.77 7 7 0 0 0 9.958 7.967.75.75 0 0 1 1.067.853A8.5 8.5 0 1 1 6.647 1.921a.75.75 0 0 1 .808.083Z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                         data-slot="icon" class="hidden size-5 text-zinc-300 hover:text-zinc-200 dark:inline">
+                        <path fill-rule="evenodd"
+                              d="M7.455 2.004a.75.75 0 0 1 .26.77 7 7 0 0 0 9.958 7.967.75.75 0 0 1 1.067.853A8.5 8.5 0 1 1 6.647 1.921a.75.75 0 0 1 .808.083Z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="px-4">
+        <div class="relative mx-auto lg:max-w-7xl">
+            <svg class="absolute -top-24 left-1/2 pointer-events-none" width="613" height="511" fill="none"
+                 xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path class="fill-black opacity-[0.03] dark:fill-white"
+                      d="M153.2 510.667 0 255.333 153.2 0h306.4l-63.833 63.833h-191.5l-121.284 191.5 121.284 191.5h191.5l63.833 63.834H153.2Z"></path>
+                <path class="fill-black opacity-[0.03] dark:fill-white"
+                      d="m452.383 153.203 64.676 102.133-64.676 102.133 61.969 61.97 98.457-164.103-98.457-164.103-61.969 61.97Z"></path>
+            </svg>
+            <main class="pb-40 pt-2">
+                <div class="relative grid gap-[17px] sm:grid-cols-2 xl:grid-cols-[repeat(15,_minmax(0,_1fr))]">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -top-[9px] left-0 right-0 row-start-2 ml-[calc(50%-50vw)] h-px w-screen"
+                         fill="none">
+                        <defs>
+                            <pattern id=":S1:" patternUnits="userSpaceOnUse" width="16" height="1">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0" x2="16" y1="0.5" y2="0.5"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:S1:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -top-[9px] left-0 right-0 row-start-3 ml-[calc(50%-50vw)] h-px w-screen"
+                         fill="none">
+                        <defs>
+                            <pattern id=":S2:" patternUnits="userSpaceOnUse" width="16" height="1">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0" x2="16" y1="0.5" y2="0.5"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:S2:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -top-[9px] left-0 right-0 row-start-4 ml-[calc(50%-50vw)] h-px w-screen xl:top-2"
+                         fill="none">
+                        <defs>
+                            <pattern id=":S3:" patternUnits="userSpaceOnUse" width="16" height="1">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0" x2="16" y1="0.5" y2="0.5"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:S3:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -top-[9px] left-0 right-0 row-start-5 ml-[calc(50%-50vw)] h-px w-screen xl:hidden"
+                         fill="none">
+                        <defs>
+                            <pattern id=":S4:" patternUnits="userSpaceOnUse" width="16" height="1">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0" x2="16" y1="0.5" y2="0.5"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:S4:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -top-[9px] left-0 right-0 row-start-6 ml-[calc(50%-50vw)] h-px w-screen md:top-2 xl:hidden"
+                         fill="none">
+                        <defs>
+                            <pattern id=":S5:" patternUnits="userSpaceOnUse" width="16" height="1">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0" x2="16" y1="0.5" y2="0.5"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:S5:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -top-[9px] left-0 right-0 row-start-7 ml-[calc(50%-50vw)] h-px w-screen sm:top-2 md:hidden"
+                         fill="none">
+                        <defs>
+                            <pattern id=":S6:" patternUnits="userSpaceOnUse" width="16" height="1">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0" x2="16" y1="0.5" y2="0.5"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:S6:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute left-0 right-0 top-2 row-start-8 ml-[calc(50%-50vw)] h-px w-screen sm:hidden"
+                         fill="none">
+                        <defs>
+                            <pattern id=":S7:" patternUnits="userSpaceOnUse" width="16" height="1">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0" x2="16" y1="0.5" y2="0.5"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:S7:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -left-[9px] top-[-88px] col-start-1 h-[calc(100%+88px+160px)] w-px"
+                         fill="none">
+                        <defs>
+                            <pattern id=":S8:" patternUnits="userSpaceOnUse" width="1" height="16">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0.5" x2="0.5" y1="0" y2="16"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:S8:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -left-[9px] top-[-88px] hidden h-[calc(100%+88px+160px)] w-px sm:col-start-2 sm:block xl:col-start-6"
+                         fill="none">
+                        <defs>
+                            <pattern id=":S9:" patternUnits="userSpaceOnUse" width="1" height="16">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0.5" x2="0.5" y1="0" y2="16"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:S9:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -left-[9px] top-[-88px] col-start-7 hidden h-[calc(100%+88px+160px)] w-px xl:block"
+                         fill="none">
+                        <defs>
+                            <pattern id=":Sa:" patternUnits="userSpaceOnUse" width="1" height="16">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0.5" x2="0.5" y1="0" y2="16"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:Sa:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -left-[9px] top-[-88px] col-start-10 hidden h-[calc(100%+88px+160px)] w-px xl:block"
+                         fill="none">
+                        <defs>
+                            <pattern id=":Sb:" patternUnits="userSpaceOnUse" width="1" height="16">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0.5" x2="0.5" y1="0" y2="16"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:Sb:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -left-[9px] top-[-88px] col-start-11 hidden h-[calc(100%+88px+160px)] w-px xl:block"
+                         fill="none">
+                        <defs>
+                            <pattern id=":Sc:" patternUnits="userSpaceOnUse" width="1" height="16">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0.5" x2="0.5" y1="0" y2="16"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:Sc:)"></rect>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="absolute -right-2 top-[-88px] col-start-3 h-[calc(100%+88px+160px)] w-px translate-x-1/2 sm:col-start-4 xl:col-start-[16]"
+                         fill="none">
+                        <defs>
+                            <pattern id=":Sd:" patternUnits="userSpaceOnUse" width="1" height="16">
+                                <line class="stroke-zinc-950 dark:stroke-white" x1="0.5" x2="0.5" y1="0" y2="16"
+                                      stroke-dasharray="2 2" stroke-width="1.5" stroke-opacity="0.1"
+                                      stroke-linejoin="round"></line>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#:Sd:)"></rect>
+                    </svg>
+                    <div class="relative xl:col-span-5">
+                        <div
+                            class="relative h-full w-full rounded-xl bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
+                            <div
+                                class="grid h-full w-full justify-items-center overflow-hidden place-items-center p-6 py-8 sm:p-8 lg:p-12">
+                                <div class="flex gap-x-6">
+                                    <button
+                                        class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;&gt;[data-slot=icon]]:-mx-0.5 [&amp;&gt;[data-slot=icon]]:my-0.5 [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 [&amp;&gt;[data-slot=icon]]:text-[--btn-icon] [&amp;&gt;[data-slot=icon]]:sm:my-1 [&amp;&gt;[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent bg-[--btn-border] dark:bg-[--btn-bg] before:absolute before:inset-0 before:-z-10 before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-[--btn-bg] before:shadow dark:before:hidden dark:border-white/5 after:absolute after:inset-0 after:-z-10 after:rounded-[calc(theme(borderRadius.lg)-1px)] after:shadow-[shadow:inset_0_1px_theme(colors.white/15%)] after:data-[active]:bg-[--btn-hover-overlay] after:data-[hover]:bg-[--btn-hover-overlay] dark:after:-inset-px dark:after:rounded-lg before:data-[disabled]:shadow-none after:data-[disabled]:shadow-none text-white [--btn-bg:theme(colors.zinc.900)] [--btn-border:theme(colors.zinc.950/90%)] [--btn-hover-overlay:theme(colors.white/10%)] dark:text-white dark:[--btn-bg:theme(colors.zinc.600)] dark:[--btn-hover-overlay:theme(colors.white/5%)] [--btn-icon:theme(colors.zinc.400)] data-[active]:[--btn-icon:theme(colors.zinc.300)] data-[hover]:[--btn-icon:theme(colors.zinc.300)] cursor-default"
+                                        type="button" data-headlessui-state=""><span
+                                        class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+                                        aria-hidden="true"></span>Button
+                                    </button>
+                                    <button
+                                        class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;&gt;[data-slot=icon]]:-mx-0.5 [&amp;&gt;[data-slot=icon]]:my-0.5 [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 [&amp;&gt;[data-slot=icon]]:text-[--btn-icon] [&amp;&gt;[data-slot=icon]]:sm:my-1 [&amp;&gt;[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-zinc-950/10 text-zinc-950 data-[active]:bg-zinc-950/[2.5%] data-[hover]:bg-zinc-950/[2.5%] dark:border-white/15 dark:text-white dark:[--btn-bg:transparent] dark:data-[active]:bg-white/5 dark:data-[hover]:bg-white/5 [--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)] cursor-default"
+                                        type="button" data-headlessui-state=""><span
+                                        class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+                                        aria-hidden="true"></span>Button
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative xl:col-span-5">
+                        <div
+                            class="relative h-full w-full rounded-xl bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
+                            <div
+                                class="grid h-full w-full justify-items-center overflow-hidden place-items-center p-6 py-8 sm:p-8 lg:p-12">
+                                <button type="button"
+                                        class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;&gt;[data-slot=icon]]:-mx-0.5 [&amp;&gt;[data-slot=icon]]:my-0.5 [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 [&amp;&gt;[data-slot=icon]]:text-[--btn-icon] [&amp;&gt;[data-slot=icon]]:sm:my-1 [&amp;&gt;[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent bg-[--btn-border] dark:bg-[--btn-bg] before:absolute before:inset-0 before:-z-10 before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-[--btn-bg] before:shadow dark:before:hidden dark:border-white/5 after:absolute after:inset-0 after:-z-10 after:rounded-[calc(theme(borderRadius.lg)-1px)] after:shadow-[shadow:inset_0_1px_theme(colors.white/15%)] after:data-[active]:bg-[--btn-hover-overlay] after:data-[hover]:bg-[--btn-hover-overlay] dark:after:-inset-px dark:after:rounded-lg before:data-[disabled]:shadow-none after:data-[disabled]:shadow-none text-white [--btn-bg:theme(colors.zinc.900)] [--btn-border:theme(colors.zinc.950/90%)] [--btn-hover-overlay:theme(colors.white/10%)] dark:text-white dark:[--btn-bg:theme(colors.zinc.600)] dark:[--btn-hover-overlay:theme(colors.white/5%)] [--btn-icon:theme(colors.zinc.400)] data-[active]:[--btn-icon:theme(colors.zinc.300)] data-[hover]:[--btn-icon:theme(colors.zinc.300)] cursor-default"
+                                        data-headlessui-state=""><span
+                                    class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+                                    aria-hidden="true"></span>Open dialog
+                                </button>
+                                <span hidden=""
+                                      style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative sm:col-span-2 md:col-span-1 xl:col-span-5">
+                        <div
+                            class="relative h-full w-full rounded-xl bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
+                            <div
+                                class="grid h-full w-full justify-items-center overflow-hidden place-items-center p-6 py-8 sm:p-8 lg:p-12">
+                                <div
+                                    class="w-full max-w-sm [&amp;&gt;[data-slot=label]+[data-slot=control]]:mt-3 [&amp;&gt;[data-slot=label]+[data-slot=description]]:mt-1 [&amp;&gt;[data-slot=description]+[data-slot=control]]:mt-3 [&amp;&gt;[data-slot=control]+[data-slot=description]]:mt-3 [&amp;&gt;[data-slot=control]+[data-slot=error]]:mt-3 [&amp;&gt;[data-slot=label]]:font-medium"
+                                    data-headlessui-state=""><label data-slot="label"
+                                                                    class="select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white"
+                                                                    id="headlessui-label-:R1dgl7qkva:"
+                                                                    for="headlessui-control-:R1gl7qkva:"
+                                                                    data-headlessui-state="">Country</label>
+                                    <button data-slot="control"
+                                            class="group relative block w-full before:absolute before:inset-px before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-white before:shadow dark:before:hidden focus:outline-none after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent after:data-[focus]:ring-2 after:data-[focus]:ring-blue-500 data-[disabled]:opacity-50 before:data-[disabled]:bg-zinc-950/5 before:data-[disabled]:shadow-none"
+                                            id="headlessui-control-:R1gl7qkva:" type="button" aria-haspopup="listbox"
+                                            aria-expanded="false" data-headlessui-state=""><span
+                                        class="relative block w-full appearance-none rounded-lg py-[calc(theme(spacing[2.5])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] min-h-11 sm:min-h-9 pl-[calc(theme(spacing[3.5])-1px)] pr-[calc(theme(spacing.7)-1px)] sm:pl-[calc(theme(spacing.3)-1px)] text-left text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white forced-colors:text-[CanvasText] border border-zinc-950/10 group-data-[active]:border-zinc-950/20 group-data-[hover]:border-zinc-950/20 dark:border-white/10 dark:group-data-[active]:border-white/20 dark:group-data-[hover]:border-white/20 bg-transparent dark:bg-white/5 group-data-[invalid]:border-red-500 group-data-[invalid]:group-data-[hover]:border-red-500 group-data-[invalid]:dark:border-red-600 group-data-[invalid]:data-[hover]:dark:border-red-600 group-data-[disabled]:border-zinc-950/20 group-data-[disabled]:opacity-100 group-data-[disabled]:dark:border-white/15 group-data-[disabled]:dark:bg-white/[2.5%] dark:data-[hover]:group-data-[disabled]:border-white/15"><div
+                                        class="flex min-w-0 items-center [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 sm:[&amp;&gt;[data-slot=icon]]:size-4 [&amp;&gt;[data-slot=icon]]:text-zinc-500 [&amp;&gt;[data-slot=icon]]:group-data-[focus]/option:text-white [&amp;&gt;[data-slot=icon]]:dark:text-zinc-400 forced-colors:[&amp;&gt;[data-slot=icon]]:text-[CanvasText] forced-colors:[&amp;&gt;[data-slot=icon]]:group-data-[focus]/option:text-[Canvas] [&amp;&gt;[data-slot=avatar]]:-mx-0.5 [&amp;&gt;[data-slot=avatar]]:size-6 sm:[&amp;&gt;[data-slot=avatar]]:size-5"
+                                        data-headlessui-state="selected selected-option" data-selected=""
+                                        data-selected-option=""><svg class="w-5 sm:w-4" viewBox="0 0 16 12" fill="none"><g
+                                        clip-path="url(#clip0_270_55097)"><path fill="#fff" d="M0 0H16V12H0z"></path><path
+                                        fill-rule="evenodd" clip-rule="evenodd" d="M4 0h8.5v12H4V0z"
+                                        fill="#F7FCFF"></path><path fill-rule="evenodd" clip-rule="evenodd"
+                                                                    d="M7.164 4.201L7.987 3 8 10h-.343l.21-1.732s-2.305.423-2.115.21c.191-.214.3-.606.3-.606L4 6.474s.324-.004.587-.164c.264-.16-.263-1.109-.263-1.109l1.036.154.392-.435.782.836h.352l-.352-1.914.63.36zM8 10V3l.836 1.201.63-.359-.352 1.914h.352l.782-.836.392.435 1.036-.154s-.527.949-.263 1.109c.263.16.587.164.587.164L9.947 7.872s.11.392.3.606c.191.213-2.115-.21-2.115-.21L8.342 10H8zM12 0h4v12h-4V0zM0 0h4v12H0V0z"
+                                                                    fill="#E31D1C"></path></g><defs><clipPath
+                                        id="clip0_270_55097"><path fill="#fff"
+                                                                   d="M0 0H16V12H0z"></path></clipPath></defs></svg><span
+                                        class="ml-2.5 truncate first:ml-0 sm:ml-2 sm:first:ml-0">Canada</span></div></span><span
+                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"><svg
+                                        class="size-5 stroke-zinc-500 group-data-[disabled]:stroke-zinc-600 sm:size-4 dark:stroke-zinc-400 forced-colors:stroke-[CanvasText]"
+                                        viewBox="0 0 16 16" aria-hidden="true" fill="none"><path
+                                        d="M5.75 10.75L8 13L10.25 10.75" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"></path><path d="M10.25 5.25L8 3L5.75 5.25"
+                                                                             stroke-width="1.5" stroke-linecap="round"
+                                                                             stroke-linejoin="round"></path></svg></span>
+                                    </button>
+                                    <p data-slot="description"
+                                       class="text-base/6 text-zinc-500 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-zinc-400"
+                                       id="headlessui-description-:R3dgl7qkva:" data-headlessui-state="">We currently
+                                        only ship to North America.</p><span hidden=""
+                                                                             style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative sm:col-span-2 md:col-span-1 xl:col-span-6">
+                        <div
+                            class="relative h-full w-full rounded-xl bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
+                            <div
+                                class="grid h-full w-full justify-items-center overflow-hidden place-items-start justify-items-center p-6 py-8 sm:p-8 lg:p-12">
+                                <form class="w-full max-w-sm space-y-8"><h3
+                                    class="text-lg/7 font-semibold tracking-[-0.015em] text-zinc-950 sm:text-base/7 dark:text-white">
+                                    Sign in</h3>
+                                    <fieldset
+                                        class="[&amp;&gt;*+[data-slot=control]]:mt-6 [&amp;&gt;[data-slot=text]]:mt-1"
+                                        data-headlessui-state="">
+                                        <div data-slot="control" class="space-y-8">
+                                            <div
+                                                class="[&amp;&gt;[data-slot=label]+[data-slot=control]]:mt-3 [&amp;&gt;[data-slot=label]+[data-slot=description]]:mt-1 [&amp;&gt;[data-slot=description]+[data-slot=control]]:mt-3 [&amp;&gt;[data-slot=control]+[data-slot=description]]:mt-3 [&amp;&gt;[data-slot=control]+[data-slot=error]]:mt-3 [&amp;&gt;[data-slot=label]]:font-medium"
+                                                data-headlessui-state=""><label data-slot="label"
+                                                                                class="select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white"
+                                                                                id="headlessui-label-:R1d9hl7qkva:"
+                                                                                for="headlessui-control-:R19hl7qkva:"
+                                                                                data-headlessui-state="">Username</label><span
+                                                data-slot="control"
+                                                class="relative block w-full before:absolute before:inset-px before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-white before:shadow dark:before:hidden after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent sm:after:focus-within:ring-2 sm:after:focus-within:ring-blue-500 has-[[data-disabled]]:opacity-50 before:has-[[data-disabled]]:bg-zinc-950/5 before:has-[[data-disabled]]:shadow-none before:has-[[data-invalid]]:shadow-red-500/10"><input
+                                                class="relative block w-full appearance-none rounded-lg px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing[3])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white border border-zinc-950/10 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-500 data-[invalid]:data-[hover]:dark:border-red-500 data-[disabled]:border-zinc-950/20 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%] dark:[color-scheme:dark]"
+                                                id="headlessui-control-:R19hl7qkva:" data-headlessui-state=""
+                                                name="username"/></span><span hidden=""
+                                                                              style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"></span>
+                                            </div>
+                                            <div
+                                                class="[&amp;&gt;[data-slot=label]+[data-slot=control]]:mt-3 [&amp;&gt;[data-slot=label]+[data-slot=description]]:mt-1 [&amp;&gt;[data-slot=description]+[data-slot=control]]:mt-3 [&amp;&gt;[data-slot=control]+[data-slot=description]]:mt-3 [&amp;&gt;[data-slot=control]+[data-slot=error]]:mt-3 [&amp;&gt;[data-slot=label]]:font-medium"
+                                                data-headlessui-state=""><label data-slot="label"
+                                                                                class="select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white"
+                                                                                id="headlessui-label-:R1e9hl7qkva:"
+                                                                                for="headlessui-control-:R29hl7qkva:"
+                                                                                data-headlessui-state="">Password</label><span
+                                                data-slot="control"
+                                                class="relative block w-full before:absolute before:inset-px before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-white before:shadow dark:before:hidden after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent sm:after:focus-within:ring-2 sm:after:focus-within:ring-blue-500 has-[[data-disabled]]:opacity-50 before:has-[[data-disabled]]:bg-zinc-950/5 before:has-[[data-disabled]]:shadow-none before:has-[[data-invalid]]:shadow-red-500/10"><input
+                                                type="password"
+                                                class="relative block w-full appearance-none rounded-lg px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing[3])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white border border-zinc-950/10 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-500 data-[invalid]:data-[hover]:dark:border-red-500 data-[disabled]:border-zinc-950/20 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%] dark:[color-scheme:dark]"
+                                                id="headlessui-control-:R29hl7qkva:" data-headlessui-state=""
+                                                name="password"/></span><span hidden=""
+                                                                              style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"></span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="flex flex-wrap justify-between gap-2">
+                                        <div class="flex items-center gap-2" data-headlessui-state="">
+                                            <button data-slot="control"
+                                                    class="group relative isolate inline-flex h-6 w-10 cursor-default rounded-full p-[3px] sm:h-5 sm:w-8 transition duration-0 ease-in-out data-[changing]:duration-200 forced-colors:outline forced-colors:[--switch-bg:Highlight] dark:forced-colors:[--switch-bg:Highlight] bg-zinc-200 ring-1 ring-inset ring-black/5 dark:bg-white/5 dark:ring-white/15 data-[checked]:bg-[--switch-bg] data-[checked]:ring-[--switch-bg-ring] dark:data-[checked]:bg-[--switch-bg] dark:data-[checked]:ring-[--switch-bg-ring] focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[hover]:data-[checked]:ring-[--switch-bg-ring] data-[hover]:ring-black/15 dark:data-[hover]:data-[checked]:ring-[--switch-bg-ring] dark:data-[hover]:ring-white/25 data-[disabled]:bg-zinc-200 data-[disabled]:data-[checked]:bg-zinc-200 data-[disabled]:opacity-50 data-[disabled]:data-[checked]:ring-black/5 dark:data-[disabled]:bg-white/15 dark:data-[disabled]:data-[checked]:bg-white/15 dark:data-[disabled]:data-[checked]:ring-white/15 [--switch-bg-ring:theme(colors.zinc.950/90%)] [--switch-bg:theme(colors.zinc.900)] dark:[--switch-bg-ring:transparent] dark:[--switch-bg:theme(colors.white/25%)] [--switch-ring:theme(colors.zinc.950/90%)] [--switch-shadow:theme(colors.black/10%)] [--switch:white] dark:[--switch-ring:theme(colors.zinc.700/90%)]"
+                                                    id="headlessui-control-:R1dhl7qkva:" role="switch" type="button"
+                                                    tabindex="0" aria-checked="false" data-headlessui-state=""><span
+                                                aria-hidden="true"
+                                                class="pointer-events-none relative inline-block size-[1.125rem] rounded-full sm:size-3.5 translate-x-0 transition duration-200 ease-in-out border border-transparent bg-white shadow ring-1 ring-black/5 group-data-[checked]:bg-[--switch] group-data-[checked]:shadow-[--switch-shadow] group-data-[checked]:ring-[--switch-ring] group-data-[checked]:translate-x-4 sm:group-data-[checked]:translate-x-3 group-data-[disabled]:group-data-[checked]:bg-white group-data-[disabled]:group-data-[checked]:shadow group-data-[disabled]:group-data-[checked]:ring-black/5"></span>
+                                            </button>
+                                            <label data-slot="label"
+                                                   class="select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white"
+                                                   id="headlessui-label-:R2ddhl7qkva:"
+                                                   for="headlessui-control-:R1dhl7qkva:" data-headlessui-state="">Remember
+                                                <span class="hidden sm:inline">me</span></label><span hidden=""
+                                                                                                      style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"></span>
+                                        </div>
+                                        <p data-slot="text"
+                                           class="text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400"><a href="#"
+                                                                                                                class="font-semibold text-zinc-950 hover:text-zinc-700 dark:text-white dark:hover:text-zinc-300">Forgot
+                                            password?</a></p></div>
+                                    <button
+                                        class="w-full relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;&gt;[data-slot=icon]]:-mx-0.5 [&amp;&gt;[data-slot=icon]]:my-0.5 [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 [&amp;&gt;[data-slot=icon]]:text-[--btn-icon] [&amp;&gt;[data-slot=icon]]:sm:my-1 [&amp;&gt;[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent bg-[--btn-border] dark:bg-[--btn-bg] before:absolute before:inset-0 before:-z-10 before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-[--btn-bg] before:shadow dark:before:hidden dark:border-white/5 after:absolute after:inset-0 after:-z-10 after:rounded-[calc(theme(borderRadius.lg)-1px)] after:shadow-[shadow:inset_0_1px_theme(colors.white/15%)] after:data-[active]:bg-[--btn-hover-overlay] after:data-[hover]:bg-[--btn-hover-overlay] dark:after:-inset-px dark:after:rounded-lg before:data-[disabled]:shadow-none after:data-[disabled]:shadow-none text-white [--btn-bg:theme(colors.zinc.900)] [--btn-border:theme(colors.zinc.950/90%)] [--btn-hover-overlay:theme(colors.white/10%)] dark:text-white dark:[--btn-bg:theme(colors.zinc.600)] dark:[--btn-hover-overlay:theme(colors.white/5%)] [--btn-icon:theme(colors.zinc.400)] data-[active]:[--btn-icon:theme(colors.zinc.300)] data-[hover]:[--btn-icon:theme(colors.zinc.300)] cursor-default"
+                                        type="button" data-headlessui-state=""><span
+                                        class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+                                        aria-hidden="true"></span>Get started
+                                    </button>
+                                    <p data-slot="text"
+                                       class="text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">Don’t have an
+                                        account?<!-- --> <a href="#"
+                                                            class="font-semibold text-zinc-950 hover:text-zinc-700 dark:text-white dark:hover:text-zinc-300">Sign
+                                            up</a></p></form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative sm:col-span-2 xl:col-span-9">
+                        <div
+                            class="relative h-full w-full rounded-xl bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
+                            <div
+                                class="grid h-full w-full justify-items-center overflow-hidden place-items-start justify-items-center p-6 py-8 sm:p-8 lg:p-12">
+                                <div class="w-full min-w-0"><h3
+                                    class="text-lg/7 font-semibold tracking-[-0.015em] text-zinc-950 sm:text-base/7 dark:text-white">
+                                    Recent orders</h3>
+                                    <div class="flow-root">
+                                        <div
+                                            class="mt-6 [--gutter:theme(spacing.6)] sm:[--gutter:theme(spacing.8)] lg:[--gutter:theme(spacing.12)] -mx-[--gutter] overflow-x-auto whitespace-nowrap">
+                                            <div class="inline-block min-w-full align-middle sm:px-[--gutter]">
+                                                <table
+                                                    class="min-w-full text-left text-sm/6 text-zinc-950 dark:text-white">
+                                                    <thead class="text-zinc-500 dark:text-zinc-400">
+                                                    <tr class="">
+                                                        <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                                                            Purchase date
+                                                        </th>
+                                                        <th class="border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                                                            Customer
+                                                        </th>
+                                                        <th class="text-right border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                                                            Amount
+                                                        </th>
+                                                        <th class="relative w-0 border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                                                            <span class="sr-only">Status</span></th>
+                                                        <th class="relative w-0 border-b border-b-zinc-950/10 px-4 py-2 font-medium first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] dark:border-b-white/10 sm:first:pl-1 sm:last:pr-1">
+                                                            <span class="sr-only">Actions</span></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="">
+                                                        <td class="text-zinc-500 dark:text-zinc-400 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            Mar 6, 2023
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="flex items-center gap-2"><span
+                                                                data-slot="avatar"
+                                                                class="relative size-5 inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1 outline outline-1 -outline-offset-1 outline-black/[--ring-opacity] dark:outline-white/[--ring-opacity] rounded-full *:rounded-full"><img
+                                                                class="size-full"
+                                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                                                                alt=""/></span><span class="font-medium">Leslie Alexander</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-right font-medium relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            CA$60.00
+                                                        </td>
+                                                        <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <span
+                                                                class="-my-0.5 inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">Success</span>
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="-mx-3 -my-1.5 sm:-mx-2.5">
+                                                                <button aria-label="More options"
+                                                                        id="headlessui-menu-button-:R3qj9il7qkva:"
+                                                                        type="button" aria-haspopup="menu"
+                                                                        aria-expanded="false" data-headlessui-state=""
+                                                                        class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;&gt;[data-slot=icon]]:-mx-0.5 [&amp;&gt;[data-slot=icon]]:my-0.5 [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 [&amp;&gt;[data-slot=icon]]:text-[--btn-icon] [&amp;&gt;[data-slot=icon]]:sm:my-1 [&amp;&gt;[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent text-zinc-950 data-[active]:bg-zinc-950/5 data-[hover]:bg-zinc-950/5 dark:text-white dark:data-[active]:bg-white/10 dark:data-[hover]:bg-white/10 [--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:[--btn-icon:theme(colors.zinc.500)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)] cursor-default">
+                                                                    <span
+                                                                        class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+                                                                        aria-hidden="true"></span>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                         viewBox="0 0 16 16" fill="currentColor"
+                                                                         aria-hidden="true" data-slot="icon">
+                                                                        <path
+                                                                            d="M8 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM8 6.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM9.5 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="">
+                                                        <td class="text-zinc-500 dark:text-zinc-400 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            Mar 6, 2023
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="flex items-center gap-2"><span
+                                                                data-slot="avatar"
+                                                                class="relative size-5 inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1 outline outline-1 -outline-offset-1 outline-black/[--ring-opacity] dark:outline-white/[--ring-opacity] rounded-full *:rounded-full"><img
+                                                                class="size-full"
+                                                                src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                                                                alt=""/></span><span
+                                                                class="font-medium">Michael Foster</span></div>
+                                                        </td>
+                                                        <td class="text-right font-medium relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            CA$60.00
+                                                        </td>
+                                                        <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <span
+                                                                class="-my-0.5 inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">Success</span>
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="-mx-3 -my-1.5 sm:-mx-2.5">
+                                                                <button aria-label="More options"
+                                                                        id="headlessui-menu-button-:R3ql9il7qkva:"
+                                                                        type="button" aria-haspopup="menu"
+                                                                        aria-expanded="false" data-headlessui-state=""
+                                                                        class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;&gt;[data-slot=icon]]:-mx-0.5 [&amp;&gt;[data-slot=icon]]:my-0.5 [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 [&amp;&gt;[data-slot=icon]]:text-[--btn-icon] [&amp;&gt;[data-slot=icon]]:sm:my-1 [&amp;&gt;[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent text-zinc-950 data-[active]:bg-zinc-950/5 data-[hover]:bg-zinc-950/5 dark:text-white dark:data-[active]:bg-white/10 dark:data-[hover]:bg-white/10 [--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:[--btn-icon:theme(colors.zinc.500)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)] cursor-default">
+                                                                    <span
+                                                                        class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+                                                                        aria-hidden="true"></span>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                         viewBox="0 0 16 16" fill="currentColor"
+                                                                         aria-hidden="true" data-slot="icon">
+                                                                        <path
+                                                                            d="M8 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM8 6.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM9.5 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="">
+                                                        <td class="text-zinc-500 dark:text-zinc-400 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            Mar 4, 2023
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="flex items-center gap-2"><span
+                                                                data-slot="avatar"
+                                                                class="relative size-5 inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1 outline outline-1 -outline-offset-1 outline-black/[--ring-opacity] dark:outline-white/[--ring-opacity] rounded-full *:rounded-full"><img
+                                                                class="size-full"
+                                                                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                                                                alt=""/></span><span
+                                                                class="font-medium">Dries Vincent</span></div>
+                                                        </td>
+                                                        <td class="text-right font-medium relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            CA$60.00
+                                                        </td>
+                                                        <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <span
+                                                                class="-my-0.5 inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">Success</span>
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="-mx-3 -my-1.5 sm:-mx-2.5">
+                                                                <button aria-label="More options"
+                                                                        id="headlessui-menu-button-:R3qn9il7qkva:"
+                                                                        type="button" aria-haspopup="menu"
+                                                                        aria-expanded="false" data-headlessui-state=""
+                                                                        class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;&gt;[data-slot=icon]]:-mx-0.5 [&amp;&gt;[data-slot=icon]]:my-0.5 [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 [&amp;&gt;[data-slot=icon]]:text-[--btn-icon] [&amp;&gt;[data-slot=icon]]:sm:my-1 [&amp;&gt;[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent text-zinc-950 data-[active]:bg-zinc-950/5 data-[hover]:bg-zinc-950/5 dark:text-white dark:data-[active]:bg-white/10 dark:data-[hover]:bg-white/10 [--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:[--btn-icon:theme(colors.zinc.500)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)] cursor-default">
+                                                                    <span
+                                                                        class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+                                                                        aria-hidden="true"></span>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                         viewBox="0 0 16 16" fill="currentColor"
+                                                                         aria-hidden="true" data-slot="icon">
+                                                                        <path
+                                                                            d="M8 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM8 6.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM9.5 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="">
+                                                        <td class="text-zinc-500 dark:text-zinc-400 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            Mar 4, 2023
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="flex items-center gap-2"><span
+                                                                data-slot="avatar"
+                                                                class="relative size-5 inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1 outline outline-1 -outline-offset-1 outline-black/[--ring-opacity] dark:outline-white/[--ring-opacity] rounded-full *:rounded-full"><img
+                                                                class="size-full"
+                                                                src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                                                                alt=""/></span><span
+                                                                class="font-medium">Lindsay Walton</span></div>
+                                                        </td>
+                                                        <td class="text-right font-medium relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            CA$75.00
+                                                        </td>
+                                                        <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <span
+                                                                class="-my-0.5 inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">Success</span>
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="-mx-3 -my-1.5 sm:-mx-2.5">
+                                                                <button aria-label="More options"
+                                                                        id="headlessui-menu-button-:R3qp9il7qkva:"
+                                                                        type="button" aria-haspopup="menu"
+                                                                        aria-expanded="false" data-headlessui-state=""
+                                                                        class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;&gt;[data-slot=icon]]:-mx-0.5 [&amp;&gt;[data-slot=icon]]:my-0.5 [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 [&amp;&gt;[data-slot=icon]]:text-[--btn-icon] [&amp;&gt;[data-slot=icon]]:sm:my-1 [&amp;&gt;[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent text-zinc-950 data-[active]:bg-zinc-950/5 data-[hover]:bg-zinc-950/5 dark:text-white dark:data-[active]:bg-white/10 dark:data-[hover]:bg-white/10 [--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:[--btn-icon:theme(colors.zinc.500)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)] cursor-default">
+                                                                    <span
+                                                                        class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+                                                                        aria-hidden="true"></span>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                         viewBox="0 0 16 16" fill="currentColor"
+                                                                         aria-hidden="true" data-slot="icon">
+                                                                        <path
+                                                                            d="M8 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM8 6.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM9.5 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="">
+                                                        <td class="text-zinc-500 dark:text-zinc-400 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            Mar 4, 2023
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="flex items-center gap-2"><span
+                                                                data-slot="avatar"
+                                                                class="relative size-5 inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1 outline outline-1 -outline-offset-1 outline-black/[--ring-opacity] dark:outline-white/[--ring-opacity] rounded-full *:rounded-full"><img
+                                                                class="size-full"
+                                                                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                                                                alt=""/></span><span
+                                                                class="font-medium">Courtney Henry</span></div>
+                                                        </td>
+                                                        <td class="text-right font-medium relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            CA$60.00
+                                                        </td>
+                                                        <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <span
+                                                                class="-my-0.5 inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">Success</span>
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="-mx-3 -my-1.5 sm:-mx-2.5">
+                                                                <button aria-label="More options"
+                                                                        id="headlessui-menu-button-:R3qr9il7qkva:"
+                                                                        type="button" aria-haspopup="menu"
+                                                                        aria-expanded="false" data-headlessui-state=""
+                                                                        class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;&gt;[data-slot=icon]]:-mx-0.5 [&amp;&gt;[data-slot=icon]]:my-0.5 [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 [&amp;&gt;[data-slot=icon]]:text-[--btn-icon] [&amp;&gt;[data-slot=icon]]:sm:my-1 [&amp;&gt;[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent text-zinc-950 data-[active]:bg-zinc-950/5 data-[hover]:bg-zinc-950/5 dark:text-white dark:data-[active]:bg-white/10 dark:data-[hover]:bg-white/10 [--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:[--btn-icon:theme(colors.zinc.500)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)] cursor-default">
+                                                                    <span
+                                                                        class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+                                                                        aria-hidden="true"></span>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                         viewBox="0 0 16 16" fill="currentColor"
+                                                                         aria-hidden="true" data-slot="icon">
+                                                                        <path
+                                                                            d="M8 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM8 6.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM9.5 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="">
+                                                        <td class="text-zinc-500 dark:text-zinc-400 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            Mar 3, 2023
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="flex items-center gap-2"><span
+                                                                data-slot="avatar"
+                                                                class="relative size-5 inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1 outline outline-1 -outline-offset-1 outline-black/[--ring-opacity] dark:outline-white/[--ring-opacity] rounded-full *:rounded-full"><img
+                                                                class="size-full"
+                                                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                                                                alt=""/></span><span class="font-medium">Tom Cook</span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-right font-medium relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            CA$75.00
+                                                        </td>
+                                                        <td class="text-zinc-500 relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <span
+                                                                class="-my-0.5 inline-flex items-center gap-x-1.5 rounded-md px-1.5 py-0.5 text-sm/5 font-medium sm:text-xs/5 forced-colors:outline bg-lime-400/20 text-lime-700 group-data-[hover]:bg-lime-400/30 dark:bg-lime-400/10 dark:text-lime-300 dark:group-data-[hover]:bg-lime-400/15">Success</span>
+                                                        </td>
+                                                        <td class="relative px-4 first:pl-[var(--gutter,theme(spacing.2))] last:pr-[var(--gutter,theme(spacing.2))] border-b border-zinc-950/5 dark:border-white/5 py-4 sm:first:pl-1 sm:last:pr-1">
+                                                            <div class="-mx-3 -my-1.5 sm:-mx-2.5">
+                                                                <button aria-label="More options"
+                                                                        id="headlessui-menu-button-:R3qt9il7qkva:"
+                                                                        type="button" aria-haspopup="menu"
+                                                                        aria-expanded="false" data-headlessui-state=""
+                                                                        class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;&gt;[data-slot=icon]]:-mx-0.5 [&amp;&gt;[data-slot=icon]]:my-0.5 [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 [&amp;&gt;[data-slot=icon]]:text-[--btn-icon] [&amp;&gt;[data-slot=icon]]:sm:my-1 [&amp;&gt;[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-transparent text-zinc-950 data-[active]:bg-zinc-950/5 data-[hover]:bg-zinc-950/5 dark:text-white dark:data-[active]:bg-white/10 dark:data-[hover]:bg-white/10 [--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:[--btn-icon:theme(colors.zinc.500)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)] cursor-default">
+                                                                    <span
+                                                                        class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+                                                                        aria-hidden="true"></span>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                         viewBox="0 0 16 16" fill="currentColor"
+                                                                         aria-hidden="true" data-slot="icon">
+                                                                        <path
+                                                                            d="M8 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM8 6.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM9.5 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z"></path>
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative sm:col-span-2 xl:col-span-9">
+                        <div
+                            class="relative h-full w-full rounded-xl bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
+                            <div
+                                class="grid h-full w-full justify-items-center overflow-hidden place-items-start justify-items-center p-6 py-8 sm:p-8 lg:p-12">
+                                <div class="w-full min-w-0"><h3
+                                    class="text-lg/7 font-semibold tracking-[-0.015em] text-zinc-950 sm:text-base/7 dark:text-white">
+                                    Team members</h3>
+                                    <p data-slot="text"
+                                       class="mt-8 text-base/6 text-zinc-500 sm:text-sm/6 dark:text-zinc-400">Share this
+                                        link with your team to give them access to your organization.</p>
+                                    <div class="mt-3 flex max-w-md items-center gap-3 whitespace-nowrap"><span
+                                        data-slot="control"
+                                        class="relative block w-full before:absolute before:inset-px before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-white before:shadow dark:before:hidden after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent sm:after:focus-within:ring-2 sm:after:focus-within:ring-blue-500 has-[[data-disabled]]:opacity-50 before:has-[[data-disabled]]:bg-zinc-950/5 before:has-[[data-disabled]]:shadow-none before:has-[[data-invalid]]:shadow-red-500/10"><input
+                                        aria-label="Invite link" readOnly=""
+                                        class="relative block w-full appearance-none rounded-lg px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing[3])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white border border-zinc-950/10 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-500 data-[invalid]:data-[hover]:dark:border-red-500 data-[disabled]:border-zinc-950/20 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%] dark:[color-scheme:dark]"
+                                        id="headlessui-input-:R1djl7qkva:" data-headlessui-state=""
+                                        value="https://example.com/teams/invite/eHGJEj12FHDKSi"/></span>
+                                        <button
+                                            class="relative isolate inline-flex items-center justify-center gap-x-2 rounded-lg border text-base/6 font-semibold px-[calc(theme(spacing[3.5])-1px)] py-[calc(theme(spacing[2.5])-1px)] sm:px-[calc(theme(spacing.3)-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] sm:text-sm/6 focus:outline-none data-[focus]:outline data-[focus]:outline-2 data-[focus]:outline-offset-2 data-[focus]:outline-blue-500 data-[disabled]:opacity-50 [&amp;&gt;[data-slot=icon]]:-mx-0.5 [&amp;&gt;[data-slot=icon]]:my-0.5 [&amp;&gt;[data-slot=icon]]:size-5 [&amp;&gt;[data-slot=icon]]:shrink-0 [&amp;&gt;[data-slot=icon]]:text-[--btn-icon] [&amp;&gt;[data-slot=icon]]:sm:my-1 [&amp;&gt;[data-slot=icon]]:sm:size-4 forced-colors:[--btn-icon:ButtonText] forced-colors:data-[hover]:[--btn-icon:ButtonText] border-zinc-950/10 text-zinc-950 data-[active]:bg-zinc-950/[2.5%] data-[hover]:bg-zinc-950/[2.5%] dark:border-white/15 dark:text-white dark:[--btn-bg:transparent] dark:data-[active]:bg-white/5 dark:data-[hover]:bg-white/5 [--btn-icon:theme(colors.zinc.500)] data-[active]:[--btn-icon:theme(colors.zinc.700)] data-[hover]:[--btn-icon:theme(colors.zinc.700)] dark:data-[active]:[--btn-icon:theme(colors.zinc.400)] dark:data-[hover]:[--btn-icon:theme(colors.zinc.400)] cursor-default"
+                                            type="button" data-headlessui-state=""><span
+                                            class="absolute left-1/2 top-1/2 size-[max(100%,2.75rem)] -translate-x-1/2 -translate-y-1/2 [@media(pointer:fine)]:hidden"
+                                            aria-hidden="true"></span>Copy link
+                                        </button>
+                                    </div>
+                                    <div class="mt-3">
+                                        <button type="button"
+                                                class="text-base/6 font-medium text-zinc-950 hover:text-zinc-700 sm:text-sm/6 dark:text-white dark:hover:text-zinc-300">
+                                            Reset your invite link
+                                        </button>
+                                    </div>
+                                    <div
+                                        class="mt-8 divide-y divide-zinc-100 text-zinc-950 dark:divide-white/5 dark:text-white">
+                                        <div class="flex items-center justify-between gap-4 py-4">
+                                            <div class="flex min-w-0 items-center gap-2"><span data-slot="avatar"
+                                                                                               class="relative size-6 shrink-0 inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1 outline outline-1 -outline-offset-1 outline-black/[--ring-opacity] dark:outline-white/[--ring-opacity] rounded-full *:rounded-full"><img
+                                                class="size-full"
+                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                                                alt=""/></span><span class="truncate text-sm/6">leslie.alexander@example.com</span>
+                                            </div>
+                                            <div class="flex min-w-fit justify-end"><span data-slot="control"
+                                                                                          class="group relative block w-full before:absolute before:inset-px before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-white before:shadow dark:before:hidden after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent after:has-[[data-focus]]:ring-2 after:has-[[data-focus]]:ring-blue-500 has-[[data-disabled]]:opacity-50 before:has-[[data-disabled]]:bg-zinc-950/5 before:has-[[data-disabled]]:shadow-none"><select
+                                                class="relative block w-full appearance-none rounded-lg py-[calc(theme(spacing[2.5])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] pl-[calc(theme(spacing[3.5])-1px)] pr-[calc(theme(spacing.10)-1px)] sm:pl-[calc(theme(spacing.3)-1px)] sm:pr-[calc(theme(spacing.9)-1px)] [&amp;_optgroup]:font-semibold text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white dark:*:text-white border border-zinc-950/10 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 dark:*:bg-zinc-800 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-600 data-[invalid]:data-[hover]:dark:border-red-600 data-[disabled]:border-zinc-950/20 data-[disabled]:opacity-100 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%]"
+                                                id="headlessui-select-:Rpljl7qkva:" data-headlessui-state=""><option
+                                                selected="">Admin</option><option>Owner</option><option>Member</option></select><span
+                                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"><svg
+                                                class="size-5 stroke-zinc-500 group-has-[[data-disabled]]:stroke-zinc-600 sm:size-4 dark:stroke-zinc-400 forced-colors:stroke-[CanvasText]"
+                                                viewBox="0 0 16 16" aria-hidden="true" fill="none"><path
+                                                d="M5.75 10.75L8 13L10.25 10.75" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round"></path><path
+                                                d="M10.25 5.25L8 3L5.75 5.25" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round"></path></svg></span></span></div>
+                                        </div>
+                                        <div class="flex items-center justify-between gap-4 py-4">
+                                            <div class="flex min-w-0 items-center gap-2"><span data-slot="avatar"
+                                                                                               class="relative size-6 shrink-0 inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1 outline outline-1 -outline-offset-1 outline-black/[--ring-opacity] dark:outline-white/[--ring-opacity] rounded-full *:rounded-full"><img
+                                                class="size-full"
+                                                src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                                                alt=""/></span><span class="truncate text-sm/6">michael.foster@example.com</span>
+                                            </div>
+                                            <div class="flex min-w-fit justify-end"><span data-slot="control"
+                                                                                          class="group relative block w-full before:absolute before:inset-px before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-white before:shadow dark:before:hidden after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent after:has-[[data-focus]]:ring-2 after:has-[[data-focus]]:ring-blue-500 has-[[data-disabled]]:opacity-50 before:has-[[data-disabled]]:bg-zinc-950/5 before:has-[[data-disabled]]:shadow-none"><select
+                                                class="relative block w-full appearance-none rounded-lg py-[calc(theme(spacing[2.5])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] pl-[calc(theme(spacing[3.5])-1px)] pr-[calc(theme(spacing.10)-1px)] sm:pl-[calc(theme(spacing.3)-1px)] sm:pr-[calc(theme(spacing.9)-1px)] [&amp;_optgroup]:font-semibold text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white dark:*:text-white border border-zinc-950/10 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 dark:*:bg-zinc-800 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-600 data-[invalid]:data-[hover]:dark:border-red-600 data-[disabled]:border-zinc-950/20 data-[disabled]:opacity-100 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%]"
+                                                id="headlessui-select-:Rqljl7qkva:" data-headlessui-state=""><option>Admin</option><option
+                                                selected="">Owner</option><option>Member</option></select><span
+                                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"><svg
+                                                class="size-5 stroke-zinc-500 group-has-[[data-disabled]]:stroke-zinc-600 sm:size-4 dark:stroke-zinc-400 forced-colors:stroke-[CanvasText]"
+                                                viewBox="0 0 16 16" aria-hidden="true" fill="none"><path
+                                                d="M5.75 10.75L8 13L10.25 10.75" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round"></path><path
+                                                d="M10.25 5.25L8 3L5.75 5.25" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round"></path></svg></span></span></div>
+                                        </div>
+                                        <div class="flex items-center justify-between gap-4 py-4">
+                                            <div class="flex min-w-0 items-center gap-2"><span data-slot="avatar"
+                                                                                               class="relative size-6 shrink-0 inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1 outline outline-1 -outline-offset-1 outline-black/[--ring-opacity] dark:outline-white/[--ring-opacity] rounded-full *:rounded-full"><img
+                                                class="size-full"
+                                                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
+                                                alt=""/></span><span class="truncate text-sm/6">dries.vincent@example.com</span>
+                                            </div>
+                                            <div class="flex min-w-fit justify-end"><span data-slot="control"
+                                                                                          class="group relative block w-full before:absolute before:inset-px before:rounded-[calc(theme(borderRadius.lg)-1px)] before:bg-white before:shadow dark:before:hidden after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-inset after:ring-transparent after:has-[[data-focus]]:ring-2 after:has-[[data-focus]]:ring-blue-500 has-[[data-disabled]]:opacity-50 before:has-[[data-disabled]]:bg-zinc-950/5 before:has-[[data-disabled]]:shadow-none"><select
+                                                class="relative block w-full appearance-none rounded-lg py-[calc(theme(spacing[2.5])-1px)] sm:py-[calc(theme(spacing[1.5])-1px)] pl-[calc(theme(spacing[3.5])-1px)] pr-[calc(theme(spacing.10)-1px)] sm:pl-[calc(theme(spacing.3)-1px)] sm:pr-[calc(theme(spacing.9)-1px)] [&amp;_optgroup]:font-semibold text-base/6 text-zinc-950 placeholder:text-zinc-500 sm:text-sm/6 dark:text-white dark:*:text-white border border-zinc-950/10 data-[hover]:border-zinc-950/20 dark:border-white/10 dark:data-[hover]:border-white/20 bg-transparent dark:bg-white/5 dark:*:bg-zinc-800 focus:outline-none data-[invalid]:border-red-500 data-[invalid]:data-[hover]:border-red-500 data-[invalid]:dark:border-red-600 data-[invalid]:data-[hover]:dark:border-red-600 data-[disabled]:border-zinc-950/20 data-[disabled]:opacity-100 dark:data-[hover]:data-[disabled]:border-white/15 data-[disabled]:dark:border-white/15 data-[disabled]:dark:bg-white/[2.5%]"
+                                                id="headlessui-select-:Rrljl7qkva:" data-headlessui-state=""><option>Admin</option><option>Owner</option><option
+                                                selected="">Member</option></select><span
+                                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"><svg
+                                                class="size-5 stroke-zinc-500 group-has-[[data-disabled]]:stroke-zinc-600 sm:size-4 dark:stroke-zinc-400 forced-colors:stroke-[CanvasText]"
+                                                viewBox="0 0 16 16" aria-hidden="true" fill="none"><path
+                                                d="M5.75 10.75L8 13L10.25 10.75" stroke-width="1.5"
+                                                stroke-linecap="round" stroke-linejoin="round"></path><path
+                                                d="M10.25 5.25L8 3L5.75 5.25" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round"></path></svg></span></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative sm:col-span-2 md:col-span-1 xl:col-span-6">
+                        <div
+                            class="relative h-full w-full rounded-xl bg-white shadow-[0px_0px_0px_1px_rgba(9,9,11,0.07),0px_2px_2px_0px_rgba(9,9,11,0.05)] dark:bg-zinc-900 dark:shadow-[0px_0px_0px_1px_rgba(255,255,255,0.1)] dark:before:pointer-events-none dark:before:absolute dark:before:-inset-px dark:before:rounded-xl dark:before:shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.20),_0px_1px_0px_0px_rgba(255,_255,_255,_0.06)_inset] forced-colors:outline">
+                            <div
+                                class="grid h-full w-full justify-items-center overflow-hidden place-items-start justify-items-center p-6 py-8 sm:p-8 lg:p-12">
+                                <div class="max-w-sm space-y-6"><h3
+                                    class="text-lg/7 font-semibold tracking-[-0.015em] text-zinc-950 sm:text-base/7 dark:text-white">
+                                    Attendance</h3>
+                                    <fieldset
+                                        class="[&amp;&gt;*+[data-slot=control]]:mt-6 [&amp;&gt;[data-slot=text]]:mt-1"
+                                        data-headlessui-state=""><input type="hidden" hidden="" readOnly=""
+                                                                        style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"/><input
+                                        type="radio" hidden="" readOnly=""
+                                        style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"
+                                        name="resale" checked="" value="permit"/>
+                                        <div data-slot="control"
+                                             class="space-y-3 [&amp;_[data-slot=label]]:font-normal has-[[data-slot=description]]:space-y-6 [&amp;_[data-slot=label]]:has-[[data-slot=description]]:font-medium"
+                                             id="headlessui-radiogroup-:R9kl7qkva:" role="radiogroup">
+                                            <div data-slot="field"
+                                                 class="grid grid-cols-[1.125rem_1fr] items-center gap-x-4 gap-y-1 sm:grid-cols-[1rem_1fr] [&amp;&gt;[data-slot=control]]:col-start-1 [&amp;&gt;[data-slot=control]]:row-start-1 [&amp;&gt;[data-slot=control]]:justify-self-center [&amp;&gt;[data-slot=label]]:col-start-2 [&amp;&gt;[data-slot=label]]:row-start-1 [&amp;&gt;[data-slot=label]]:justify-self-start [&amp;&gt;[data-slot=description]]:col-start-2 [&amp;&gt;[data-slot=description]]:row-start-2 [&amp;_[data-slot=label]]:has-[[data-slot=description]]:font-medium"
+                                                 data-headlessui-state=""><span data-slot="control"
+                                                                                class="group inline-flex focus:outline-none"
+                                                                                id="headlessui-control-:R6pkl7qkva:"
+                                                                                role="radio" aria-checked="true"
+                                                                                tabindex="0"
+                                                                                data-headlessui-state="checked"
+                                                                                data-checked=""><span
+                                                class="relative isolate flex size-[1.1875rem] shrink-0 rounded-full sm:size-[1.0625rem] before:absolute before:inset-0 before:-z-10 before:rounded-full before:bg-white before:shadow before:group-data-[checked]:bg-[--radio-checked-bg] dark:before:hidden dark:bg-white/5 dark:group-data-[checked]:bg-[--radio-checked-bg] border border-zinc-950/15 group-data-[checked]:border-transparent group-data-[checked]:group-data-[hover]:border-transparent group-data-[hover]:border-zinc-950/30 group-data-[checked]:bg-[--radio-checked-border] dark:border-white/15 dark:group-data-[checked]:border-white/5 dark:group-data-[checked]:group-data-[hover]:border-white/5 dark:group-data-[hover]:border-white/30 after:absolute after:inset-0 after:rounded-full after:shadow-[inset_0_1px_theme(colors.white/15%)] dark:after:-inset-px dark:after:hidden dark:after:rounded-full dark:group-data-[checked]:after:block [--radio-indicator:transparent] group-data-[checked]:[--radio-indicator:var(--radio-checked-indicator)] group-data-[checked]:group-data-[hover]:[--radio-indicator:var(--radio-checked-indicator)] group-data-[hover]:[--radio-indicator:theme(colors.zinc.900/10%)] dark:group-data-[checked]:group-data-[hover]:[--radio-indicator:var(--radio-checked-indicator)] dark:group-data-[hover]:[--radio-indicator:theme(colors.zinc.700)] group-data-[focus]:outline group-data-[focus]:outline-2 group-data-[focus]:outline-offset-2 group-data-[focus]:outline-blue-500 group-data-[disabled]:opacity-50 group-data-[disabled]:border-zinc-950/25 group-data-[disabled]:bg-zinc-950/5 group-data-[disabled]:[--radio-checked-indicator:theme(colors.zinc.950/50%)] group-data-[disabled]:before:bg-transparent dark:group-data-[disabled]:border-white/20 dark:group-data-[disabled]:bg-white/[2.5%] dark:group-data-[disabled]:[--radio-checked-indicator:theme(colors.white/50%)] dark:group-data-[disabled]:group-data-[checked]:after:hidden [--radio-checked-bg:theme(colors.zinc.900)] [--radio-checked-border:theme(colors.zinc.950/90%)] [--radio-checked-indicator:theme(colors.white)] dark:[--radio-checked-bg:theme(colors.zinc.600)]"><span
+                                                class="size-full rounded-full border-[4.5px] border-transparent bg-[--radio-indicator] bg-clip-padding forced-colors:border-[Canvas] forced-colors:group-data-[checked]:border-[Highlight]"></span></span></span><label
+                                                data-slot="label"
+                                                class="select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white"
+                                                id="headlessui-label-:R9mpkl7qkva:"
+                                                for="headlessui-control-:R6pkl7qkva:"
+                                                data-headlessui-state="">Public</label>
+                                                <p data-slot="description"
+                                                   class="text-base/6 text-zinc-500 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-zinc-400"
+                                                   id="headlessui-description-:Rdmpkl7qkva:" data-headlessui-state="">
+                                                    Tickets will be available to the general public.</p><span hidden=""
+                                                                                                              style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"></span>
+                                            </div>
+                                            <div data-slot="control"
+                                                 class="pl-8 space-y-3 has-[[data-slot=description]]:space-y-6 [&amp;_[data-slot=label]]:has-[[data-slot=description]]:font-medium">
+                                                <div data-slot="field"
+                                                     class="grid grid-cols-[1.125rem_1fr] items-center gap-x-4 gap-y-1 sm:grid-cols-[1rem_1fr] [&amp;&gt;[data-slot=control]]:col-start-1 [&amp;&gt;[data-slot=control]]:row-start-1 [&amp;&gt;[data-slot=control]]:justify-self-center [&amp;&gt;[data-slot=label]]:col-start-2 [&amp;&gt;[data-slot=label]]:row-start-1 [&amp;&gt;[data-slot=label]]:justify-self-start [&amp;&gt;[data-slot=description]]:col-start-2 [&amp;&gt;[data-slot=description]]:row-start-2 [&amp;_[data-slot=label]]:has-[[data-slot=description]]:font-medium"
+                                                     data-headlessui-state=""><span data-slot="control"
+                                                                                    class="group inline-flex focus:outline-none"
+                                                                                    id="headlessui-control-:Rqpkl7qkva:"
+                                                                                    role="checkbox" aria-checked="true"
+                                                                                    tabindex="0"
+                                                                                    data-headlessui-state="checked"
+                                                                                    data-checked=""><span
+                                                    class="relative isolate flex size-[1.125rem] items-center justify-center rounded-[0.3125rem] sm:size-4 before:absolute before:inset-0 before:-z-10 before:rounded-[calc(0.3125rem-1px)] before:bg-white before:shadow before:group-data-[checked]:bg-[--checkbox-checked-bg] dark:before:hidden dark:bg-white/5 dark:group-data-[checked]:bg-[--checkbox-checked-bg] border border-zinc-950/15 group-data-[checked]:border-transparent group-data-[checked]:group-data-[hover]:border-transparent group-data-[hover]:border-zinc-950/30 group-data-[checked]:bg-[--checkbox-checked-border] dark:border-white/15 dark:group-data-[checked]:border-white/5 dark:group-data-[checked]:group-data-[hover]:border-white/5 dark:group-data-[hover]:border-white/30 after:absolute after:inset-0 after:rounded-[calc(0.3125rem-1px)] after:shadow-[inset_0_1px_theme(colors.white/15%)] dark:after:-inset-px dark:after:hidden dark:after:rounded-[0.3125rem] dark:group-data-[checked]:after:block group-data-[focus]:outline group-data-[focus]:outline-2 group-data-[focus]:outline-offset-2 group-data-[focus]:outline-blue-500 group-data-[disabled]:opacity-50 group-data-[disabled]:border-zinc-950/25 group-data-[disabled]:bg-zinc-950/5 group-data-[disabled]:[--checkbox-check:theme(colors.zinc.950/50%)] group-data-[disabled]:before:bg-transparent dark:group-data-[disabled]:border-white/20 dark:group-data-[disabled]:bg-white/[2.5%] dark:group-data-[disabled]:[--checkbox-check:theme(colors.white/50%)] dark:group-data-[disabled]:group-data-[checked]:after:hidden forced-colors:[--checkbox-check:HighlightText] forced-colors:[--checkbox-checked-bg:Highlight] forced-colors:group-data-[disabled]:[--checkbox-check:Highlight] dark:forced-colors:[--checkbox-check:HighlightText] dark:forced-colors:[--checkbox-checked-bg:Highlight] dark:forced-colors:group-data-[disabled]:[--checkbox-check:Highlight] [--checkbox-check:theme(colors.white)] [--checkbox-checked-bg:theme(colors.zinc.900)] [--checkbox-checked-border:theme(colors.zinc.950/90%)] dark:[--checkbox-checked-bg:theme(colors.zinc.600)]"><svg
+                                                    class="size-4 stroke-[--checkbox-check] opacity-0 group-data-[checked]:opacity-100 sm:h-3.5 sm:w-3.5"
+                                                    viewBox="0 0 14 14" fill="none"><path
+                                                    class="opacity-100 group-data-[indeterminate]:opacity-0"
+                                                    d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path><path
+                                                    class="opacity-0 group-data-[indeterminate]:opacity-100" d="M3 7H11"
+                                                    stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path></svg></span></span><label
+                                                    data-slot="label"
+                                                    class="select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white"
+                                                    id="headlessui-label-:R16qpkl7qkva:"
+                                                    for="headlessui-control-:Rqpkl7qkva:" data-headlessui-state="">In-person</label>
+                                                    <p data-slot="description"
+                                                       class="text-base/6 text-zinc-500 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-zinc-400"
+                                                       id="headlessui-description-:R1mqpkl7qkva:"
+                                                       data-headlessui-state="">Attendees will be at the event in
+                                                        person.</p><span hidden=""
+                                                                         style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"></span>
+                                                </div>
+                                                <div data-slot="field"
+                                                     class="grid grid-cols-[1.125rem_1fr] items-center gap-x-4 gap-y-1 sm:grid-cols-[1rem_1fr] [&amp;&gt;[data-slot=control]]:col-start-1 [&amp;&gt;[data-slot=control]]:row-start-1 [&amp;&gt;[data-slot=control]]:justify-self-center [&amp;&gt;[data-slot=label]]:col-start-2 [&amp;&gt;[data-slot=label]]:row-start-1 [&amp;&gt;[data-slot=label]]:justify-self-start [&amp;&gt;[data-slot=description]]:col-start-2 [&amp;&gt;[data-slot=description]]:row-start-2 [&amp;_[data-slot=label]]:has-[[data-slot=description]]:font-medium"
+                                                     data-headlessui-state=""><span data-slot="control"
+                                                                                    class="group inline-flex focus:outline-none"
+                                                                                    id="headlessui-control-:R1apkl7qkva:"
+                                                                                    role="checkbox" aria-checked="false"
+                                                                                    tabindex="0"
+                                                                                    data-headlessui-state=""><span
+                                                    class="relative isolate flex size-[1.125rem] items-center justify-center rounded-[0.3125rem] sm:size-4 before:absolute before:inset-0 before:-z-10 before:rounded-[calc(0.3125rem-1px)] before:bg-white before:shadow before:group-data-[checked]:bg-[--checkbox-checked-bg] dark:before:hidden dark:bg-white/5 dark:group-data-[checked]:bg-[--checkbox-checked-bg] border border-zinc-950/15 group-data-[checked]:border-transparent group-data-[checked]:group-data-[hover]:border-transparent group-data-[hover]:border-zinc-950/30 group-data-[checked]:bg-[--checkbox-checked-border] dark:border-white/15 dark:group-data-[checked]:border-white/5 dark:group-data-[checked]:group-data-[hover]:border-white/5 dark:group-data-[hover]:border-white/30 after:absolute after:inset-0 after:rounded-[calc(0.3125rem-1px)] after:shadow-[inset_0_1px_theme(colors.white/15%)] dark:after:-inset-px dark:after:hidden dark:after:rounded-[0.3125rem] dark:group-data-[checked]:after:block group-data-[focus]:outline group-data-[focus]:outline-2 group-data-[focus]:outline-offset-2 group-data-[focus]:outline-blue-500 group-data-[disabled]:opacity-50 group-data-[disabled]:border-zinc-950/25 group-data-[disabled]:bg-zinc-950/5 group-data-[disabled]:[--checkbox-check:theme(colors.zinc.950/50%)] group-data-[disabled]:before:bg-transparent dark:group-data-[disabled]:border-white/20 dark:group-data-[disabled]:bg-white/[2.5%] dark:group-data-[disabled]:[--checkbox-check:theme(colors.white/50%)] dark:group-data-[disabled]:group-data-[checked]:after:hidden forced-colors:[--checkbox-check:HighlightText] forced-colors:[--checkbox-checked-bg:Highlight] forced-colors:group-data-[disabled]:[--checkbox-check:Highlight] dark:forced-colors:[--checkbox-check:HighlightText] dark:forced-colors:[--checkbox-checked-bg:Highlight] dark:forced-colors:group-data-[disabled]:[--checkbox-check:Highlight] [--checkbox-check:theme(colors.white)] [--checkbox-checked-bg:theme(colors.zinc.900)] [--checkbox-checked-border:theme(colors.zinc.950/90%)] dark:[--checkbox-checked-bg:theme(colors.zinc.600)]"><svg
+                                                    class="size-4 stroke-[--checkbox-check] opacity-0 group-data-[checked]:opacity-100 sm:h-3.5 sm:w-3.5"
+                                                    viewBox="0 0 14 14" fill="none"><path
+                                                    class="opacity-100 group-data-[indeterminate]:opacity-0"
+                                                    d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path><path
+                                                    class="opacity-0 group-data-[indeterminate]:opacity-100" d="M3 7H11"
+                                                    stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path></svg></span></span><label
+                                                    data-slot="label"
+                                                    class="select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white"
+                                                    id="headlessui-label-:R17apkl7qkva:"
+                                                    for="headlessui-control-:R1apkl7qkva:" data-headlessui-state="">Online</label>
+                                                    <p data-slot="description"
+                                                       class="text-base/6 text-zinc-500 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-zinc-400"
+                                                       id="headlessui-description-:R1napkl7qkva:"
+                                                       data-headlessui-state="">Attendees will only be able to view the
+                                                        event online.</p><span hidden=""
+                                                                               style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"></span>
+                                                </div>
+                                            </div>
+                                            <div data-slot="field"
+                                                 class="grid grid-cols-[1.125rem_1fr] items-center gap-x-4 gap-y-1 sm:grid-cols-[1rem_1fr] [&amp;&gt;[data-slot=control]]:col-start-1 [&amp;&gt;[data-slot=control]]:row-start-1 [&amp;&gt;[data-slot=control]]:justify-self-center [&amp;&gt;[data-slot=label]]:col-start-2 [&amp;&gt;[data-slot=label]]:row-start-1 [&amp;&gt;[data-slot=label]]:justify-self-start [&amp;&gt;[data-slot=description]]:col-start-2 [&amp;&gt;[data-slot=description]]:row-start-2 [&amp;_[data-slot=label]]:has-[[data-slot=description]]:font-medium"
+                                                 data-headlessui-state=""><span data-slot="control"
+                                                                                class="group inline-flex focus:outline-none"
+                                                                                id="headlessui-control-:Repkl7qkva:"
+                                                                                role="radio" aria-checked="false"
+                                                                                tabindex="-1"
+                                                                                data-headlessui-state=""><span
+                                                class="relative isolate flex size-[1.1875rem] shrink-0 rounded-full sm:size-[1.0625rem] before:absolute before:inset-0 before:-z-10 before:rounded-full before:bg-white before:shadow before:group-data-[checked]:bg-[--radio-checked-bg] dark:before:hidden dark:bg-white/5 dark:group-data-[checked]:bg-[--radio-checked-bg] border border-zinc-950/15 group-data-[checked]:border-transparent group-data-[checked]:group-data-[hover]:border-transparent group-data-[hover]:border-zinc-950/30 group-data-[checked]:bg-[--radio-checked-border] dark:border-white/15 dark:group-data-[checked]:border-white/5 dark:group-data-[checked]:group-data-[hover]:border-white/5 dark:group-data-[hover]:border-white/30 after:absolute after:inset-0 after:rounded-full after:shadow-[inset_0_1px_theme(colors.white/15%)] dark:after:-inset-px dark:after:hidden dark:after:rounded-full dark:group-data-[checked]:after:block [--radio-indicator:transparent] group-data-[checked]:[--radio-indicator:var(--radio-checked-indicator)] group-data-[checked]:group-data-[hover]:[--radio-indicator:var(--radio-checked-indicator)] group-data-[hover]:[--radio-indicator:theme(colors.zinc.900/10%)] dark:group-data-[checked]:group-data-[hover]:[--radio-indicator:var(--radio-checked-indicator)] dark:group-data-[hover]:[--radio-indicator:theme(colors.zinc.700)] group-data-[focus]:outline group-data-[focus]:outline-2 group-data-[focus]:outline-offset-2 group-data-[focus]:outline-blue-500 group-data-[disabled]:opacity-50 group-data-[disabled]:border-zinc-950/25 group-data-[disabled]:bg-zinc-950/5 group-data-[disabled]:[--radio-checked-indicator:theme(colors.zinc.950/50%)] group-data-[disabled]:before:bg-transparent dark:group-data-[disabled]:border-white/20 dark:group-data-[disabled]:bg-white/[2.5%] dark:group-data-[disabled]:[--radio-checked-indicator:theme(colors.white/50%)] dark:group-data-[disabled]:group-data-[checked]:after:hidden [--radio-checked-bg:theme(colors.zinc.900)] [--radio-checked-border:theme(colors.zinc.950/90%)] [--radio-checked-indicator:theme(colors.white)] dark:[--radio-checked-bg:theme(colors.zinc.600)]"><span
+                                                class="size-full rounded-full border-[4.5px] border-transparent bg-[--radio-indicator] bg-clip-padding forced-colors:border-[Canvas] forced-colors:group-data-[checked]:border-[Highlight]"></span></span></span><label
+                                                data-slot="label"
+                                                class="select-none text-base/6 text-zinc-950 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-white"
+                                                id="headlessui-label-:R9upkl7qkva:"
+                                                for="headlessui-control-:Repkl7qkva:"
+                                                data-headlessui-state="">Private</label>
+                                                <p data-slot="description"
+                                                   class="text-base/6 text-zinc-500 data-[disabled]:opacity-50 sm:text-sm/6 dark:text-zinc-400"
+                                                   id="headlessui-description-:Rdupkl7qkva:" data-headlessui-state="">
+                                                    Tickets are not available to the general public.</p><span hidden=""
+                                                                                                              style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"></span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+</body>
+</html>
