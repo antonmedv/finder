@@ -1,6 +1,6 @@
-![finder](https://medv.io/assets/finder.png)
-
 # finder
+
+![finder](https://medv.io/assets/finder.png)
 
 [![Test](https://github.com/antonmedv/finder/actions/workflows/test.yml/badge.svg)](https://github.com/antonmedv/finder/actions/workflows/test.yml)
 
@@ -21,13 +21,12 @@ npm install @medv/finder
 
 ## Usage 
 
-```js
-import {finder} from '@medv/finder'
+```ts
+import { finder } from '@medv/finder';
 
-document.addEventListener('click', event => {
-  const selector = finder(event.target)
-  console.log(selector)  
-})
+document.addEventListener('click', (event) => {
+  const selector = finder(event.target);
+});
 ```
 
 ## Example
@@ -52,7 +51,7 @@ const selector = finder(event.target, {
   threshold: 1000,
   maxNumberOfTries: 10_000,
   timeoutMs: undefined,
-})
+});
 ```
 
 ### seedMinLength
