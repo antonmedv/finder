@@ -147,11 +147,10 @@ function findUniquePath(
   stack: Knot[][],
   fallback?: () => Path | null,
 ): Path | null {
-  const numberOfCombinations = stack.reduce((acc, level) => acc * level.length, 1)
-  if (numberOfCombinations > config.threshold) {
+  const paths = sort(combinations(stack))
+  if (paths.length > config.threshold) {
     return fallback ? fallback() : null
   }
-  const paths = sort(combinations(stack))
   for (let candidate of paths) {
     if (unique(candidate)) {
       return candidate

@@ -104,11 +104,10 @@ function bottomUpSearch(input, limit, fallback) {
     return path;
 }
 function findUniquePath(stack, fallback) {
-    const numberOfCombinations = stack.reduce((acc, level) => acc * level.length, 1);
-    if (numberOfCombinations > config.threshold) {
+    const paths = sort(combinations(stack));
+    if (paths.length > config.threshold) {
         return fallback ? fallback() : null;
     }
-    const paths = sort(combinations(stack));
     for (let candidate of paths) {
         if (unique(candidate)) {
             return candidate;
