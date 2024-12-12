@@ -63,7 +63,19 @@ export function finder(input: Element, options?: Partial<Options>): string {
 }
 
 function wordLike(name: string) {
-  return /^[a-z0-9\-]{3,}$/i.test(name)
+  if (/^[a-z0-9\-]{3,}$/i.test(name)) {
+    const words = name.split(/-|[A-Z]/)
+    for (const word of words) {
+      if (word.length <= 2) { // No short words.
+        return false
+      }
+      if (/[^aeiou]{3,}/i.test(word)) { // 3 or more consonants in a row.
+        return false
+      }
+    }
+    return true
+  }
+  return false
 }
 
 function tie(element: Element, config: Options): Knot[] {
@@ -117,7 +129,7 @@ function tie(element: Element, config: Options): Knot[] {
   if (nth !== undefined) {
     level.push({
       name: `*:nth-child(${nth})`,
-      penalty: 5,
+      penalty: 9,
     })
   }
 

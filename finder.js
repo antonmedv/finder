@@ -11,10 +11,10 @@ export function finder(input, options) {
     }
     const defaults = {
         root: document.body,
-        idName: (name) => false,
-        attr: (name, value) => false,
-        className: (name) => wordLike(name),
+        idName: wordLike,
+        className: wordLike,
         tagName: (name) => true,
+        attr: (name, value) => false,
         timeoutMs: undefined,
     };
     const config = { ...defaults, ...options };
@@ -32,13 +32,27 @@ export function finder(input, options) {
         i++;
         const paths = sort(combinations(stack));
         for (const candidate of paths) {
-            console.log(selector(candidate));
             if (unique(candidate, rootDocument)) {
                 return selector(candidate);
             }
         }
     }
     throw new Error(`Selector was not found.`);
+}
+function wordLike(name) {
+    if (/^[a-z0-9\-]{3,}$/i.test(name)) {
+        const words = name.split(/-|[A-Z]/);
+        for (const word of words) {
+            if (word.length <= 2) { // No short words.
+                return false;
+            }
+            if (/[^aeiou]{3,}/i.test(word)) { // 3 or more consonants in a row.
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
 }
 function tie(element, config) {
     const level = [];
@@ -85,13 +99,10 @@ function tie(element, config) {
     if (nth !== undefined) {
         level.push({
             name: `*:nth-child(${nth})`,
-            penalty: 5,
+            penalty: 9,
         });
     }
     return level;
-}
-function wordLike(name) {
-    return /^[a-zA-Z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(name);
 }
 function selector(path) {
     let node = path[0];
