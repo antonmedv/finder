@@ -15,7 +15,7 @@ export function finder(input, options) {
         tagName: (name) => true,
         attr: useAttr,
         timeoutMs: 1000,
-        seedMinLength: 2,
+        seedMinLength: 3,
         optimizedMinLength: 2,
         maxNumberOfPathChecks: Infinity,
     };

@@ -34,7 +34,7 @@ export function finder(input: Element, options?: Partial<Options>): string {
     tagName: (name: string) => true,
     attr: useAttr,
     timeoutMs: 1000,
-    seedMinLength: 2,
+    seedMinLength: 3,
     optimizedMinLength: 2,
     maxNumberOfPathChecks: Infinity,
   }
