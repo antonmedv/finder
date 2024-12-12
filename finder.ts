@@ -32,7 +32,7 @@ export function finder(input: Element, options?: Partial<Options>): string {
     idName: wordLike,
     className: wordLike,
     tagName: (name: string) => true,
-    attr: (name: string, value: string) => wordLike(name) && wordLike(value),
+    attr: useAttr,
     seedMinLength: 2,
     optimizedMinLength: 2,
     timeoutMs: 1000,
@@ -100,6 +100,16 @@ export function wordLike(name: string): boolean {
   return false
 }
 
+const acceptedAttrNames = new Set(['role', 'name', 'aria-label', 'rel', 'href'])
+
+export function useAttr(name: string, value: string) {
+  let nameIsOk = acceptedAttrNames.has(name)
+  nameIsOk ||= name.startsWith('data-') && wordLike(name)
+  let valueIsOk = wordLike(value) && value.length < 100
+  valueIsOk ||= value.startsWith('#') && wordLike(value.slice(1))
+  return nameIsOk && valueIsOk
+}
+
 function search(
   paths: Knot[][],
   config: Options,
@@ -111,39 +121,17 @@ function search(
   for (const candidate of paths) {
     const elapsedTimeMs = new Date().getTime() - startTime.getTime()
     if (elapsedTimeMs > config.timeoutMs) {
-      const path = fallbackToNthChild(input, rootDocument)
+      const path = fallback(input, rootDocument)
       if (path) {
         return path
       }
       throw new Error(
-        `Timeout: Can't find a unique selector after ${elapsedTimeMs}ms`,
+        `Timeout: Can't find a unique selector after ${config.timeoutMs}ms`,
       )
     }
     if (unique(candidate, rootDocument)) {
       return candidate
     }
-  }
-}
-
-function fallbackToNthChild(input: Element, rootDocument: Element | Document) {
-  let i = 0
-  let current: Element | null = input
-  const path: Knot[] = []
-  while (current && current !== rootDocument) {
-    const index = indexOf(current)
-    if (index === undefined) {
-      return
-    }
-    path.push({
-      name: `:nth-child(${index})`,
-      penalty: 0,
-      level: i,
-    })
-    current = current.parentElement
-    i++
-  }
-  if (unique(path, rootDocument)) {
-    return path
   }
 }
 
@@ -160,6 +148,9 @@ function tie(element: Element, config: Options): Knot[] {
 
   for (let i = 0; i < element.attributes.length; i++) {
     const attr = element.attributes[i]
+    if (attr.name === 'id' || attr.name === 'class') {
+      continue
+    }
     if (config.attr(attr.name, attr.value)) {
       level.push({
         name: `[${CSS.escape(attr.name)}="${CSS.escape(attr.value)}"]`,
@@ -173,7 +164,7 @@ function tie(element: Element, config: Options): Knot[] {
     if (config.className(name)) {
       level.push({
         name: '.' + CSS.escape(name),
-        penalty: 2,
+        penalty: 1,
       })
     }
   }
@@ -182,14 +173,14 @@ function tie(element: Element, config: Options): Knot[] {
   if (config.tagName(tagName)) {
     level.push({
       name: tagName,
-      penalty: 3,
+      penalty: 5,
     })
 
     const index = indexOf(element, tagName)
     if (index !== undefined) {
       level.push({
-        name: `${tagName}:nth-of-type(${index})`,
-        penalty: 4,
+        name: nthOfType(tagName, index),
+        penalty: 10,
       })
     }
   }
@@ -197,8 +188,8 @@ function tie(element: Element, config: Options): Knot[] {
   const nth = indexOf(element)
   if (nth !== undefined) {
     level.push({
-      name: `:nth-child(${nth})`,
-      penalty: 9,
+      name: nthChild(tagName, nth),
+      penalty: 50,
     })
   }
 
@@ -252,6 +243,43 @@ function indexOf(input: Element, tagName?: string): number | undefined {
     child = child.nextSibling
   }
   return i
+}
+
+function fallback(input: Element, rootDocument: Element | Document) {
+  let i = 0
+  let current: Element | null = input
+  const path: Knot[] = []
+  while (current && current !== rootDocument) {
+    const tagName = current.tagName.toLowerCase()
+    const index = indexOf(current, tagName)
+    if (index === undefined) {
+      return
+    }
+    path.push({
+      name: nthOfType(tagName, index),
+      penalty: NaN,
+      level: i,
+    })
+    current = current.parentElement
+    i++
+  }
+  if (unique(path, rootDocument)) {
+    return path
+  }
+}
+
+function nthChild(tagName: string, index: number) {
+  if (tagName === 'html') {
+    return 'html'
+  }
+  return `${tagName}:nth-child(${index})`
+}
+
+function nthOfType(tagName: string, index: number) {
+  if (tagName === 'html') {
+    return 'html'
+  }
+  return `${tagName}:nth-of-type(${index})`
 }
 
 function* combinations(stack: Knot[][], path: Knot[] = []): Generator<Knot[]> {

@@ -10,14 +10,14 @@ import 'css.escape'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-function check({ file, html, target }, config = {}) {
+function check({ file, html, query }, config = {}) {
   const dom = file
     ? new JSDOM(readFileSync(path.join(__dirname, file), 'utf8'))
     : new JSDOM(html)
   globalThis.document = dom.window.document
   globalThis.Node = dom.window.Node
   const selectors = []
-  for (let node of document.querySelectorAll(target ?? '*')) {
+  for (let node of document.querySelectorAll(query ?? '*')) {
     let css
     try {
       css = finder(node, config)
@@ -61,7 +61,7 @@ test('tailwindcss', () => {
 test('google', () => {
   check({
     file: 'pages/google.com.html',
-    target: '[href="https://github.com/antonmedv/finder"]',
+    query: '[href]',
   })
 })
 
