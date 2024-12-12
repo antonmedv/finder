@@ -8,8 +8,6 @@ type Knot = {
   level?: number
 }
 
-type Path = Knot[]
-
 export type Options = {
   root: Element
   idName: (name: string) => boolean
@@ -176,7 +174,7 @@ function tie(element: Element, config: Options): Knot[] {
   return level
 }
 
-function selector(path: Path): string {
+function selector(path: Knot[]): string {
   let node = path[0]
   let query = node.name
   for (let i = 1; i < path.length; i++) {
@@ -191,7 +189,7 @@ function selector(path: Path): string {
   return query
 }
 
-function penalty(path: Path): number {
+function penalty(path: Knot[]): number {
   return path.map((node) => node.penalty).reduce((acc, i) => acc + i, 0)
 }
 
@@ -247,7 +245,7 @@ function findRootDocument(rootNode: Element | Document, defaults: Options) {
   return rootNode
 }
 
-function unique(path: Path, rootDocument: Element | Document) {
+function unique(path: Knot[], rootDocument: Element | Document) {
   const css = selector(path)
   switch (rootDocument.querySelectorAll(css).length) {
     case 0:
@@ -262,7 +260,7 @@ function unique(path: Path, rootDocument: Element | Document) {
 }
 
 function* optimize(
-  path: Path,
+  path: Knot[],
   input: Element,
   config: Options,
   rootDocument: Element | Document,
