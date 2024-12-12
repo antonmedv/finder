@@ -32,13 +32,13 @@ export function finder(input: Element, options?: Partial<Options>): string {
     idName: wordLike,
     className: wordLike,
     tagName: (name: string) => true,
-    attr: (name: string, value: string) => false,
+    attr: (name: string, value: string) => wordLike(name) && wordLike(value),
     seedMinLength: 2,
     optimizedMinLength: 2,
     timeoutMs: 1000,
   }
 
-  const config = {...defaults, ...options}
+  const config = { ...defaults, ...options }
   const rootDocument = findRootDocument(config.root, defaults)
 
   const stack: Knot[][] = []
@@ -46,7 +46,7 @@ export function finder(input: Element, options?: Partial<Options>): string {
   let foundPath: Knot[] | undefined
   let current: Element | null = input
   let i = 0
-  while (current) {
+  while (current && current !== rootDocument) {
     const level = tie(current, config)
     for (let node of level) {
       node.level = i
@@ -58,7 +58,7 @@ export function finder(input: Element, options?: Partial<Options>): string {
     paths.push(...combinations(stack))
 
     if (i >= config.seedMinLength) {
-      foundPath = search(paths, config, rootDocument, startTime)
+      foundPath = search(paths, config, input, rootDocument, startTime)
       if (foundPath) {
         break
       }
@@ -67,14 +67,16 @@ export function finder(input: Element, options?: Partial<Options>): string {
   }
 
   if (paths.length > 0) {
-    foundPath = search(paths, config, rootDocument, startTime)
+    foundPath = search(paths, config, input, rootDocument, startTime)
   }
 
   if (!foundPath) {
     throw new Error(`Selector was not found.`)
   }
 
-  const optimized = [...optimize(foundPath, input, config, rootDocument, startTime)]
+  const optimized = [
+    ...optimize(foundPath, input, config, rootDocument, startTime),
+  ]
   optimized.sort(byPenalty)
   if (optimized.length > 0) {
     return selector(optimized[0])
@@ -82,25 +84,7 @@ export function finder(input: Element, options?: Partial<Options>): string {
   return selector(foundPath)
 }
 
-function search(paths: Knot[][], config: Options, rootDocument: Element | Document, startTime: Date) {
-  paths.sort(byPenalty)
-  for (const candidate of paths) {
-    const elapsedTimeMs = new Date().getTime() - startTime.getTime()
-    if (elapsedTimeMs > config.timeoutMs) {
-      for (let i = paths.length - 1; i >= paths.length - 10 && i >= 0; i--) {
-        if (unique(paths[i], rootDocument)) {
-          return paths[i]
-        }
-      }
-      throw new Error(`Timeout: Can't find a unique selector after ${elapsedTimeMs}ms`)
-    }
-    if (unique(candidate, rootDocument)) {
-      return candidate
-    }
-  }
-}
-
-function wordLike(name: string) {
+export function wordLike(name: string): boolean {
   if (/^[a-z0-9\-]{3,}$/i.test(name)) {
     const words = name.split(/-|[A-Z]/)
     for (const word of words) {
@@ -114,6 +98,53 @@ function wordLike(name: string) {
     return true
   }
   return false
+}
+
+function search(
+  paths: Knot[][],
+  config: Options,
+  input: Element,
+  rootDocument: Element | Document,
+  startTime: Date,
+) {
+  paths.sort(byPenalty)
+  for (const candidate of paths) {
+    const elapsedTimeMs = new Date().getTime() - startTime.getTime()
+    if (elapsedTimeMs > config.timeoutMs) {
+      const path = fallbackToNthChild(input, rootDocument)
+      if (path) {
+        return path
+      }
+      throw new Error(
+        `Timeout: Can't find a unique selector after ${elapsedTimeMs}ms`,
+      )
+    }
+    if (unique(candidate, rootDocument)) {
+      return candidate
+    }
+  }
+}
+
+function fallbackToNthChild(input: Element, rootDocument: Element | Document) {
+  let i = 0
+  let current: Element | null = input
+  const path: Knot[] = []
+  while (current && current !== rootDocument) {
+    const index = indexOf(current)
+    if (index === undefined) {
+      return
+    }
+    path.push({
+      name: `:nth-child(${index})`,
+      penalty: 0,
+      level: i,
+    })
+    current = current.parentElement
+    i++
+  }
+  if (unique(path, rootDocument)) {
+    return path
+  }
 }
 
 function tie(element: Element, config: Options): Knot[] {
@@ -209,11 +240,9 @@ function indexOf(input: Element, tagName?: string): number | undefined {
   let i = 0
   while (child) {
     if (
-      child.nodeType === Node.ELEMENT_NODE
-      && (
-        tagName === undefined
-        || (child as Element).tagName.toLowerCase() === tagName
-      )
+      child.nodeType === Node.ELEMENT_NODE &&
+      (tagName === undefined ||
+        (child as Element).tagName.toLowerCase() === tagName)
     ) {
       i++
     }
@@ -249,9 +278,7 @@ function unique(path: Knot[], rootDocument: Element | Document) {
   const css = selector(path)
   switch (rootDocument.querySelectorAll(css).length) {
     case 0:
-      throw new Error(
-        `Can't select any node with this selector: ${css}`,
-      )
+      throw new Error(`Can't select any node with this selector: ${css}`)
     case 1:
       return true
     default:
@@ -274,7 +301,10 @@ function* optimize(
       }
       const newPath = [...path]
       newPath.splice(i, 1)
-      if (unique(newPath, rootDocument) && rootDocument.querySelector(selector(newPath)) === input) {
+      if (
+        unique(newPath, rootDocument) &&
+        rootDocument.querySelector(selector(newPath)) === input
+      ) {
         yield newPath
         yield* optimize(newPath, input, config, rootDocument, startTime)
       }

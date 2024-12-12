@@ -1,70 +1,104 @@
-
 <!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>Deployer &mdash; Deployment Tool for PHP</title>
-    <meta name="author" content="Anton Medvedev">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-          content="A deployment tool written in PHP with support for popular frameworks out of the box.">
-    <meta name="keywords" content="deployer, deployment, deploy, php, phar, parallel">
+    <meta name="author" content="Anton Medvedev" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A deployment tool written in PHP with support for popular frameworks out of the box."
+    />
+    <meta
+      name="keywords"
+      content="deployer, deployment, deploy, php, phar, parallel"
+    />
 
-    <meta property="og:url" content="https://deployer.org">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Deployment Tool for PHP">
-    <meta property="og:description" content="A deployment tool written in PHP with support for popular frameworks out of the box.">
-    <meta property="og:image" content="https://deployer.org/images/opengraph-v4.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://deployer.org" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Deployment Tool for PHP" />
+    <meta
+      property="og:description"
+      content="A deployment tool written in PHP with support for popular frameworks out of the box."
+    />
+    <meta
+      property="og:image"
+      content="https://deployer.org/images/opengraph-v4.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@antonmedv">
-    <meta name="twitter:creator" content="@antonmedv">
-    <meta name="twitter:title" content="Deployment Tool for PHP">
-    <meta name="twitter:description" content="A deployment tool written in PHP with support for popular frameworks out of the box.">
-    <meta name="twitter:image" content="https://deployer.org/images/opengraph-v4.png">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@antonmedv" />
+    <meta name="twitter:creator" content="@antonmedv" />
+    <meta name="twitter:title" content="Deployment Tool for PHP" />
+    <meta
+      name="twitter:description"
+      content="A deployment tool written in PHP with support for popular frameworks out of the box."
+    />
+    <meta
+      name="twitter:image"
+      content="https://deployer.org/images/opengraph-v4.png"
+    />
 
-    <link rel="canonical" href="https://deployer.org">
+    <link rel="canonical" href="https://deployer.org" />
 
-    <link rel="shortcut icon" href="/favicon.png" type="image/png">
-    <link rel="stylesheet" href="/bundle.097e6aa5.css">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="/bundle.097e6aa5.css" />
     <script>
-      (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-          (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-          m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
+      ;(function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r
+        ;(i[r] =
+          i[r] ||
+          function () {
+            ;(i[r].q = i[r].q || []).push(arguments)
+          }),
+          (i[r].l = 1 * new Date())
+        ;(a = s.createElement(o)), (m = s.getElementsByTagName(o)[0])
+        a.async = 1
+        a.src = g
         m.parentNode.insertBefore(a, m)
-      })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+      })(
+        window,
+        document,
+        'script',
+        '//www.google-analytics.com/analytics.js',
+        'ga',
+      )
 
-      ga('create', 'UA-58919878-1', 'auto');
-      ga('send', 'pageview');
+      ga('create', 'UA-58919878-1', 'auto')
+      ga('send', 'pageview')
     </script>
     <script>
       if (window.navigator.userAgent.indexOf('Windows') != -1) {
-        document.documentElement.className = '-windows';
+        document.documentElement.className = '-windows'
       } else {
-        document.documentElement.className = '-macos';
+        document.documentElement.className = '-macos'
       }
     </script>
-</head>
-<body>
-
-<header class="-home">
-    <nav>
+  </head>
+  <body>
+    <header class="-home">
+      <nav>
         <a class="logo" href="/">
-            <svg viewBox="0 0 242 195" xmlns="http://www.w3.org/2000/svg">
-                <g stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none" fill-rule="evenodd">
-                    <path d="M129.855 148.486l-33.32 38.02 13.524-49.694 98.148 56.985L241.455 1.469 110.06 136.813"/>
-                    <path d="M96.41 186.885l-13.74-62.3L241.07 1.282.07 102.447l82.6 22.139"/>
-                </g>
-            </svg>
-            Deployer
+          <svg viewBox="0 0 242 195" xmlns="http://www.w3.org/2000/svg">
+            <g
+              stroke="#fff"
+              stroke-width="7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              fill="none"
+              fill-rule="evenodd"
+            >
+              <path
+                d="M129.855 148.486l-33.32 38.02 13.524-49.694 98.148 56.985L241.455 1.469 110.06 136.813"
+              />
+              <path
+                d="M96.41 186.885l-13.74-62.3L241.07 1.282.07 102.447l82.6 22.139"
+              />
+            </g>
+          </svg>
+          Deployer
         </a>
         <a href="/docs">Documentation</a>
         <a href="/download">Download</a>
@@ -72,287 +106,396 @@
         <a href="/discuss">Discuss</a>
         <a href="/blog">Blog</a>
         <a href="https://github.com/deployphp/deployer">GitHub</a>
-    </nav>
-    <div class="container">
-        <a class="github-ribbon" href="https://github.com/deployphp/deployer" title="Fork me on GitHub">Fork me on GitHub</a>
+      </nav>
+      <div class="container">
+        <a
+          class="github-ribbon"
+          href="https://github.com/deployphp/deployer"
+          title="Fork me on GitHub"
+          >Fork me on GitHub</a
+        >
 
-        <h1>
-            Deployer &mdash; Deployment tool for PHP
-        </h1>
+        <h1>Deployer &mdash; Deployment tool for PHP</h1>
 
         <div class="terminal">
-            <div class="macos">
-                <div class="x"></div>
-                <div class="minus"></div>
-                <div class="plus"></div>
+          <div class="macos">
+            <div class="x"></div>
+            <div class="minus"></div>
+            <div class="plus"></div>
+          </div>
+          <div class="windows">
+            <div class="minimize"></div>
+            <div class="maximize"></div>
+            <div class="close">
+              <svg
+                width="13"
+                height="11"
+                viewBox="0 0 13 11"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g stroke="#fff" fill="none" fill-rule="evenodd">
+                  <path d="M1 0l11 11M12 0L1 11" />
+                </g>
+              </svg>
             </div>
-            <div class="windows">
-                <div class="minimize"></div>
-                <div class="maximize"></div>
-                <div class="close">
-                    <svg width="13" height="11" viewBox="0 0 13 11" xmlns="http://www.w3.org/2000/svg"><g stroke="#fff" fill="none" fill-rule="evenodd"><path d="M1 0l11 11M12 0L1 11"/></g></svg>
-                </div>
-            </div>
-            <div class="scroll">
-                <div class="log">Press enter to submit commands.</div>
-                <form>
-                    <label for="input">&gt;</label>
-                    <input id="input" type="text" value="" tabindex="1" autocomplete="off">
-                </form>
-            </div>
+          </div>
+          <div class="scroll">
+            <div class="log">Press enter to submit commands.</div>
+            <form>
+              <label for="input">&gt;</label>
+              <input
+                id="input"
+                type="text"
+                value=""
+                tabindex="1"
+                autocomplete="off"
+              />
+            </form>
+          </div>
         </div>
-    </div>
-    <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=deployerorg" id="_carbonads_js"></script>
-</header>
+      </div>
+      <script
+        async
+        type="text/javascript"
+        src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=deployerorg"
+        id="_carbonads_js"
+      ></script>
+    </header>
 
-<div class="try-pro">
-    <a href="/pro/continuous-integration" onclick="ga('send', 'event', 'pro_link', 'click');">
-        Try The New <span class="name">Deployer <strong>Pro</strong></span> <em>continuous integration</em> and <em>continuous delivery</em> service
+    <div class="try-pro">
+      <a
+        href="/pro/continuous-integration"
+        onclick="ga('send', 'event', 'pro_link', 'click');"
+      >
+        Try The New <span class="name">Deployer <strong>Pro</strong></span>
+        <em>continuous integration</em> and <em>continuous delivery</em> service
         <span class="find-out-more">Find out more</span>
-    </a>
-</div>
-<section class="getting-started">
-    <h2>Getting Started</h2>
-    <div class="grid">
+      </a>
+    </div>
+    <section class="getting-started">
+      <h2>Getting Started</h2>
+      <div class="grid">
         <div class="cell">
-            <p>
-                &nbsp;
-            </p>
-            <p class="download">
-                <a href="/deployer.phar" onclick="ga('send', 'event', 'button', 'download', 'index');"
-                   class="button">Download deployer.phar (6.0.5)</a>
-                <br>
-                <a href="/download" class="download-link">or download a different version</a>
-            </p>
-            <div class="github-stars">
-                <a class="github-button" href="https://github.com/deployphp/deployer" data-style="mega"
-                   data-count-href="/deployphp/deployer/stargazers"
-                   data-count-api="/repos/deployphp/deployer#stargazers_count"
-                   data-count-aria-label="# stargazers on GitHub"
-                   aria-label="Star deployphp/deployer on GitHub">Star</a>
-                &nbsp;&nbsp;&nbsp;
-                <a class="github-button" href="https://github.com/deployphp/deployer/fork" data-style="mega"
-                   data-count-href="/deployphp/deployer/network"
-                   data-count-api="/repos/deployphp/deployer#forks_count"
-                   data-count-aria-label="# forks on GitHub"
-                   aria-label="Fork deployphp/deployer on GitHub">Fork</a>
-                <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
-            </div>
-            <p style="text-align:center;">
-                <a href="/docs/getting-started">Getting Started</a>
-            </p>
+          <p>&nbsp;</p>
+          <p class="download">
+            <a
+              href="/deployer.phar"
+              onclick="ga('send', 'event', 'button', 'download', 'index');"
+              class="button"
+              >Download deployer.phar (6.0.5)</a
+            >
+            <br />
+            <a href="/download" class="download-link"
+              >or download a different version</a
+            >
+          </p>
+          <div class="github-stars">
+            <a
+              class="github-button"
+              href="https://github.com/deployphp/deployer"
+              data-style="mega"
+              data-count-href="/deployphp/deployer/stargazers"
+              data-count-api="/repos/deployphp/deployer#stargazers_count"
+              data-count-aria-label="# stargazers on GitHub"
+              aria-label="Star deployphp/deployer on GitHub"
+              >Star</a
+            >
+            &nbsp;&nbsp;&nbsp;
+            <a
+              class="github-button"
+              href="https://github.com/deployphp/deployer/fork"
+              data-style="mega"
+              data-count-href="/deployphp/deployer/network"
+              data-count-api="/repos/deployphp/deployer#forks_count"
+              data-count-aria-label="# forks on GitHub"
+              aria-label="Fork deployphp/deployer on GitHub"
+              >Fork</a
+            >
+            <script
+              async
+              defer
+              id="github-bjs"
+              src="https://buttons.github.io/buttons.js"
+            ></script>
+          </div>
+          <p style="text-align: center">
+            <a href="/docs/getting-started">Getting Started</a>
+          </p>
         </div>
         <div class="cell">
-            <p>
-                Run the following commands in the console:
-            </p>
-            <pre><code class="language-bash">curl -LO https://deployer.org/deployer.phar
+          <p>Run the following commands in the console:</p>
+          <pre><code class="language-bash">curl -LO https://deployer.org/deployer.phar
 mv deployer.phar /usr/local/bin/dep
-chmod +x /usr/local/bin/dep</code></pre>                <p>
-            Or you can install it with composer:
-        </p>
-            <pre><code class="language-bash">composer require deployer/deployer</code></pre>            </div>
-    </div>
-</section>
+chmod +x /usr/local/bin/dep</code></pre>
+          <p>Or you can install it with composer:</p>
+          <pre><code class="language-bash">composer require deployer/deployer</code></pre>
+        </div>
+      </div>
+    </section>
 
-<section class="features">
-    <h2>Deployer Features</h2>
-    <div class="grid -of3 -gutters">
+    <section class="features">
+      <h2>Deployer Features</h2>
+      <div class="grid -of3 -gutters">
         <div class="cell">
-            <h3>Fast</h3>
-            <p>
-                Deployer is packed with time-saving features and optimisations, best for performance and
-                development.
-            </p>
+          <h3>Fast</h3>
+          <p>
+            Deployer is packed with time-saving features and optimisations, best
+            for performance and development.
+          </p>
         </div>
         <div class="cell">
-            <h3>Modular</h3>
-            <p>
-                Create your own deployment script based on our modular blocks called "recipes".</p>
+          <h3>Modular</h3>
+          <p>
+            Create your own deployment script based on our modular blocks called
+            "recipes".
+          </p>
         </div>
         <div class="cell">
-            <h3>Clean code</h3>
-            <p>
-                Deployer has very clean and well tested code. The repository is watched by many code quality tools, and
-                every pull request is also checked by QA tools.
-            </p>
+          <h3>Clean code</h3>
+          <p>
+            Deployer has very clean and well tested code. The repository is
+            watched by many code quality tools, and every pull request is also
+            checked by QA tools.
+          </p>
         </div>
         <div class="cell">
-            <h3>Rollbacks</h3>
-            <p>
-                If something is wrong, a simple rollback to the previous release is possible.
-            </p>
+          <h3>Rollbacks</h3>
+          <p>
+            If something is wrong, a simple rollback to the previous release is
+            possible.
+          </p>
         </div>
         <div class="cell">
-            <h3>Atomic deploys</h3>
-            <p>
-                Prepare codebase, warm cache, do other stuff, and then deploy them with symlinks!
-            </p>
+          <h3>Atomic deploys</h3>
+          <p>
+            Prepare codebase, warm cache, do other stuff, and then deploy them
+            with symlinks!
+          </p>
         </div>
         <div class="cell">
-            <h3>Parallel tasks</h3>
-            <p>
-                Deployer can run tasks in parallel, no other extension is required!
-            </p>
+          <h3>Parallel tasks</h3>
+          <p>
+            Deployer can run tasks in parallel, no other extension is required!
+          </p>
         </div>
         <div class="cell">
-            <h3>Consistency</h3>
-            <p>
-                Deployer keeps consistency between servers, even in parallel mode! If one task fails, subsequent
-                tasks
-                will not be executed on all servers.
-            </p>
+          <h3>Consistency</h3>
+          <p>
+            Deployer keeps consistency between servers, even in parallel mode!
+            If one task fails, subsequent tasks will not be executed on all
+            servers.
+          </p>
         </div>
         <div class="cell">
-            <h3>Community Support</h3>
-            <p>
-                If you are having problems, you can ask for help on our <a href="/discuss">community chats</a>.
-            </p>
+          <h3>Community Support</h3>
+          <p>
+            If you are having problems, you can ask for help on our
+            <a href="/discuss">community chats</a>.
+          </p>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<section class="builtin">
-    <h2>Works with</h2>
-    <div class="grid -gutters -of4">
+    <section class="builtin">
+      <h2>Works with</h2>
+      <div class="grid -gutters -of4">
         <div class="cell">
-            <img src="/images/logos/symfony.png" alt="Symfony Deployment">
+          <img src="/images/logos/symfony.png" alt="Symfony Deployment" />
         </div>
         <div class="cell">
-            <img src="/images/logos/laravel.png" alt="Laravel Deployment">
+          <img src="/images/logos/laravel.png" alt="Laravel Deployment" />
         </div>
         <div class="cell">
-            <img src="/images/logos/yii.png" alt="Yii Deployment">
+          <img src="/images/logos/yii.png" alt="Yii Deployment" />
         </div>
         <div class="cell">
-            <img src="/images/logos/zend-framework.jpg" alt="Zend Framework Deployment">
+          <img
+            src="/images/logos/zend-framework.jpg"
+            alt="Zend Framework Deployment"
+          />
         </div>
         <div class="cell">
-            <img src="/images/logos/cakephp.png" alt="CakePHP Deployment">
+          <img src="/images/logos/cakephp.png" alt="CakePHP Deployment" />
         </div>
         <div class="cell">
-            <img src="/images/logos/codeigniter.svg" alt="CodeIgniter Deployment">
+          <img
+            src="/images/logos/codeigniter.svg"
+            alt="CodeIgniter Deployment"
+          />
         </div>
         <div class="cell">
-            <img src="/images/logos/composer.png" alt="Composer Integration">
+          <img src="/images/logos/composer.png" alt="Composer Integration" />
         </div>
         <div class="cell">
-            <img src="/images/logos/drupal.png" alt="Drupal Deployment">
+          <img src="/images/logos/drupal.png" alt="Drupal Deployment" />
         </div>
         <div class="cell">
-            <img src="/images/logos/fuelphp.png" alt="FuelPHP Deployment">
+          <img src="/images/logos/fuelphp.png" alt="FuelPHP Deployment" />
         </div>
         <div class="cell">
-            <img src="/images/logos/magento.jpg" alt="Magento Deployment">
+          <img src="/images/logos/magento.jpg" alt="Magento Deployment" />
         </div>
         <div class="cell">
-            <img src="/images/logos/typo3.png" alt="TYPO3 Deployment">
+          <img src="/images/logos/typo3.png" alt="TYPO3 Deployment" />
         </div>
         <div class="cell">
-            <img src="/images/logos/wordpress.png" alt="WordPress Deployment">
+          <img src="/images/logos/wordpress.png" alt="WordPress Deployment" />
         </div>
         <div class="cell">
-            <img src="/images/logos/cloudflare.png" alt="CloudFlare Integration">
+          <img
+            src="/images/logos/cloudflare.png"
+            alt="CloudFlare Integration"
+          />
         </div>
         <div class="cell">
-            <img src="/images/logos/hipchat.png" alt="Hipchat Integration">
+          <img src="/images/logos/hipchat.png" alt="Hipchat Integration" />
         </div>
         <div class="cell">
-            <img src="/images/logos/newrelic.svg" alt="NewRelic Integration">
+          <img src="/images/logos/newrelic.svg" alt="NewRelic Integration" />
         </div>
         <div class="cell">
-            <img src="/images/logos/slack.png" alt="Slack Integration">
+          <img src="/images/logos/slack.png" alt="Slack Integration" />
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<section class="support">
-    <div class="grid -gutters -of2">
+    <section class="support">
+      <div class="grid -gutters -of2">
         <div class="cell">
-            <h2>Support</h2>
-            <p>
-                Deployer is an open source project.
-                If you want to support the development of Deployer visit our <a href="https://www.patreon.com/deployer">patreon page</a>.
-            </p>
-            <p>
-                <a href="https://www.patreon.com/deployer" class="button -become-a-backer">Become a Backer</a>
-            </p>
+          <h2>Support</h2>
+          <p>
+            Deployer is an open source project. If you want to support the
+            development of Deployer visit our
+            <a href="https://www.patreon.com/deployer">patreon page</a>.
+          </p>
+          <p>
+            <a
+              href="https://www.patreon.com/deployer"
+              class="button -become-a-backer"
+              >Become a Backer</a
+            >
+          </p>
         </div>
         <div class="cell">
-            <h2>Deployer Stickers</h2>
-            <div class="sticker">
-                <a class="preview" href="http://www.stickermule.com/marketplace/11261-deployer" target="_blank">
-                    <img src="/images/deployer-sticker.png" alt="Deployer Sticker">
-                </a>
-                <a class="button sticker-buy" href="http://www.stickermule.com/marketplace/11261-deployer"
-                   target="_blank">Buy $4.64</a>
-            </div>
-            <div class="sticker">
-                <a class="preview" href="https://www.stickermule.com/marketplace/11262-deployer" target="_blank">
-                    <img src="/images/deployer-sticker-gray.png" alt="Deployer Sticker">
-                </a>
-                <a class="button sticker-buy" href="https://www.stickermule.com/marketplace/11262-deployer"
-                   target="_blank">Buy $4.65</a>
-            </div>
-            <div class="sticker">
-                <a class="preview" href="https://www.stickermule.com/marketplace/11496-php7" target="_blank">
-                    <img src="/images/php7-sticker.png" alt="PHP7 Sticker">
-                </a>
-                <a class="button sticker-buy" href="https://www.stickermule.com/marketplace/11496-php7"
-                   target="_blank">Buy $4.10</a>
-            </div>
+          <h2>Deployer Stickers</h2>
+          <div class="sticker">
+            <a
+              class="preview"
+              href="http://www.stickermule.com/marketplace/11261-deployer"
+              target="_blank"
+            >
+              <img src="/images/deployer-sticker.png" alt="Deployer Sticker" />
+            </a>
+            <a
+              class="button sticker-buy"
+              href="http://www.stickermule.com/marketplace/11261-deployer"
+              target="_blank"
+              >Buy $4.64</a
+            >
+          </div>
+          <div class="sticker">
+            <a
+              class="preview"
+              href="https://www.stickermule.com/marketplace/11262-deployer"
+              target="_blank"
+            >
+              <img
+                src="/images/deployer-sticker-gray.png"
+                alt="Deployer Sticker"
+              />
+            </a>
+            <a
+              class="button sticker-buy"
+              href="https://www.stickermule.com/marketplace/11262-deployer"
+              target="_blank"
+              >Buy $4.65</a
+            >
+          </div>
+          <div class="sticker">
+            <a
+              class="preview"
+              href="https://www.stickermule.com/marketplace/11496-php7"
+              target="_blank"
+            >
+              <img src="/images/php7-sticker.png" alt="PHP7 Sticker" />
+            </a>
+            <a
+              class="button sticker-buy"
+              href="https://www.stickermule.com/marketplace/11496-php7"
+              target="_blank"
+              >Buy $4.10</a
+            >
+          </div>
         </div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<footer class="">
-    <div class="container">
-        <span class="copy">
-            &copy; 2013 &mdash; 2018 Deployer
-        </span>
+    <footer class="">
+      <div class="container">
+        <span class="copy"> &copy; 2013 &mdash; 2018 Deployer </span>
         <div class="with-love">
-            Made with
-            <svg class="icon-love" width="21" height="17" viewBox="0 0 21 17" xmlns="http://www.w3.org/2000/svg"><title>love</title><path d="M14.725.032a5.31 5.31 0 0 0-4.687 2.814 5.312 5.312 0 0 0-10 2.498c0 4.763 5.834 7.397 10 11.564 4.306-4.306 10-6.76 10-11.563A5.312 5.312 0 0 0 14.725.032z" fill="#E82F2F" fill-rule="evenodd"></path></svg>
-            by
-            <a href="https://github.com/antonmedv">Anton</a>
+          Made with
+          <svg
+            class="icon-love"
+            width="21"
+            height="17"
+            viewBox="0 0 21 17"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>love</title>
+            <path
+              d="M14.725.032a5.31 5.31 0 0 0-4.687 2.814 5.312 5.312 0 0 0-10 2.498c0 4.763 5.834 7.397 10 11.564 4.306-4.306 10-6.76 10-11.563A5.312 5.312 0 0 0 14.725.032z"
+              fill="#E82F2F"
+              fill-rule="evenodd"
+            ></path>
+          </svg>
+          by
+          <a href="https://github.com/antonmedv">Anton</a>
         </div>
-    </div>
-</footer>
+      </div>
+    </footer>
 
-<script src="/bundle.345ff268.js"></script>
-<script type="text/javascript">
-  (function (d, w, c) {
-    (w[c] = w[c] || []).push(function () {
-      try {
-        w.yaCounter28042872 = new Ya.Metrika({
-          id: 28042872,
-          webvisor: true,
-          clickmap: true,
-          trackLinks: true,
-          accurateTrackBounce: true
-        });
-      } catch (e) {
-      }
-    });
+    <script src="/bundle.345ff268.js"></script>
+    <script type="text/javascript">
+      ;(function (d, w, c) {
+        ;(w[c] = w[c] || []).push(function () {
+          try {
+            w.yaCounter28042872 = new Ya.Metrika({
+              id: 28042872,
+              webvisor: true,
+              clickmap: true,
+              trackLinks: true,
+              accurateTrackBounce: true,
+            })
+          } catch (e) {}
+        })
 
-    var n = d.getElementsByTagName("script")[0],
-      s = d.createElement("script"),
-      f = function () {
-        n.parentNode.insertBefore(s, n);
-      };
-    s.type = "text/javascript";
-    s.async = true;
-    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        var n = d.getElementsByTagName('script')[0],
+          s = d.createElement('script'),
+          f = function () {
+            n.parentNode.insertBefore(s, n)
+          }
+        s.type = 'text/javascript'
+        s.async = true
+        s.src =
+          (d.location.protocol == 'https:' ? 'https:' : 'http:') +
+          '//mc.yandex.ru/metrika/watch.js'
 
-    if (w.opera == "[object Opera]") {
-      d.addEventListener("DOMContentLoaded", f, false);
-    } else {
-      f();
-    }
-  })(document, window, "yandex_metrika_callbacks");
-</script>
-<noscript>
-    <div><img src="//mc.yandex.ru/watch/28042872" style="position:absolute; left:-9999px;" alt=""/></div>
-</noscript>
-</body>
+        if (w.opera == '[object Opera]') {
+          d.addEventListener('DOMContentLoaded', f, false)
+        } else {
+          f()
+        }
+      })(document, window, 'yandex_metrika_callbacks')
+    </script>
+    <noscript>
+      <div>
+        <img
+          src="//mc.yandex.ru/watch/28042872"
+          style="position: absolute; left: -9999px"
+          alt=""
+        />
+      </div>
+    </noscript>
+  </body>
 </html>

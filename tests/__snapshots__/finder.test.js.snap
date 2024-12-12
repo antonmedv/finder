@@ -732,6 +732,12 @@ exports[`github 1`] = `
 ]
 `;
 
+exports[`google 1`] = `
+[
+  ":nth-child(1) > :nth-child(2) > :nth-child(6) > :nth-child(1) > :nth-child(14) > :nth-child(1) > :nth-child(1) > :nth-child(2) > :nth-child(2) > :nth-child(1) > :nth-child(2) > :nth-child(10) > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1)",
+]
+`;
+
 exports[`stripe 1`] = `
 [
   "html",
