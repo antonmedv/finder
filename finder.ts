@@ -16,11 +16,13 @@ export type Options = {
   className: (name: string) => boolean
   tagName: (name: string) => boolean
   attr: (name: string, value: string) => boolean
-  timeoutMs: number | undefined
+  seedMinLength: number
+  optimizedMinLength: number
+  timeoutMs: number
 }
 
 export function finder(input: Element, options?: Partial<Options>): string {
-  //const startTime = new Date()
+  const startTime = new Date()
   if (input.nodeType !== Node.ELEMENT_NODE) {
     throw new Error(`Can't generate CSS selector for non-element node type.`)
   }
@@ -33,13 +35,17 @@ export function finder(input: Element, options?: Partial<Options>): string {
     className: wordLike,
     tagName: (name: string) => true,
     attr: (name: string, value: string) => false,
-    timeoutMs: undefined,
+    seedMinLength: 2,
+    optimizedMinLength: 2,
+    timeoutMs: 1000,
   }
 
   const config = {...defaults, ...options}
   const rootDocument = findRootDocument(config.root, defaults)
 
   const stack: Knot[][] = []
+  let paths: Knot[][] = []
+  let foundPath: Knot[] | undefined
   let current: Element | null = input
   let i = 0
   while (current) {
@@ -51,25 +57,59 @@ export function finder(input: Element, options?: Partial<Options>): string {
     current = current.parentElement
     i++
 
-    const paths = sort(combinations(stack))
-    for (const candidate of paths) {
-      if (unique(candidate, rootDocument)) {
-        return selector(candidate)
+    paths.push(...combinations(stack))
+
+    if (i >= config.seedMinLength) {
+      foundPath = search(paths, config, rootDocument, startTime)
+      if (foundPath) {
+        break
       }
+      paths = []
     }
   }
 
-  throw new Error(`Selector was not found.`)
+  if (paths.length > 0) {
+    foundPath = search(paths, config, rootDocument, startTime)
+  }
+
+  if (!foundPath) {
+    throw new Error(`Selector was not found.`)
+  }
+
+  const optimized = [...optimize(foundPath, input, config, rootDocument, startTime)]
+  optimized.sort(byPenalty)
+  if (optimized.length > 0) {
+    return selector(optimized[0])
+  }
+  return selector(foundPath)
+}
+
+function search(paths: Knot[][], config: Options, rootDocument: Element | Document, startTime: Date) {
+  paths.sort(byPenalty)
+  for (const candidate of paths) {
+    const elapsedTimeMs = new Date().getTime() - startTime.getTime()
+    if (elapsedTimeMs > config.timeoutMs) {
+      for (let i = paths.length - 1; i >= paths.length - 10 && i >= 0; i--) {
+        if (unique(paths[i], rootDocument)) {
+          return paths[i]
+        }
+      }
+      throw new Error(`Timeout: Can't find a unique selector after ${elapsedTimeMs}ms`)
+    }
+    if (unique(candidate, rootDocument)) {
+      return candidate
+    }
+  }
 }
 
 function wordLike(name: string) {
   if (/^[a-z0-9\-]{3,}$/i.test(name)) {
     const words = name.split(/-|[A-Z]/)
     for (const word of words) {
-      if (word.length <= 2) { // No short words.
+      if (word.length <= 2) {
         return false
       }
-      if (/[^aeiou]{3,}/i.test(word)) { // 3 or more consonants in a row.
+      if (/[^aeiou]{4,}/i.test(word)) {
         return false
       }
     }
@@ -128,7 +168,7 @@ function tie(element: Element, config: Options): Knot[] {
   const nth = indexOf(element)
   if (nth !== undefined) {
     level.push({
-      name: `*:nth-child(${nth})`,
+      name: `:nth-child(${nth})`,
       penalty: 9,
     })
   }
@@ -153,6 +193,10 @@ function selector(path: Path): string {
 
 function penalty(path: Path): number {
   return path.map((node) => node.penalty).reduce((acc, i) => acc + i, 0)
+}
+
+function byPenalty(a: Knot[], b: Knot[]) {
+  return penalty(a) - penalty(b)
 }
 
 function indexOf(input: Element, tagName?: string): number | undefined {
@@ -193,10 +237,6 @@ function* combinations(stack: Knot[][], path: Knot[] = []): Generator<Knot[]> {
   }
 }
 
-function sort(paths: Iterable<Path>): Path[] {
-  return [...paths].sort((a, b) => penalty(a) - penalty(b))
-}
-
 function findRootDocument(rootNode: Element | Document, defaults: Options) {
   if (rootNode.nodeType === Node.DOCUMENT_NODE) {
     return rootNode
@@ -221,3 +261,25 @@ function unique(path: Path, rootDocument: Element | Document) {
   }
 }
 
+function* optimize(
+  path: Path,
+  input: Element,
+  config: Options,
+  rootDocument: Element | Document,
+  startTime: Date,
+): Generator<Knot[]> {
+  if (path.length > 2 && path.length > config.optimizedMinLength) {
+    for (let i = 1; i < path.length - 1; i++) {
+      const elapsedTimeMs = new Date().getTime() - startTime.getTime()
+      if (elapsedTimeMs > config.timeoutMs) {
+        return
+      }
+      const newPath = [...path]
+      newPath.splice(i, 1)
+      if (unique(newPath, rootDocument) && rootDocument.querySelector(selector(newPath)) === input) {
+        yield newPath
+        yield* optimize(newPath, input, config, rootDocument, startTime)
+      }
+    }
+  }
+}
