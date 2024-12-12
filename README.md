@@ -8,10 +8,10 @@
 
 ## Features
 
-* Generates the **shortest** selector
-* **Unique** selectors per page
-* Stable and **robust** selectors
-* **2kB** minified + gzipped
+* Generates **shortest** CSS selectors.
+* **Unique** CSS selectors per page.
+* Stable and **robust** CSS selectors.
+* Size: **1kb** (minified & gzipped).
 
 ## Install
 
@@ -34,7 +34,7 @@ document.addEventListener('click', (event) => {
 An example of a generated selector:
 
 ```css
-.blog > article:nth-child(3) .add-comment
+.blog > article:nth-of-type(3) .add-comment
 ```
 
 ## Configuration
