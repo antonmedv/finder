@@ -106,24 +106,21 @@ function tie(element, config) {
             penalty: 0,
         });
     }
-    for (let i = 0; i < element.attributes.length; i++) {
-        const attr = element.attributes[i];
-        if (attr.name === 'id' || attr.name === 'class') {
-            continue;
-        }
-        if (config.attr(attr.name, attr.value)) {
-            level.push({
-                name: `[${CSS.escape(attr.name)}="${CSS.escape(attr.value)}"]`,
-                penalty: 1,
-            });
-        }
-    }
     for (let i = 0; i < element.classList.length; i++) {
         const name = element.classList[i];
         if (config.className(name)) {
             level.push({
                 name: '.' + CSS.escape(name),
                 penalty: 1,
+            });
+        }
+    }
+    for (let i = 0; i < element.attributes.length; i++) {
+        const attr = element.attributes[i];
+        if (config.attr(attr.name, attr.value)) {
+            level.push({
+                name: `[${CSS.escape(attr.name)}="${CSS.escape(attr.value)}"]`,
+                penalty: 2,
             });
         }
     }
