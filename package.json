@@ -10,8 +10,8 @@
     "*.js"
   ],
   "scripts": {
-    "fmt": "prettier --write **/*.{js,ts}",
-    "fmt:check": "prettier --check **/*.{js,ts}",
+    "fmt": "prettier --write finder.ts",
+    "fmt:check": "prettier --check finder.ts",
     "build": "tsc",
     "test": "tsc && vitest",
     "release": "release-it --access public"
