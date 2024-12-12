@@ -59,7 +59,7 @@ function* search(input, config, rootDocument) {
     let i = 0;
     while (current && current !== rootDocument) {
         const level = tie(current, config);
-        for (let node of level) {
+        for (const node of level) {
             node.level = i;
         }
         stack.push(level);
