@@ -14,13 +14,13 @@ export type Options = {
   className: (name: string) => boolean
   tagName: (name: string) => boolean
   attr: (name: string, value: string) => boolean
+  timeoutMs: number
   seedMinLength: number
   optimizedMinLength: number
-  timeoutMs: number
+  maxNumberOfPathChecks: number
 }
 
 export function finder(input: Element, options?: Partial<Options>): string {
-  const startTime = new Date()
   if (input.nodeType !== Node.ELEMENT_NODE) {
     throw new Error(`Can't generate CSS selector for non-element node type.`)
   }
@@ -33,41 +33,37 @@ export function finder(input: Element, options?: Partial<Options>): string {
     className: wordLike,
     tagName: (name: string) => true,
     attr: useAttr,
+    timeoutMs: 1000,
     seedMinLength: 2,
     optimizedMinLength: 2,
-    timeoutMs: 1000,
+    maxNumberOfPathChecks: Infinity,
   }
 
+  const startTime = new Date()
   const config = { ...defaults, ...options }
   const rootDocument = findRootDocument(config.root, defaults)
 
-  const stack: Knot[][] = []
-  let paths: Knot[][] = []
   let foundPath: Knot[] | undefined
-  let current: Element | null = input
-  let i = 0
-  while (current && current !== rootDocument) {
-    const level = tie(current, config)
-    for (let node of level) {
-      node.level = i
-    }
-    stack.push(level)
-    current = current.parentElement
-    i++
-
-    paths.push(...combinations(stack))
-
-    if (i >= config.seedMinLength) {
-      foundPath = search(paths, config, input, rootDocument, startTime)
-      if (foundPath) {
-        break
+  let count = 0
+  for (const candidate of search(input, config, rootDocument)) {
+    const elapsedTimeMs = new Date().getTime() - startTime.getTime()
+    if (
+      elapsedTimeMs > config.timeoutMs ||
+      count >= config.maxNumberOfPathChecks
+    ) {
+      const fPath = fallback(input, rootDocument)
+      if (!fPath) {
+        throw new Error(
+          `Timeout: Can't find a unique selector after ${config.timeoutMs}ms`,
+        )
       }
-      paths = []
+      return selector(fPath)
     }
-  }
-
-  if (paths.length > 0) {
-    foundPath = search(paths, config, input, rootDocument, startTime)
+    count++
+    if (unique(candidate, rootDocument)) {
+      foundPath = candidate
+      break
+    }
   }
 
   if (!foundPath) {
@@ -82,6 +78,41 @@ export function finder(input: Element, options?: Partial<Options>): string {
     return selector(optimized[0])
   }
   return selector(foundPath)
+}
+
+function* search(
+  input: Element,
+  config: Options,
+  rootDocument: Element | Document,
+): Generator<Knot[]> {
+  const stack: Knot[][] = []
+  let paths: Knot[][] = []
+  let current: Element | null = input
+  let i = 0
+  while (current && current !== rootDocument) {
+    const level = tie(current, config)
+    for (let node of level) {
+      node.level = i
+    }
+    stack.push(level)
+    current = current.parentElement
+    i++
+
+    paths.push(...combinations(stack))
+
+    if (i >= config.seedMinLength) {
+      paths.sort(byPenalty)
+      for (const candidate of paths) {
+        yield candidate
+      }
+      paths = []
+    }
+  }
+
+  paths.sort(byPenalty)
+  for (const candidate of paths) {
+    yield candidate
+  }
 }
 
 export function wordLike(name: string): boolean {
@@ -108,31 +139,6 @@ export function useAttr(name: string, value: string) {
   let valueIsOk = wordLike(value) && value.length < 100
   valueIsOk ||= value.startsWith('#') && wordLike(value.slice(1))
   return nameIsOk && valueIsOk
-}
-
-function search(
-  paths: Knot[][],
-  config: Options,
-  input: Element,
-  rootDocument: Element | Document,
-  startTime: Date,
-) {
-  paths.sort(byPenalty)
-  for (const candidate of paths) {
-    const elapsedTimeMs = new Date().getTime() - startTime.getTime()
-    if (elapsedTimeMs > config.timeoutMs) {
-      const path = fallback(input, rootDocument)
-      if (path) {
-        return path
-      }
-      throw new Error(
-        `Timeout: Can't find a unique selector after ${config.timeoutMs}ms`,
-      )
-    }
-    if (unique(candidate, rootDocument)) {
-      return candidate
-    }
-  }
 }
 
 function tie(element: Element, config: Options): Knot[] {

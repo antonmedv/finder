@@ -2,7 +2,6 @@
 // Author: Anton Medvedev <anton@medv.io>
 // Source: https://github.com/antonmedv/finder
 export function finder(input, options) {
-    const startTime = new Date();
     if (input.nodeType !== Node.ELEMENT_NODE) {
         throw new Error(`Can't generate CSS selector for non-element node type.`);
     }
@@ -15,36 +14,31 @@ export function finder(input, options) {
         className: wordLike,
         tagName: (name) => true,
         attr: useAttr,
+        timeoutMs: 1000,
         seedMinLength: 2,
         optimizedMinLength: 2,
-        timeoutMs: 1000,
+        maxNumberOfPathChecks: Infinity,
     };
+    const startTime = new Date();
     const config = { ...defaults, ...options };
     const rootDocument = findRootDocument(config.root, defaults);
-    const stack = [];
-    let paths = [];
     let foundPath;
-    let current = input;
-    let i = 0;
-    while (current && current !== rootDocument) {
-        const level = tie(current, config);
-        for (let node of level) {
-            node.level = i;
-        }
-        stack.push(level);
-        current = current.parentElement;
-        i++;
-        paths.push(...combinations(stack));
-        if (i >= config.seedMinLength) {
-            foundPath = search(paths, config, input, rootDocument, startTime);
-            if (foundPath) {
-                break;
+    let count = 0;
+    for (const candidate of search(input, config, rootDocument)) {
+        const elapsedTimeMs = new Date().getTime() - startTime.getTime();
+        if (elapsedTimeMs > config.timeoutMs ||
+            count >= config.maxNumberOfPathChecks) {
+            const fPath = fallback(input, rootDocument);
+            if (!fPath) {
+                throw new Error(`Timeout: Can't find a unique selector after ${config.timeoutMs}ms`);
             }
-            paths = [];
+            return selector(fPath);
         }
-    }
-    if (paths.length > 0) {
-        foundPath = search(paths, config, input, rootDocument, startTime);
+        count++;
+        if (unique(candidate, rootDocument)) {
+            foundPath = candidate;
+            break;
+        }
     }
     if (!foundPath) {
         throw new Error(`Selector was not found.`);
@@ -57,6 +51,33 @@ export function finder(input, options) {
         return selector(optimized[0]);
     }
     return selector(foundPath);
+}
+function* search(input, config, rootDocument) {
+    const stack = [];
+    let paths = [];
+    let current = input;
+    let i = 0;
+    while (current && current !== rootDocument) {
+        const level = tie(current, config);
+        for (let node of level) {
+            node.level = i;
+        }
+        stack.push(level);
+        current = current.parentElement;
+        i++;
+        paths.push(...combinations(stack));
+        if (i >= config.seedMinLength) {
+            paths.sort(byPenalty);
+            for (const candidate of paths) {
+                yield candidate;
+            }
+            paths = [];
+        }
+    }
+    paths.sort(byPenalty);
+    for (const candidate of paths) {
+        yield candidate;
+    }
 }
 export function wordLike(name) {
     if (/^[a-z0-9\-]{3,}$/i.test(name)) {
@@ -80,22 +101,6 @@ export function useAttr(name, value) {
     let valueIsOk = wordLike(value) && value.length < 100;
     valueIsOk ||= value.startsWith('#') && wordLike(value.slice(1));
     return nameIsOk && valueIsOk;
-}
-function search(paths, config, input, rootDocument, startTime) {
-    paths.sort(byPenalty);
-    for (const candidate of paths) {
-        const elapsedTimeMs = new Date().getTime() - startTime.getTime();
-        if (elapsedTimeMs > config.timeoutMs) {
-            const path = fallback(input, rootDocument);
-            if (path) {
-                return path;
-            }
-            throw new Error(`Timeout: Can't find a unique selector after ${config.timeoutMs}ms`);
-        }
-        if (unique(candidate, rootDocument)) {
-            return candidate;
-        }
-    }
 }
 function tie(element, config) {
     const level = [];

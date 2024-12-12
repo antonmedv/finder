@@ -11,6 +11,11 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 function check({ file, html, query }, config = {}) {
+  config = {
+    timeoutMs: Infinity,
+    maxNumberOfPathChecks: 2_000,
+    ...config,
+  }
   const dom = file
     ? new JSDOM(readFileSync(path.join(__dirname, file), 'utf8'))
     : new JSDOM(html)
