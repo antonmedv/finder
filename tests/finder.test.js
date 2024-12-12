@@ -1,6 +1,5 @@
+import { test, assert, expect } from 'vitest'
 import { JSDOM } from 'jsdom'
-import { test } from 'uvu'
-import * as assert from 'uvu/assert'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname } from 'node:path'
@@ -23,9 +22,9 @@ function check(html, config = {}) {
     } catch (err) {
       assert.ok(false, err.toString() + '\n    Node: ' + node.outerHTML.substring(0, 100))
     }
-    assert.is(document.querySelectorAll(css).length, 1,
+    assert.equal(document.querySelectorAll(css).length, 1,
       `Selector "${css}" selects more then one node.`)
-    assert.is(document.querySelector(css), node,
+    assert.equal(document.querySelector(css), node,
       `Selector "${css}" selects another node.`)
     selectors.push(css)
   }
@@ -34,22 +33,22 @@ function check(html, config = {}) {
 
 test('github', () => {
   const selectors = check(readFileSync(__dirname + '/pages/github.com.html', 'utf8'))
-  assert.fixture(selectors.join('\n') + '\n', readFileSync(__dirname + '/pages/github.com.txt', 'utf8'))
+  expect(selectors).toMatchSnapshot()
 })
 
 test('stripe', () => {
   const selectors = check(readFileSync(__dirname + '/pages/stripe.com.html', 'utf8'))
-  assert.fixture(selectors.join('\n') + '\n', readFileSync(__dirname + '/pages/stripe.com.txt', 'utf8'))
+  expect(selectors).toMatchSnapshot()
 })
 
 test('deployer', () => {
   const selectors = check(readFileSync(__dirname + '/pages/deployer.org.html', 'utf8'))
-  assert.fixture(selectors.join('\n') + '\n', readFileSync(__dirname + '/pages/deployer.org.txt', 'utf8'))
+  expect(selectors).toMatchSnapshot()
 })
 
 test('tailwindcss', () => {
   const selectors = check(readFileSync(__dirname + '/pages/tailwindcss.html', 'utf8'))
-  assert.fixture(selectors.join('\n') + '\n', readFileSync(__dirname + '/pages/tailwindcss.txt', 'utf8'))
+  expect(selectors).toMatchSnapshot()
 })
 
 test('config:seed', () => {
@@ -124,5 +123,3 @@ test('duplicate:sub-nodes', () => {
   `
   check(html)
 })
-
-test.run()
