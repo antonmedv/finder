@@ -11,7 +11,7 @@
 * Generates **shortest** CSS selectors.
 * **Unique** CSS selectors per page.
 * Stable and **robust** CSS selectors.
-* Size: **1kb** (minified & gzipped).
+* Size: **1.5kb** (minified & gzipped).
 
 ## Install
 
