@@ -10,6 +10,8 @@
     "*.js"
   ],
   "scripts": {
+    "fmt": "prettier --write finder.ts",
+    "fmt:check": "prettier --check finder.ts",
     "build": "tsc",
     "test": "tsc && vitest",
     "release": "release-it --access public"
@@ -17,9 +19,15 @@
   "devDependencies": {
     "css.escape": "^1.5.1",
     "jsdom": "^25.0.1",
+    "prettier": "^3.4.2",
     "release-it": "^17.10.0",
     "typescript": "5.7.2",
     "vitest": "^2.1.8"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "endOfLine": "lf"
   },
   "author": "Anton Medvedev <anton@medv.io>",
   "license": "MIT",

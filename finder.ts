@@ -8,158 +8,198 @@ type Knot = {
   level?: number
 }
 
-type Path = Knot[]
-
 export type Options = {
   root: Element
   idName: (name: string) => boolean
   className: (name: string) => boolean
   tagName: (name: string) => boolean
   attr: (name: string, value: string) => boolean
+  timeoutMs: number
   seedMinLength: number
   optimizedMinLength: number
-  threshold: number
-  maxNumberOfTries: number
-  timeoutMs: number | undefined
+  maxNumberOfPathChecks: number
 }
 
-let config: Options
-let rootDocument: Document | Element
-let start: Date
-
 export function finder(input: Element, options?: Partial<Options>): string {
-  start = new Date()
   if (input.nodeType !== Node.ELEMENT_NODE) {
     throw new Error(`Can't generate CSS selector for non-element node type.`)
   }
-  if ('html' === input.tagName.toLowerCase()) {
+  if (input.tagName.toLowerCase() === 'html') {
     return 'html'
   }
   const defaults: Options = {
     root: document.body,
-    idName: (name: string) => true,
-    className: (name: string) => true,
+    idName: wordLike,
+    className: wordLike,
     tagName: (name: string) => true,
-    attr: (name: string, value: string) => false,
-    seedMinLength: 1,
+    attr: useAttr,
+    timeoutMs: 1000,
+    seedMinLength: 3,
     optimizedMinLength: 2,
-    threshold: 1000,
-    maxNumberOfTries: 10000,
-    timeoutMs: undefined,
+    maxNumberOfPathChecks: Infinity,
   }
 
-  config = {...defaults, ...options}
-  rootDocument = findRootDocument(config.root, defaults)
+  const startTime = new Date()
+  const config = { ...defaults, ...options }
+  const rootDocument = findRootDocument(config.root, defaults)
 
-  let path =
-    bottomUpSearch(input, 'all',
-      () => bottomUpSearch(input, 'two',
-        () => bottomUpSearch(input, 'one',
-          () => bottomUpSearch(input, 'none'))))
-
-  if (path) {
-    const optimized = sort(optimize(path, input))
-    if (optimized.length > 0) {
-      path = optimized[0]
+  let foundPath: Knot[] | undefined
+  let count = 0
+  for (const candidate of search(input, config, rootDocument)) {
+    const elapsedTimeMs = new Date().getTime() - startTime.getTime()
+    if (
+      elapsedTimeMs > config.timeoutMs ||
+      count >= config.maxNumberOfPathChecks
+    ) {
+      const fPath = fallback(input, rootDocument)
+      if (!fPath) {
+        throw new Error(
+          `Timeout: Can't find a unique selector after ${config.timeoutMs}ms`,
+        )
+      }
+      return selector(fPath)
     }
-    return selector(path)
-  } else {
+    count++
+    if (unique(candidate, rootDocument)) {
+      foundPath = candidate
+      break
+    }
+  }
+
+  if (!foundPath) {
     throw new Error(`Selector was not found.`)
   }
+
+  const optimized = [
+    ...optimize(foundPath, input, config, rootDocument, startTime),
+  ]
+  optimized.sort(byPenalty)
+  if (optimized.length > 0) {
+    return selector(optimized[0])
+  }
+  return selector(foundPath)
 }
 
-function findRootDocument(rootNode: Element | Document, defaults: Options) {
-  if (rootNode.nodeType === Node.DOCUMENT_NODE) {
-    return rootNode
-  }
-  if (rootNode === defaults.root) {
-    return rootNode.ownerDocument as Document
-  }
-  return rootNode
-}
-
-function bottomUpSearch(
+function* search(
   input: Element,
-  limit: 'all' | 'two' | 'one' | 'none',
-  fallback?: () => Path | null,
-): Path | null {
-  let path: Path | null = null
-  let stack: Knot[][] = []
+  config: Options,
+  rootDocument: Element | Document,
+): Generator<Knot[]> {
+  const stack: Knot[][] = []
+  let paths: Knot[][] = []
   let current: Element | null = input
   let i = 0
-  while (current) {
-    checkTimeout()
-
-    let level: Knot[] =
-      maybe(id(current)) ||
-      maybe(...attr(current)) ||
-      maybe(...classNames(current)) ||
-      maybe(tagName(current)) || [any()]
-
-    const nth = index(current)
-    if (limit == 'all') {
-      if (nth) {
-        level = level.concat(
-          level.filter(dispensableNth).map((node) => nthChild(node, nth)),
-        )
-      }
-    } else if (limit == 'two') {
-      level = level.slice(0, 1)
-      if (nth) {
-        level = level.concat(
-          level.filter(dispensableNth).map((node) => nthChild(node, nth)),
-        )
-      }
-    } else if (limit == 'one') {
-      const [node] = (level = level.slice(0, 1))
-      if (nth && dispensableNth(node)) {
-        level = [nthChild(node, nth)]
-      }
-    } else if (limit == 'none') {
-      level = [any()]
-      if (nth) {
-        level = [nthChild(level[0], nth)]
-      }
-    }
-    for (let node of level) {
+  while (current && current !== rootDocument) {
+    const level = tie(current, config)
+    for (const node of level) {
       node.level = i
     }
     stack.push(level)
-    if (stack.length >= config.seedMinLength) {
-      path = findUniquePath(stack, fallback)
-      if (path) {
-        break
-      }
-    }
     current = current.parentElement
     i++
-  }
-  if (!path) {
-    path = findUniquePath(stack, fallback)
-  }
-  if (!path && fallback) {
-    return fallback()
-  }
-  return path
-}
 
-function findUniquePath(
-  stack: Knot[][],
-  fallback?: () => Path | null,
-): Path | null {
-  const paths = sort(combinations(stack))
-  if (paths.length > config.threshold) {
-    return fallback ? fallback() : null
-  }
-  for (let candidate of paths) {
-    if (unique(candidate)) {
-      return candidate
+    paths.push(...combinations(stack))
+
+    if (i >= config.seedMinLength) {
+      paths.sort(byPenalty)
+      for (const candidate of paths) {
+        yield candidate
+      }
+      paths = []
     }
   }
-  return null
+
+  paths.sort(byPenalty)
+  for (const candidate of paths) {
+    yield candidate
+  }
 }
 
-function selector(path: Path): string {
+export function wordLike(name: string): boolean {
+  if (/^[a-z0-9\-]{3,}$/i.test(name)) {
+    const words = name.split(/-|[A-Z]/)
+    for (const word of words) {
+      if (word.length <= 2) {
+        return false
+      }
+      if (/[^aeiou]{4,}/i.test(word)) {
+        return false
+      }
+    }
+    return true
+  }
+  return false
+}
+
+const acceptedAttrNames = new Set(['role', 'name', 'aria-label', 'rel', 'href'])
+
+export function useAttr(name: string, value: string) {
+  let nameIsOk = acceptedAttrNames.has(name)
+  nameIsOk ||= name.startsWith('data-') && wordLike(name)
+  let valueIsOk = wordLike(value) && value.length < 100
+  valueIsOk ||= value.startsWith('#') && wordLike(value.slice(1))
+  return nameIsOk && valueIsOk
+}
+
+function tie(element: Element, config: Options): Knot[] {
+  const level: Knot[] = []
+
+  const elementId = element.getAttribute('id')
+  if (elementId && config.idName(elementId)) {
+    level.push({
+      name: '#' + CSS.escape(elementId),
+      penalty: 0,
+    })
+  }
+
+  for (let i = 0; i < element.classList.length; i++) {
+    const name = element.classList[i]
+    if (config.className(name)) {
+      level.push({
+        name: '.' + CSS.escape(name),
+        penalty: 1,
+      })
+    }
+  }
+
+  for (let i = 0; i < element.attributes.length; i++) {
+    const attr = element.attributes[i]
+    if (config.attr(attr.name, attr.value)) {
+      level.push({
+        name: `[${CSS.escape(attr.name)}="${CSS.escape(attr.value)}"]`,
+        penalty: 2,
+      })
+    }
+  }
+
+  const tagName = element.tagName.toLowerCase()
+  if (config.tagName(tagName)) {
+    level.push({
+      name: tagName,
+      penalty: 5,
+    })
+
+    const index = indexOf(element, tagName)
+    if (index !== undefined) {
+      level.push({
+        name: nthOfType(tagName, index),
+        penalty: 10,
+      })
+    }
+  }
+
+  const nth = indexOf(element)
+  if (nth !== undefined) {
+    level.push({
+      name: nthChild(tagName, nth),
+      penalty: 50,
+    })
+  }
+
+  return level
+}
+
+function selector(path: Knot[]): string {
   let node = path[0]
   let query = node.name
   for (let i = 1; i < path.length; i++) {
@@ -174,87 +214,30 @@ function selector(path: Path): string {
   return query
 }
 
-function penalty(path: Path): number {
+function penalty(path: Knot[]): number {
   return path.map((node) => node.penalty).reduce((acc, i) => acc + i, 0)
 }
 
-function unique(path: Path) {
-  const css = selector(path)
-  switch (rootDocument.querySelectorAll(css).length) {
-    case 0:
-      throw new Error(
-        `Can't select any node with this selector: ${css}`,
-      )
-    case 1:
-      return true
-    default:
-      return false
-  }
+function byPenalty(a: Knot[], b: Knot[]) {
+  return penalty(a) - penalty(b)
 }
 
-function id(input: Element): Knot | null {
-  const elementId = input.getAttribute('id')
-  if (elementId && config.idName(elementId)) {
-    return {
-      name: '#' + CSS.escape(elementId),
-      penalty: 0,
-    }
-  }
-  return null
-}
-
-function attr(input: Element): Knot[] {
-  const attrs = Array.from(input.attributes).filter((attr) =>
-    config.attr(attr.name, attr.value),
-  )
-  return attrs.map(
-    (attr): Knot => ({
-      name: `[${CSS.escape(attr.name)}="${CSS.escape(attr.value)}"]`,
-      penalty: 0.5,
-    }),
-  )
-}
-
-function classNames(input: Element): Knot[] {
-  const names = Array.from(input.classList).filter(config.className)
-  return names.map(
-    (name): Knot => ({
-      name: '.' + CSS.escape(name),
-      penalty: 1,
-    }),
-  )
-}
-
-function tagName(input: Element): Knot | null {
-  const name = input.tagName.toLowerCase()
-  if (config.tagName(name)) {
-    return {
-      name,
-      penalty: 2,
-    }
-  }
-  return null
-}
-
-function any(): Knot {
-  return {
-    name: '*',
-    penalty: 3,
-  }
-}
-
-function index(input: Element): number | null {
+function indexOf(input: Element, tagName?: string): number | undefined {
   const parent = input.parentNode
   if (!parent) {
-    return null
+    return undefined
   }
   let child = parent.firstChild
   if (!child) {
-    return null
+    return undefined
   }
   let i = 0
   while (child) {
-    if (child.nodeType === Node.ELEMENT_NODE) {
+    if (
+      child.nodeType === Node.ELEMENT_NODE &&
+      (tagName === undefined ||
+        (child as Element).tagName.toLowerCase() === tagName)
+    ) {
       i++
     }
     if (child === input) {
@@ -265,27 +248,41 @@ function index(input: Element): number | null {
   return i
 }
 
-function nthChild(node: Knot, i: number): Knot {
-  return {
-    name: node.name + `:nth-child(${i})`,
-    penalty: node.penalty + 1,
+function fallback(input: Element, rootDocument: Element | Document) {
+  let i = 0
+  let current: Element | null = input
+  const path: Knot[] = []
+  while (current && current !== rootDocument) {
+    const tagName = current.tagName.toLowerCase()
+    const index = indexOf(current, tagName)
+    if (index === undefined) {
+      return
+    }
+    path.push({
+      name: nthOfType(tagName, index),
+      penalty: NaN,
+      level: i,
+    })
+    current = current.parentElement
+    i++
+  }
+  if (unique(path, rootDocument)) {
+    return path
   }
 }
 
-function dispensableNth(node: Knot) {
-  return node.name !== 'html' && !node.name.startsWith('#')
-}
-
-function maybe(...level: (Knot | null)[]): Knot[] | null {
-  const list = level.filter(notEmpty)
-  if (list.length > 0) {
-    return list
+function nthChild(tagName: string, index: number) {
+  if (tagName === 'html') {
+    return 'html'
   }
-  return null
+  return `${tagName}:nth-child(${index})`
 }
 
-function notEmpty<T>(value: T | null | undefined): value is T {
-  return value !== null && value !== undefined
+function nthOfType(tagName: string, index: number) {
+  if (tagName === 'html') {
+    return 'html'
+  }
+  return `${tagName}:nth-of-type(${index})`
 }
 
 function* combinations(stack: Knot[][], path: Knot[] = []): Generator<Knot[]> {
@@ -298,51 +295,50 @@ function* combinations(stack: Knot[][], path: Knot[] = []): Generator<Knot[]> {
   }
 }
 
-function sort(paths: Iterable<Path>): Path[] {
-  return [...paths].sort((a, b) => penalty(a) - penalty(b))
+function findRootDocument(rootNode: Element | Document, defaults: Options) {
+  if (rootNode.nodeType === Node.DOCUMENT_NODE) {
+    return rootNode
+  }
+  if (rootNode === defaults.root) {
+    return rootNode.ownerDocument as Document
+  }
+  return rootNode
 }
 
-type Scope = {
-  counter: number
-  visited: Map<string, boolean>
-}
-
-function* optimize(
-  path: Path,
-  input: Element,
-  scope: Scope = {
-    counter: 0,
-    visited: new Map<string, boolean>(),
-  },
-): Generator<Knot[]> {
-  if (path.length > 2 && path.length > config.optimizedMinLength) {
-    for (let i = 1; i < path.length - 1; i++) {
-      if (scope.counter > config.maxNumberOfTries) {
-        return // Okay At least I tried!
-      }
-      scope.counter += 1
-      const newPath = [...path]
-      newPath.splice(i, 1)
-      const newPathKey = selector(newPath)
-      if (scope.visited.has(newPathKey)) {
-        return
-      }
-      if (unique(newPath) && same(newPath, input)) {
-        yield newPath
-        scope.visited.set(newPathKey, true)
-        yield* optimize(newPath, input, scope)
-      }
-    }
+function unique(path: Knot[], rootDocument: Element | Document) {
+  const css = selector(path)
+  switch (rootDocument.querySelectorAll(css).length) {
+    case 0:
+      throw new Error(`Can't select any node with this selector: ${css}`)
+    case 1:
+      return true
+    default:
+      return false
   }
 }
 
-function same(path: Path, input: Element) {
-  return rootDocument.querySelector(selector(path)) === input
-}
-
-function checkTimeout() {
-  const elapsedTime = new Date().getTime() - start.getTime()
-  if (config.timeoutMs !== undefined && elapsedTime > config.timeoutMs) {
-    throw new Error(`Timeout: Can't find a unique selector after ${elapsedTime}ms`)
+function* optimize(
+  path: Knot[],
+  input: Element,
+  config: Options,
+  rootDocument: Element | Document,
+  startTime: Date,
+): Generator<Knot[]> {
+  if (path.length > 2 && path.length > config.optimizedMinLength) {
+    for (let i = 1; i < path.length - 1; i++) {
+      const elapsedTimeMs = new Date().getTime() - startTime.getTime()
+      if (elapsedTimeMs > config.timeoutMs) {
+        return
+      }
+      const newPath = [...path]
+      newPath.splice(i, 1)
+      if (
+        unique(newPath, rootDocument) &&
+        rootDocument.querySelector(selector(newPath)) === input
+      ) {
+        yield newPath
+        yield* optimize(newPath, input, config, rootDocument, startTime)
+      }
+    }
   }
 }

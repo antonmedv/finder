@@ -1,119 +1,156 @@
 // License: MIT
 // Author: Anton Medvedev <anton@medv.io>
 // Source: https://github.com/antonmedv/finder
-let config;
-let rootDocument;
-let start;
 export function finder(input, options) {
-    start = new Date();
     if (input.nodeType !== Node.ELEMENT_NODE) {
         throw new Error(`Can't generate CSS selector for non-element node type.`);
     }
-    if ('html' === input.tagName.toLowerCase()) {
+    if (input.tagName.toLowerCase() === 'html') {
         return 'html';
     }
     const defaults = {
         root: document.body,
-        idName: (name) => true,
-        className: (name) => true,
+        idName: wordLike,
+        className: wordLike,
         tagName: (name) => true,
-        attr: (name, value) => false,
-        seedMinLength: 1,
+        attr: useAttr,
+        timeoutMs: 1000,
+        seedMinLength: 3,
         optimizedMinLength: 2,
-        threshold: 1000,
-        maxNumberOfTries: 10000,
-        timeoutMs: undefined,
+        maxNumberOfPathChecks: Infinity,
     };
-    config = { ...defaults, ...options };
-    rootDocument = findRootDocument(config.root, defaults);
-    let path = bottomUpSearch(input, 'all', () => bottomUpSearch(input, 'two', () => bottomUpSearch(input, 'one', () => bottomUpSearch(input, 'none'))));
-    if (path) {
-        const optimized = sort(optimize(path, input));
-        if (optimized.length > 0) {
-            path = optimized[0];
+    const startTime = new Date();
+    const config = { ...defaults, ...options };
+    const rootDocument = findRootDocument(config.root, defaults);
+    let foundPath;
+    let count = 0;
+    for (const candidate of search(input, config, rootDocument)) {
+        const elapsedTimeMs = new Date().getTime() - startTime.getTime();
+        if (elapsedTimeMs > config.timeoutMs ||
+            count >= config.maxNumberOfPathChecks) {
+            const fPath = fallback(input, rootDocument);
+            if (!fPath) {
+                throw new Error(`Timeout: Can't find a unique selector after ${config.timeoutMs}ms`);
+            }
+            return selector(fPath);
         }
-        return selector(path);
+        count++;
+        if (unique(candidate, rootDocument)) {
+            foundPath = candidate;
+            break;
+        }
     }
-    else {
+    if (!foundPath) {
         throw new Error(`Selector was not found.`);
     }
-}
-function findRootDocument(rootNode, defaults) {
-    if (rootNode.nodeType === Node.DOCUMENT_NODE) {
-        return rootNode;
+    const optimized = [
+        ...optimize(foundPath, input, config, rootDocument, startTime),
+    ];
+    optimized.sort(byPenalty);
+    if (optimized.length > 0) {
+        return selector(optimized[0]);
     }
-    if (rootNode === defaults.root) {
-        return rootNode.ownerDocument;
-    }
-    return rootNode;
+    return selector(foundPath);
 }
-function bottomUpSearch(input, limit, fallback) {
-    let path = null;
-    let stack = [];
+function* search(input, config, rootDocument) {
+    const stack = [];
+    let paths = [];
     let current = input;
     let i = 0;
-    while (current) {
-        checkTimeout();
-        let level = maybe(id(current)) ||
-            maybe(...attr(current)) ||
-            maybe(...classNames(current)) ||
-            maybe(tagName(current)) || [any()];
-        const nth = index(current);
-        if (limit == 'all') {
-            if (nth) {
-                level = level.concat(level.filter(dispensableNth).map((node) => nthChild(node, nth)));
-            }
-        }
-        else if (limit == 'two') {
-            level = level.slice(0, 1);
-            if (nth) {
-                level = level.concat(level.filter(dispensableNth).map((node) => nthChild(node, nth)));
-            }
-        }
-        else if (limit == 'one') {
-            const [node] = (level = level.slice(0, 1));
-            if (nth && dispensableNth(node)) {
-                level = [nthChild(node, nth)];
-            }
-        }
-        else if (limit == 'none') {
-            level = [any()];
-            if (nth) {
-                level = [nthChild(level[0], nth)];
-            }
-        }
-        for (let node of level) {
+    while (current && current !== rootDocument) {
+        const level = tie(current, config);
+        for (const node of level) {
             node.level = i;
         }
         stack.push(level);
-        if (stack.length >= config.seedMinLength) {
-            path = findUniquePath(stack, fallback);
-            if (path) {
-                break;
-            }
-        }
         current = current.parentElement;
         i++;
-    }
-    if (!path) {
-        path = findUniquePath(stack, fallback);
-    }
-    if (!path && fallback) {
-        return fallback();
-    }
-    return path;
-}
-function findUniquePath(stack, fallback) {
-    const paths = sort(combinations(stack));
-    if (paths.length > config.threshold) {
-        return fallback ? fallback() : null;
-    }
-    for (let candidate of paths) {
-        if (unique(candidate)) {
-            return candidate;
+        paths.push(...combinations(stack));
+        if (i >= config.seedMinLength) {
+            paths.sort(byPenalty);
+            for (const candidate of paths) {
+                yield candidate;
+            }
+            paths = [];
         }
     }
-    return null;
+    paths.sort(byPenalty);
+    for (const candidate of paths) {
+        yield candidate;
+    }
+}
+export function wordLike(name) {
+    if (/^[a-z0-9\-]{3,}$/i.test(name)) {
+        const words = name.split(/-|[A-Z]/);
+        for (const word of words) {
+            if (word.length <= 2) {
+                return false;
+            }
+            if (/[^aeiou]{4,}/i.test(word)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+const acceptedAttrNames = new Set(['role', 'name', 'aria-label', 'rel', 'href']);
+export function useAttr(name, value) {
+    let nameIsOk = acceptedAttrNames.has(name);
+    nameIsOk ||= name.startsWith('data-') && wordLike(name);
+    let valueIsOk = wordLike(value) && value.length < 100;
+    valueIsOk ||= value.startsWith('#') && wordLike(value.slice(1));
+    return nameIsOk && valueIsOk;
+}
+function tie(element, config) {
+    const level = [];
+    const elementId = element.getAttribute('id');
+    if (elementId && config.idName(elementId)) {
+        level.push({
+            name: '#' + CSS.escape(elementId),
+            penalty: 0,
+        });
+    }
+    for (let i = 0; i < element.classList.length; i++) {
+        const name = element.classList[i];
+        if (config.className(name)) {
+            level.push({
+                name: '.' + CSS.escape(name),
+                penalty: 1,
+            });
+        }
+    }
+    for (let i = 0; i < element.attributes.length; i++) {
+        const attr = element.attributes[i];
+        if (config.attr(attr.name, attr.value)) {
+            level.push({
+                name: `[${CSS.escape(attr.name)}="${CSS.escape(attr.value)}"]`,
+                penalty: 2,
+            });
+        }
+    }
+    const tagName = element.tagName.toLowerCase();
+    if (config.tagName(tagName)) {
+        level.push({
+            name: tagName,
+            penalty: 5,
+        });
+        const index = indexOf(element, tagName);
+        if (index !== undefined) {
+            level.push({
+                name: nthOfType(tagName, index),
+                penalty: 10,
+            });
+        }
+    }
+    const nth = indexOf(element);
+    if (nth !== undefined) {
+        level.push({
+            name: nthChild(tagName, nth),
+            penalty: 50,
+        });
+    }
+    return level;
 }
 function selector(path) {
     let node = path[0];
@@ -133,69 +170,23 @@ function selector(path) {
 function penalty(path) {
     return path.map((node) => node.penalty).reduce((acc, i) => acc + i, 0);
 }
-function unique(path) {
-    const css = selector(path);
-    switch (rootDocument.querySelectorAll(css).length) {
-        case 0:
-            throw new Error(`Can't select any node with this selector: ${css}`);
-        case 1:
-            return true;
-        default:
-            return false;
-    }
+function byPenalty(a, b) {
+    return penalty(a) - penalty(b);
 }
-function id(input) {
-    const elementId = input.getAttribute('id');
-    if (elementId && config.idName(elementId)) {
-        return {
-            name: '#' + CSS.escape(elementId),
-            penalty: 0,
-        };
-    }
-    return null;
-}
-function attr(input) {
-    const attrs = Array.from(input.attributes).filter((attr) => config.attr(attr.name, attr.value));
-    return attrs.map((attr) => ({
-        name: `[${CSS.escape(attr.name)}="${CSS.escape(attr.value)}"]`,
-        penalty: 0.5,
-    }));
-}
-function classNames(input) {
-    const names = Array.from(input.classList).filter(config.className);
-    return names.map((name) => ({
-        name: '.' + CSS.escape(name),
-        penalty: 1,
-    }));
-}
-function tagName(input) {
-    const name = input.tagName.toLowerCase();
-    if (config.tagName(name)) {
-        return {
-            name,
-            penalty: 2,
-        };
-    }
-    return null;
-}
-function any() {
-    return {
-        name: '*',
-        penalty: 3,
-    };
-}
-function index(input) {
+function indexOf(input, tagName) {
     const parent = input.parentNode;
     if (!parent) {
-        return null;
+        return undefined;
     }
     let child = parent.firstChild;
     if (!child) {
-        return null;
+        return undefined;
     }
     let i = 0;
     while (child) {
-        if (child.nodeType === Node.ELEMENT_NODE) {
+        if (child.nodeType === Node.ELEMENT_NODE &&
+            (tagName === undefined ||
+                child.tagName.toLowerCase() === tagName)) {
             i++;
         }
         if (child === input) {
@@ -205,24 +196,39 @@ function index(input) {
     }
     return i;
 }
-function nthChild(node, i) {
-    return {
-        name: node.name + `:nth-child(${i})`,
-        penalty: node.penalty + 1,
-    };
-}
-function dispensableNth(node) {
-    return node.name !== 'html' && !node.name.startsWith('#');
-}
-function maybe(...level) {
-    const list = level.filter(notEmpty);
-    if (list.length > 0) {
-        return list;
+function fallback(input, rootDocument) {
+    let i = 0;
+    let current = input;
+    const path = [];
+    while (current && current !== rootDocument) {
+        const tagName = current.tagName.toLowerCase();
+        const index = indexOf(current, tagName);
+        if (index === undefined) {
+            return;
+        }
+        path.push({
+            name: nthOfType(tagName, index),
+            penalty: NaN,
+            level: i,
+        });
+        current = current.parentElement;
+        i++;
     }
-    return null;
+    if (unique(path, rootDocument)) {
+        return path;
+    }
 }
-function notEmpty(value) {
-    return value !== null && value !== undefined;
+function nthChild(tagName, index) {
+    if (tagName === 'html') {
+        return 'html';
+    }
+    return `${tagName}:nth-child(${index})`;
+}
+function nthOfType(tagName, index) {
+    if (tagName === 'html') {
+        return 'html';
+    }
+    return `${tagName}:nth-of-type(${index})`;
 }
 function* combinations(stack, path = []) {
     if (stack.length > 0) {
@@ -234,39 +240,40 @@ function* combinations(stack, path = []) {
         yield path;
     }
 }
-function sort(paths) {
-    return [...paths].sort((a, b) => penalty(a) - penalty(b));
+function findRootDocument(rootNode, defaults) {
+    if (rootNode.nodeType === Node.DOCUMENT_NODE) {
+        return rootNode;
+    }
+    if (rootNode === defaults.root) {
+        return rootNode.ownerDocument;
+    }
+    return rootNode;
 }
-function* optimize(path, input, scope = {
-    counter: 0,
-    visited: new Map(),
-}) {
-    if (path.length > 2 && path.length > config.optimizedMinLength) {
-        for (let i = 1; i < path.length - 1; i++) {
-            if (scope.counter > config.maxNumberOfTries) {
-                return; // Okay At least I tried!
-            }
-            scope.counter += 1;
-            const newPath = [...path];
-            newPath.splice(i, 1);
-            const newPathKey = selector(newPath);
-            if (scope.visited.has(newPathKey)) {
-                return;
-            }
-            if (unique(newPath) && same(newPath, input)) {
-                yield newPath;
-                scope.visited.set(newPathKey, true);
-                yield* optimize(newPath, input, scope);
-            }
-        }
+function unique(path, rootDocument) {
+    const css = selector(path);
+    switch (rootDocument.querySelectorAll(css).length) {
+        case 0:
+            throw new Error(`Can't select any node with this selector: ${css}`);
+        case 1:
+            return true;
+        default:
+            return false;
     }
 }
-function same(path, input) {
-    return rootDocument.querySelector(selector(path)) === input;
-}
-function checkTimeout() {
-    const elapsedTime = new Date().getTime() - start.getTime();
-    if (config.timeoutMs !== undefined && elapsedTime > config.timeoutMs) {
-        throw new Error(`Timeout: Can't find a unique selector after ${elapsedTime}ms`);
+function* optimize(path, input, config, rootDocument, startTime) {
+    if (path.length > 2 && path.length > config.optimizedMinLength) {
+        for (let i = 1; i < path.length - 1; i++) {
+            const elapsedTimeMs = new Date().getTime() - startTime.getTime();
+            if (elapsedTimeMs > config.timeoutMs) {
+                return;
+            }
+            const newPath = [...path];
+            newPath.splice(i, 1);
+            if (unique(newPath, rootDocument) &&
+                rootDocument.querySelector(selector(newPath)) === input) {
+                yield newPath;
+                yield* optimize(newPath, input, config, rootDocument, startTime);
+            }
+        }
     }
 }
