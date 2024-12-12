@@ -193,6 +193,28 @@ exports[`deployer 1`] = `
 ]
 `;
 
+exports[`duplicate 1`] = `
+[
+  "html",
+  "head",
+  "body",
+  "div:nth-of-type(1)",
+  "div:nth-of-type(2)",
+]
+`;
+
+exports[`duplicate:sub-nodes 1`] = `
+[
+  "html",
+  "head",
+  "body",
+  "div:nth-of-type(1)",
+  "div:nth-of-type(1) > i",
+  "div:nth-of-type(2)",
+  "div:nth-of-type(2) > i",
+]
+`;
+
 exports[`github 1`] = `
 [
   "html",
