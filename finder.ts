@@ -8,18 +8,57 @@ type Knot = {
   level?: number
 }
 
+const acceptedAttrNames = new Set(['role', 'name', 'aria-label', 'rel', 'href'])
+
+/** Check if attribute name and value are word-like. */
+export function attr(name: string, value: string): boolean {
+  let nameIsOk = acceptedAttrNames.has(name)
+  nameIsOk ||= name.startsWith('data-') && wordLike(name)
+
+  let valueIsOk = wordLike(value) && value.length < 100
+  valueIsOk ||= value.startsWith('#') && wordLike(value.slice(1))
+
+  return nameIsOk && valueIsOk
+}
+
+/** Check if id name is word-like. */
+export function idName(name: string): boolean {
+  return wordLike(name)
+}
+
+/** Check if class name is word-like. */
+export function className(name: string): boolean {
+  return wordLike(name)
+}
+
+/** Check if tag name is word-like. */
+export function tagName(name: string): boolean {
+  return true
+}
+
+/** Configuration options for the finder. */
 export type Options = {
+  /** The root element to start the search from. */
   root: Element
+  /** Function that determines if an id name may be used in a selector. */
   idName: (name: string) => boolean
+  /** Function that determines if a class name may be used in a selector. */
   className: (name: string) => boolean
+  /** Function that determines if a tag name may be used in a selector. */
   tagName: (name: string) => boolean
+  /** Function that determines if an attribute may be used in a selector. */
   attr: (name: string, value: string) => boolean
+  /** Timeout to search for a selector. */
   timeoutMs: number
+  /** Minimum length of levels in fining selector. */
   seedMinLength: number
+  /** Minimum length for optimising selector. */
   optimizedMinLength: number
+  /** Maximum number of path checks. */
   maxNumberOfPathChecks: number
 }
 
+/** Finds unique CSS selectors for the given element. */
 export function finder(input: Element, options?: Partial<Options>): string {
   if (input.nodeType !== Node.ELEMENT_NODE) {
     throw new Error(`Can't generate CSS selector for non-element node type.`)
@@ -29,10 +68,10 @@ export function finder(input: Element, options?: Partial<Options>): string {
   }
   const defaults: Options = {
     root: document.body,
-    idName: wordLike,
-    className: wordLike,
-    tagName: (name: string) => true,
-    attr: useAttr,
+    idName: idName,
+    className: className,
+    tagName: tagName,
+    attr: attr,
     timeoutMs: 1000,
     seedMinLength: 3,
     optimizedMinLength: 2,
@@ -115,7 +154,7 @@ function* search(
   }
 }
 
-export function wordLike(name: string): boolean {
+function wordLike(name: string): boolean {
   if (/^[a-z0-9\-]{3,}$/i.test(name)) {
     const words = name.split(/-|[A-Z]/)
     for (const word of words) {
@@ -129,16 +168,6 @@ export function wordLike(name: string): boolean {
     return true
   }
   return false
-}
-
-const acceptedAttrNames = new Set(['role', 'name', 'aria-label', 'rel', 'href'])
-
-export function useAttr(name: string, value: string) {
-  let nameIsOk = acceptedAttrNames.has(name)
-  nameIsOk ||= name.startsWith('data-') && wordLike(name)
-  let valueIsOk = wordLike(value) && value.length < 100
-  valueIsOk ||= value.startsWith('#') && wordLike(value.slice(1))
-  return nameIsOk && valueIsOk
 }
 
 function tie(element: Element, config: Options): Knot[] {

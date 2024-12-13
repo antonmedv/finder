@@ -1,6 +1,28 @@
 // License: MIT
 // Author: Anton Medvedev <anton@medv.io>
 // Source: https://github.com/antonmedv/finder
+const acceptedAttrNames = new Set(['role', 'name', 'aria-label', 'rel', 'href']);
+/** Check if attribute name and value are word-like. */
+export function attr(name, value) {
+    let nameIsOk = acceptedAttrNames.has(name);
+    nameIsOk ||= name.startsWith('data-') && wordLike(name);
+    let valueIsOk = wordLike(value) && value.length < 100;
+    valueIsOk ||= value.startsWith('#') && wordLike(value.slice(1));
+    return nameIsOk && valueIsOk;
+}
+/** Check if id name is word-like. */
+export function idName(name) {
+    return wordLike(name);
+}
+/** Check if class name is word-like. */
+export function className(name) {
+    return wordLike(name);
+}
+/** Check if tag name is word-like. */
+export function tagName(name) {
+    return true;
+}
+/** Finds unique CSS selectors for the given element. */
 export function finder(input, options) {
     if (input.nodeType !== Node.ELEMENT_NODE) {
         throw new Error(`Can't generate CSS selector for non-element node type.`);
@@ -10,10 +32,10 @@ export function finder(input, options) {
     }
     const defaults = {
         root: document.body,
-        idName: wordLike,
-        className: wordLike,
-        tagName: (name) => true,
-        attr: useAttr,
+        idName: idName,
+        className: className,
+        tagName: tagName,
+        attr: attr,
         timeoutMs: 1000,
         seedMinLength: 3,
         optimizedMinLength: 2,
@@ -79,7 +101,7 @@ function* search(input, config, rootDocument) {
         yield candidate;
     }
 }
-export function wordLike(name) {
+function wordLike(name) {
     if (/^[a-z0-9\-]{3,}$/i.test(name)) {
         const words = name.split(/-|[A-Z]/);
         for (const word of words) {
@@ -93,14 +115,6 @@ export function wordLike(name) {
         return true;
     }
     return false;
-}
-const acceptedAttrNames = new Set(['role', 'name', 'aria-label', 'rel', 'href']);
-export function useAttr(name, value) {
-    let nameIsOk = acceptedAttrNames.has(name);
-    nameIsOk ||= name.startsWith('data-') && wordLike(name);
-    let valueIsOk = wordLike(value) && value.length < 100;
-    valueIsOk ||= value.startsWith('#') && wordLike(value.slice(1));
-    return nameIsOk && valueIsOk;
 }
 function tie(element, config) {
     const level = [];
