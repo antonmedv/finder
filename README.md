@@ -2,11 +2,10 @@
 
 ![finder](https://medv.io/assets/finder.png)
 
+**The CSS Selector Generator**
+
 [![Test](https://github.com/antonmedv/finder/actions/workflows/test.yml/badge.svg)](https://github.com/antonmedv/finder/actions/workflows/test.yml)
 [![JSR](https://jsr.io/badges/@medv/finder)](https://jsr.io/@medv/finder)
-
-
-**The CSS Selector Generator**
 
 ## Features
 
