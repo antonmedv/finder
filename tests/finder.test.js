@@ -86,3 +86,12 @@ test('duplicate:sub-nodes', () => {
   `
   check({ html })
 })
+
+
+test('bad-class-names', () => {
+  const html = `
+  <div class="css-175oi2r"></div>
+  <div class="css-y6a5a9i"></div>
+  `
+  check({ html })
+})

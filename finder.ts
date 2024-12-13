@@ -155,7 +155,7 @@ function* search(
 }
 
 function wordLike(name: string): boolean {
-  if (/^[a-z0-9\-]{3,}$/i.test(name)) {
+  if (/^[a-z\-]{3,}$/i.test(name)) {
     const words = name.split(/-|[A-Z]/)
     for (const word of words) {
       if (word.length <= 2) {
