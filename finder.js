@@ -23,11 +23,12 @@ export function tagName(name) {
     return true;
 }
 /** Finds unique CSS selectors for the given element. */
-export function finder(input, options) {
-    if (input.nodeType !== Node.ELEMENT_NODE) {
+export function finder(initialInput, options) {
+    const input = Array.isArray(initialInput) ? initialInput : [initialInput];
+    if (input.some((element) => element.nodeType !== Node.ELEMENT_NODE)) {
         throw new Error(`Can't generate CSS selector for non-element node type.`);
     }
-    if (input.tagName.toLowerCase() === 'html') {
+    if (input.every((element) => element.tagName.toLowerCase() === 'html')) {
         return 'html';
     }
     const defaults = {
@@ -44,12 +45,15 @@ export function finder(input, options) {
     const startTime = new Date();
     const config = { ...defaults, ...options };
     const rootDocument = findRootDocument(config.root, defaults);
-    let foundPath;
+    let foundPaths = [];
     let count = 0;
     for (const candidate of search(input, config, rootDocument)) {
         const elapsedTimeMs = new Date().getTime() - startTime.getTime();
         if (elapsedTimeMs > config.timeoutMs ||
             count >= config.maxNumberOfPathChecks) {
+            if (foundPaths.length) {
+                break;
+            }
             const fPath = fallback(input, rootDocument);
             if (!fPath) {
                 throw new Error(`Timeout: Can't find a unique selector after ${config.timeoutMs}ms`);
@@ -57,27 +61,58 @@ export function finder(input, options) {
             return selector(fPath);
         }
         count++;
-        if (unique(candidate, rootDocument)) {
-            foundPath = candidate;
-            break;
+        if (unique(candidate, input, rootDocument)) {
+            foundPaths.push(candidate);
+            if (input.length === 1) {
+                break;
+            }
         }
     }
-    if (!foundPath) {
+    if (foundPaths.length === 0) {
         throw new Error(`Selector was not found.`);
     }
-    const optimized = [
-        ...optimize(foundPath, input, config, rootDocument, startTime),
+    foundPaths.sort(byPenalty);
+    const [firstPath, ...otherPaths] = foundPaths;
+    const initialOptimized = [
+        firstPath,
+        ...optimize(firstPath, input, config, rootDocument, startTime),
     ];
-    optimized.sort(byPenalty);
+    initialOptimized.sort(byPenalty);
+    let optimized = initialOptimized;
+    if (input.length > 1) {
+        const firstOptimizedPath = initialOptimized[0];
+        const maxPenaltyLength = penalty(firstOptimizedPath);
+        const maxLength = firstOptimizedPath.length;
+        const otherPermutations = otherPaths
+            .map((foundPath) => [
+            ...permuations({
+                path: foundPath,
+                input,
+                maximumLength: maxLength,
+                maximumScore: maxPenaltyLength,
+                rootDocument,
+            }),
+        ])
+            .flat();
+        optimized = otherPermutations
+            .map((foundPath) => [
+            foundPath,
+            ...optimize(foundPath, input, config, rootDocument, startTime),
+        ])
+            .flat();
+        // Add other viable permutations
+        optimized.push(firstOptimizedPath);
+        optimized.sort(byPenalty);
+    }
     if (optimized.length > 0) {
         return selector(optimized[0]);
     }
-    return selector(foundPath);
+    return selector(foundPaths[0]);
 }
 function* search(input, config, rootDocument) {
     const stack = [];
     let paths = [];
-    let current = input;
+    let current = input[0];
     let i = 0;
     while (current && current !== rootDocument) {
         const level = tie(current, config);
@@ -136,6 +171,9 @@ function tie(element, config) {
     }
     for (let i = 0; i < element.attributes.length; i++) {
         const attr = element.attributes[i];
+        if (attr.name === 'class') {
+            continue;
+        }
         if (config.attr(attr.name, attr.value)) {
             level.push({
                 name: `[${CSS.escape(attr.name)}="${CSS.escape(attr.value)}"]`,
@@ -212,7 +250,7 @@ function indexOf(input, tagName) {
 }
 function fallback(input, rootDocument) {
     let i = 0;
-    let current = input;
+    let current = input[0];
     const path = [];
     while (current && current !== rootDocument) {
         const tagName = current.tagName.toLowerCase();
@@ -228,7 +266,7 @@ function fallback(input, rootDocument) {
         current = current.parentElement;
         i++;
     }
-    if (unique(path, rootDocument)) {
+    if (unique(path, input, rootDocument)) {
         return path;
     }
 }
@@ -263,16 +301,14 @@ function findRootDocument(rootNode, defaults) {
     }
     return rootNode;
 }
-function unique(path, rootDocument) {
+function unique(path, elementsToMatch, rootDocument) {
     const css = selector(path);
-    switch (rootDocument.querySelectorAll(css).length) {
-        case 0:
-            throw new Error(`Can't select any node with this selector: ${css}`);
-        case 1:
-            return true;
-        default:
-            return false;
+    const foundElements = Array.from(rootDocument.querySelectorAll(css));
+    if (foundElements.length === 0) {
+        throw new Error(`Can't select any node with this selector: ${css}`);
     }
+    return (foundElements.length === elementsToMatch.length &&
+        elementsToMatch.every((element) => foundElements.includes(element)));
 }
 function* optimize(path, input, config, rootDocument, startTime) {
     if (path.length > 2 && path.length > config.optimizedMinLength) {
@@ -283,11 +319,28 @@ function* optimize(path, input, config, rootDocument, startTime) {
             }
             const newPath = [...path];
             newPath.splice(i, 1);
-            if (unique(newPath, rootDocument) &&
-                rootDocument.querySelector(selector(newPath)) === input) {
+            if (unique(newPath, input, rootDocument)) {
                 yield newPath;
                 yield* optimize(newPath, input, config, rootDocument, startTime);
             }
         }
+    }
+}
+function* permuations({ path, input, maximumLength, rootDocument, maximumScore, }) {
+    if (path.length > maximumLength) {
+        for (let i = 1; i < path.length - 1; i++) {
+            const newPath = [...path];
+            newPath.splice(i, 1);
+            yield* permuations({
+                path: newPath,
+                input,
+                maximumLength,
+                rootDocument,
+                maximumScore,
+            });
+        }
+    }
+    if (penalty(path) < maximumScore && unique(path, input, rootDocument)) {
+        yield path;
     }
 }

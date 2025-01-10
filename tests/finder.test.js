@@ -29,7 +29,11 @@ function check({ file, html, query }, config = {}) {
     } catch (err) {
       assert.ok(
         false,
-        err.toString() + '\n    Node: ' + node.outerHTML.substring(0, 100),
+        err.toString() +
+          '\n    Stack:' +
+          err.stack +
+          '\n    Node: ' +
+          node.outerHTML.substring(0, 100),
       )
     }
     assert.equal(
@@ -86,7 +90,6 @@ test('duplicate:sub-nodes', () => {
   `
   check({ html })
 })
-
 
 test('bad-class-names', () => {
   const html = `
