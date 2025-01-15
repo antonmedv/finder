@@ -39,23 +39,23 @@ export function tagName(name: string): boolean {
 /** Configuration options for the finder. */
 export type Options = {
   /** The root element to start the search from. */
-  root: Element
+  root?: Element
   /** Function that determines if an id name may be used in a selector. */
-  idName: (name: string) => boolean
+  idName?: (name: string) => boolean
   /** Function that determines if a class name may be used in a selector. */
-  className: (name: string) => boolean
+  className?: (name: string) => boolean
   /** Function that determines if a tag name may be used in a selector. */
-  tagName: (name: string) => boolean
+  tagName?: (name: string) => boolean
   /** Function that determines if an attribute may be used in a selector. */
-  attr: (name: string, value: string) => boolean
+  attr?: (name: string, value: string) => boolean
   /** Timeout to search for a selector. */
-  timeoutMs: number
+  timeoutMs?: number
   /** Minimum length of levels in fining selector. */
-  seedMinLength: number
+  seedMinLength?: number
   /** Minimum length for optimising selector. */
-  optimizedMinLength: number
+  optimizedMinLength?: number
   /** Maximum number of path checks. */
-  maxNumberOfPathChecks: number
+  maxNumberOfPathChecks?: number
 }
 
 /** Finds unique CSS selectors for the given element. */

@@ -1,9 +1,16 @@
+"use strict";
 // License: MIT
 // Author: Anton Medvedev <anton@medv.io>
 // Source: https://github.com/antonmedv/finder
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.attr = attr;
+exports.idName = idName;
+exports.className = className;
+exports.tagName = tagName;
+exports.finder = finder;
 const acceptedAttrNames = new Set(['role', 'name', 'aria-label', 'rel', 'href']);
 /** Check if attribute name and value are word-like. */
-export function attr(name, value) {
+function attr(name, value) {
     let nameIsOk = acceptedAttrNames.has(name);
     nameIsOk ||= name.startsWith('data-') && wordLike(name);
     let valueIsOk = wordLike(value) && value.length < 100;
@@ -11,19 +18,19 @@ export function attr(name, value) {
     return nameIsOk && valueIsOk;
 }
 /** Check if id name is word-like. */
-export function idName(name) {
+function idName(name) {
     return wordLike(name);
 }
 /** Check if class name is word-like. */
-export function className(name) {
+function className(name) {
     return wordLike(name);
 }
 /** Check if tag name is word-like. */
-export function tagName(name) {
+function tagName(name) {
     return true;
 }
 /** Finds unique CSS selectors for the given element. */
-export function finder(initialInput, options) {
+function finder(initialInput, options) {
     const input = Array.isArray(initialInput) ? initialInput : [initialInput];
     if (input.some((element) => element.nodeType !== Node.ELEMENT_NODE)) {
         throw new Error(`Can't generate CSS selector for non-element node type.`);
