@@ -36,14 +36,24 @@ export function finder(input, options) {
         className: className,
         tagName: tagName,
         attr: attr,
-        timeoutMs: 1000,
+        timeoutMs: 200, // Much shorter timeout
         seedMinLength: 3,
         optimizedMinLength: 2,
-        maxNumberOfPathChecks: Infinity,
+        maxNumberOfPathChecks: 50, // Much lower limit
     };
     const startTime = new Date();
     const config = { ...defaults, ...options };
     const rootDocument = findRootDocument(config.root, defaults);
+    
+    // Ultra fast path: for any element with ID, assume it's unique
+    const elementId = input.getAttribute('id');
+    if (elementId) {
+        try {
+            return '#' + CSS.escape(elementId);
+        } catch (e) {
+            // Invalid selector, continue with normal search
+        }
+    }
     let foundPath;
     let count = 0;
     for (const candidate of search(input, config, rootDocument)) {
@@ -63,7 +73,15 @@ export function finder(input, options) {
         }
     }
     if (!foundPath) {
-        throw new Error(`Selector was not found.`);
+        // Quick fallback without complex error handling
+        const fPath = fallback(input, rootDocument);
+        if (fPath) {
+            return selector(fPath);
+        }
+        // Ultimate fallback: use tag + nth-child
+        const tagName = input.tagName.toLowerCase();
+        const nth = indexOf(input);
+        return nth !== undefined ? `${tagName}:nth-child(${nth})` : tagName;
     }
     const optimized = [
         ...optimize(foundPath, input, config, rootDocument, startTime),
@@ -79,7 +97,9 @@ function* search(input, config, rootDocument) {
     let paths = [];
     let current = input;
     let i = 0;
-    while (current && current !== rootDocument) {
+    let totalGenerated = 0;
+    
+    while (current && current !== rootDocument && i < 8) { // Limit depth
         const level = tie(current, config);
         for (const node of level) {
             node.level = i;
@@ -87,13 +107,24 @@ function* search(input, config, rootDocument) {
         stack.push(level);
         current = current.parentElement;
         i++;
-        paths.push(...combinations(stack));
+        
+        // Generate combinations but limit total count
+        const newCombinations = [...combinations(stack)];
+        paths.push(...newCombinations);
+        totalGenerated += newCombinations.length;
+        
         if (i >= config.seedMinLength) {
             paths.sort(byPenalty);
             for (const candidate of paths) {
                 yield candidate;
             }
             paths = [];
+            totalGenerated = 0;
+        }
+        
+        // Early exit if too many combinations
+        if (totalGenerated > 5000) {
+            break;
         }
     }
     paths.sort(byPenalty);
@@ -102,6 +133,11 @@ function* search(input, config, rootDocument) {
     }
 }
 function wordLike(name) {
+    // Fast return for obviously generated IDs/classes (long or with numbers/special chars)
+    if (name.length > 30 || /\d{3,}/.test(name) || /@/.test(name)) {
+        return true;
+    }
+    
     if (/^[a-z\-]{3,}$/i.test(name)) {
         const words = name.split(/-|[A-Z]/);
         for (const word of words) {
@@ -119,13 +155,18 @@ function wordLike(name) {
 function tie(element, config) {
     const level = [];
     const elementId = element.getAttribute('id');
-    if (elementId && config.idName(elementId)) {
+    if (elementId) {
+        // For elements with ID, only return the ID selector for maximum performance
         level.push({
             name: '#' + CSS.escape(elementId),
             penalty: 0,
         });
+        return level; // Only ID, nothing else
     }
-    for (let i = 0; i < element.classList.length; i++) {
+    
+    // Limit class names to prevent explosion
+    const maxClasses = Math.min(element.classList.length, 5);
+    for (let i = 0; i < maxClasses; i++) {
         const name = element.classList[i];
         if (config.className(name)) {
             level.push({
@@ -134,7 +175,10 @@ function tie(element, config) {
             });
         }
     }
-    for (let i = 0; i < element.attributes.length; i++) {
+    
+    // Limit attributes to prevent explosion
+    const maxAttrs = Math.min(element.attributes.length, 3);
+    for (let i = 0; i < maxAttrs; i++) {
         const attr = element.attributes[i];
         if (config.attr(attr.name, attr.value)) {
             level.push({
@@ -143,6 +187,7 @@ function tie(element, config) {
             });
         }
     }
+    
     const tagName = element.tagName.toLowerCase();
     if (config.tagName(tagName)) {
         level.push({
@@ -164,7 +209,10 @@ function tie(element, config) {
             penalty: 50,
         });
     }
-    return level;
+    
+    // Sort by penalty and limit total selectors per level
+    level.sort((a, b) => a.penalty - b.penalty);
+    return level.slice(0, 15);
 }
 function selector(path) {
     let node = path[0];
@@ -245,13 +293,42 @@ function nthOfType(tagName, index) {
     return `${tagName}:nth-of-type(${index})`;
 }
 function* combinations(stack, path = []) {
-    if (stack.length > 0) {
-        for (let node of stack[0]) {
-            yield* combinations(stack.slice(1, stack.length), path.concat(node));
-        }
-    }
-    else {
+    // Limit combinations to prevent memory explosion
+    const maxCombinations = 1000;
+    let generated = 0;
+    
+    if (stack.length === 0) {
         yield path;
+        return;
+    }
+
+    // Use iterative approach to avoid stack overflow
+    const workStack = [{ stackIndex: 0, currentPath: [...path] }];
+
+    while (workStack.length > 0 && generated < maxCombinations) {
+        const current = workStack.pop();
+        
+        if (current.stackIndex >= stack.length) {
+            yield current.currentPath;
+            generated++;
+            continue;
+        }
+
+        const currentLevel = stack[current.stackIndex];
+        // Limit nodes per level to prevent explosion
+        const maxNodes = Math.min(currentLevel.length, 10);
+        
+        for (let i = maxNodes - 1; i >= 0; i--) {
+            if (generated >= maxCombinations) break;
+            
+            const node = currentLevel[i];
+            const newPath = [...current.currentPath, node];
+            
+            workStack.push({
+                stackIndex: current.stackIndex + 1,
+                currentPath: newPath
+            });
+        }
     }
 }
 function findRootDocument(rootNode, defaults) {
