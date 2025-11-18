@@ -255,8 +255,8 @@ function* combinations(stack, path = []) {
     }
 }
 function findRootDocument(rootNode, defaults, input) {
-    const shadowRoot = getShadowRoot(input);
-    if (shadowRoot) {
+    const shadowRoot = input.getRootNode?.();
+    if (shadowRoot?.constructor.name === 'ShadowRoot') {
         return shadowRoot;
     }
     if (rootNode.nodeType === Node.DOCUMENT_NODE) {
@@ -266,18 +266,6 @@ function findRootDocument(rootNode, defaults, input) {
         return rootNode.ownerDocument;
     }
     return rootNode;
-}
-function getShadowRoot(element) {
-    if (element.shadowRoot) {
-        return element.shadowRoot;
-    }
-    while (element.parentElement) {
-        element = element.parentElement;
-        if (element.shadowRoot) {
-            return element.shadowRoot;
-        }
-    }
-    return undefined;
 }
 function unique(path, rootDocument) {
     const css = selector(path);

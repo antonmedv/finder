@@ -325,9 +325,9 @@ function* combinations(stack: Knot[][], path: Knot[] = []): Generator<Knot[]> {
 }
 
 function findRootDocument(rootNode: Element | Document, defaults: Options, input: Element) {
-	const shadowRoot = getShadowRoot(input)
-	if (shadowRoot) {
-		return shadowRoot
+	const shadowRoot = input.getRootNode?.()
+	if (shadowRoot?.constructor.name === 'ShadowRoot') {
+		return shadowRoot as ShadowRoot
 	}
   if (rootNode.nodeType === Node.DOCUMENT_NODE) {
     return rootNode
@@ -336,19 +336,6 @@ function findRootDocument(rootNode: Element | Document, defaults: Options, input
     return rootNode.ownerDocument as Document
   }
   return rootNode
-}
-
-function getShadowRoot(element: Element) {
-	if (element.shadowRoot) {
-		return element.shadowRoot
-	}
-	while (element.parentElement) {
-		element = element.parentElement
-		if (element.shadowRoot) {
-			return element.shadowRoot
-		}
-	}
-	return undefined
 }
 
 function unique(path: Knot[], rootDocument: Element | Document | ShadowRoot) {
