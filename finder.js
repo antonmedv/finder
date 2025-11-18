@@ -43,7 +43,7 @@ export function finder(input, options) {
     };
     const startTime = new Date();
     const config = { ...defaults, ...options };
-    const rootDocument = findRootDocument(config.root, defaults);
+    const rootDocument = findRootDocument(config.root, defaults, input);
     let foundPath;
     let count = 0;
     for (const candidate of search(input, config, rootDocument)) {
@@ -254,7 +254,11 @@ function* combinations(stack, path = []) {
         yield path;
     }
 }
-function findRootDocument(rootNode, defaults) {
+function findRootDocument(rootNode, defaults, input) {
+    const shadowRoot = getShadowRoot(input);
+    if (shadowRoot) {
+        return shadowRoot;
+    }
     if (rootNode.nodeType === Node.DOCUMENT_NODE) {
         return rootNode;
     }
@@ -262,6 +266,18 @@ function findRootDocument(rootNode, defaults) {
         return rootNode.ownerDocument;
     }
     return rootNode;
+}
+function getShadowRoot(element) {
+    if (element.shadowRoot) {
+        return element.shadowRoot;
+    }
+    while (element.parentElement) {
+        element = element.parentElement;
+        if (element.shadowRoot) {
+            return element.shadowRoot;
+        }
+    }
+    return undefined;
 }
 function unique(path, rootDocument) {
     const css = selector(path);

@@ -80,7 +80,7 @@ export function finder(input: Element, options?: Partial<Options>): string {
 
   const startTime = new Date()
   const config = { ...defaults, ...options }
-  const rootDocument = findRootDocument(config.root, defaults)
+  const rootDocument = findRootDocument(config.root, defaults, input)
 
   let foundPath: Knot[] | undefined
   let count = 0
@@ -122,7 +122,7 @@ export function finder(input: Element, options?: Partial<Options>): string {
 function* search(
   input: Element,
   config: Options,
-  rootDocument: Element | Document,
+  rootDocument: Element | Document | ShadowRoot,
 ): Generator<Knot[]> {
   const stack: Knot[][] = []
   let paths: Knot[][] = []
@@ -277,7 +277,7 @@ function indexOf(input: Element, tagName?: string): number | undefined {
   return i
 }
 
-function fallback(input: Element, rootDocument: Element | Document) {
+function fallback(input: Element, rootDocument: Element | Document | ShadowRoot) {
   let i = 0
   let current: Element | null = input
   const path: Knot[] = []
@@ -324,7 +324,11 @@ function* combinations(stack: Knot[][], path: Knot[] = []): Generator<Knot[]> {
   }
 }
 
-function findRootDocument(rootNode: Element | Document, defaults: Options) {
+function findRootDocument(rootNode: Element | Document, defaults: Options, input: Element) {
+	const shadowRoot = getShadowRoot(input)
+	if (shadowRoot) {
+		return shadowRoot
+	}
   if (rootNode.nodeType === Node.DOCUMENT_NODE) {
     return rootNode
   }
@@ -334,7 +338,20 @@ function findRootDocument(rootNode: Element | Document, defaults: Options) {
   return rootNode
 }
 
-function unique(path: Knot[], rootDocument: Element | Document) {
+function getShadowRoot(element: Element) {
+	if (element.shadowRoot) {
+		return element.shadowRoot
+	}
+	while (element.parentElement) {
+		element = element.parentElement
+		if (element.shadowRoot) {
+			return element.shadowRoot
+		}
+	}
+	return undefined
+}
+
+function unique(path: Knot[], rootDocument: Element | Document | ShadowRoot) {
   const css = selector(path)
   switch (rootDocument.querySelectorAll(css).length) {
     case 0:
@@ -350,7 +367,7 @@ function* optimize(
   path: Knot[],
   input: Element,
   config: Options,
-  rootDocument: Element | Document,
+  rootDocument: Element | Document | ShadowRoot,
   startTime: Date,
 ): Generator<Knot[]> {
   if (path.length > 2 && path.length > config.optimizedMinLength) {
