@@ -256,7 +256,7 @@ function* combinations(stack, path = []) {
 }
 function findRootDocument(rootNode, defaults, input) {
     const shadowRoot = input.getRootNode?.();
-    if (shadowRoot?.constructor.name === 'ShadowRoot') {
+    if (shadowRoot?.constructor?.name === 'ShadowRoot') {
         return shadowRoot;
     }
     if (rootNode.nodeType === Node.DOCUMENT_NODE) {
