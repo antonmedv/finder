@@ -325,10 +325,10 @@ function* combinations(stack: Knot[][], path: Knot[] = []): Generator<Knot[]> {
 }
 
 function findRootDocument(rootNode: Element | Document, defaults: Options, input: Element) {
-	const shadowRoot = input.getRootNode?.()
-	if (shadowRoot?.constructor?.name === 'ShadowRoot') {
-		return shadowRoot as ShadowRoot
-	}
+  const shadowRoot = input.getRootNode?.()
+  if (shadowRoot?.constructor?.name === 'ShadowRoot') {
+	 return shadowRoot as ShadowRoot
+  }
   if (rootNode.nodeType === Node.DOCUMENT_NODE) {
     return rootNode
   }
