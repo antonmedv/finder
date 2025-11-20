@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Shadow DOM Test</title>
+</head>
+<body>
+    <div id="app">
+        <div id="host1" class="shadow-host"></div>
+        <div id="host2" class="shadow-host"></div>
+        <div id="regular">Regular element</div>
+    </div>
+
+    <script>
+        // Create first shadow root
+        const host1 = document.getElementById('host1');
+        const shadow1 = host1.attachShadow({ mode: 'open' });
+        shadow1.innerHTML = `
+            <style>
+                .shadow-content { color: blue; }
+            </style>
+            <div class="shadow-content">
+                <h1 id="shadow-title">Shadow Title</h1>
+                <p class="shadow-text">This is in shadow DOM</p>
+                <button id="shadow-button">Click me</button>
+            </div>
+        `;
+
+        // Create second shadow root with nested elements
+        const host2 = document.getElementById('host2');
+        const shadow2 = host2.attachShadow({ mode: 'open' });
+        shadow2.innerHTML = `
+            <div class="outer">
+                <div class="middle">
+                    <div class="inner">
+                        <span id="nested-span">Nested span</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    </script>
+</body>
+</html>
+
