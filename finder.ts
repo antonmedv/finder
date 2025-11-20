@@ -277,7 +277,10 @@ function indexOf(input: Element, tagName?: string): number | undefined {
   return i
 }
 
-function fallback(input: Element, rootDocument: Element | Document | ShadowRoot) {
+function fallback(
+  input: Element,
+  rootDocument: Element | Document | ShadowRoot,
+) {
   let i = 0
   let current: Element | null = input
   const path: Knot[] = []
@@ -324,10 +327,14 @@ function* combinations(stack: Knot[][], path: Knot[] = []): Generator<Knot[]> {
   }
 }
 
-function findRootDocument(rootNode: Element | Document, defaults: Options, input: Element) {
+function findRootDocument(
+  rootNode: Element | Document,
+  defaults: Options,
+  input: Element,
+) {
   const shadowRoot = input.getRootNode?.()
   if (shadowRoot?.constructor?.name === 'ShadowRoot') {
-	 return shadowRoot as ShadowRoot
+    return shadowRoot as ShadowRoot
   }
   if (rootNode.nodeType === Node.DOCUMENT_NODE) {
     return rootNode
